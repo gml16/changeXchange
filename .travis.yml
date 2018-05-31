@@ -1,5 +1,5 @@
 language: android
-
+required: sudo
 
 before_install: cd ChangeXchange && chmod +x gradlew
 
