@@ -34,9 +34,9 @@ android {
     if (isRunningOnTravis) {
         // configure keystore
         signingConfigs.release.storeFile = file("../keystore.jks.enc")
-        signingConfigs.release.storePassword = System.getenv("keyPass")
+        signingConfigs.release.storePassword = System.getenv("keystorePass")
         signingConfigs.release.keyAlias = System.getenv("keyAlias")
-        signingConfigs.release.keyPassword = System.getenv("keystorePass")
+        signingConfigs.release.keyPassword = System.getenv("keyPass")
     }
 }
 
