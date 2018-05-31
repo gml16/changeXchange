@@ -35,8 +35,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                             "g1727132_u", "4ihe2mwvgy");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery(strings[0]);
             if (strings[0].split(" ")[0].equals("SELECT")) {
+                ResultSet rs = stmt.executeQuery(strings[0]);
                 while (rs.next()) {
                     String nickname = rs.getString("nickname");
                     String buying = rs.getString("buying");
@@ -52,13 +52,16 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                             Airport.valueOf(location)
                     ));
 
-                    for (Offer el : offers) {
-                        //Log.d("guy", el.getPoster_nickname());
-                    }
                 }
+                rs.close();
+                stmt.close();
+            } else if(strings[0].split(" ")[0].equals("INSERT")){
+                Log.d("guy", "inserting: " + strings[0]);
+                stmt.executeUpdate(strings[0]);
+                stmt.close();
+                c.commit();
             }
-            rs.close();
-            stmt.close();
+
             c.close();
         } catch (Exception e) {
             //System.err.println( e.getClass().getName()+": "+ e.getMessage() );

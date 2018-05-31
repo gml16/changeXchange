@@ -77,19 +77,12 @@ public class MakeAnOffer extends AppCompatActivity {
 
                 // TODO: Post offer information to database.
 
-                Log.d("guy",
-                        "INSERT INTO offers VALUES ('john', "
-                                + from + ", "
-                                + to + ", "
-                                + amount + ", "
-                                + location + ");");
-
                 new RequestDatabase().execute(
-                        "INSERT INTO offers VALUES ('john', "
-                                + from + ", "
-                                + to + ", "
-                                + amount + ", "
-                                + location + ");"
+                        "INSERT INTO offers VALUES ('John', '"
+                                + from + "', '"
+                                + to + "', '"
+                                + amount + "', '"
+                                + location + "');"
                 );
 
                 startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
