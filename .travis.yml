@@ -13,6 +13,9 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=27.0.3
     - ADB_INSTALL_TIMEOUT=2 # minutes (If ABD instalation pass this time, the build will throw an error)
     - QEMU_AUDIO_DRV=none # Remove audio
+    - secure: "CYd4X1iyPmnrG699yGt7ov98z5tKfdmhy6LVA5j+L7AD3zmEOdtXXueybCfdPJkw4MY94Y2ZLU7rMvnID6HpIjn4UeQKuc3cUemhrynP1K5AUOZUUvsFiY7+quCUITC6i7MGL7zw5Xp4zEq582hoZVKYo4+NIuok+t0KJCpwrZwMHJuJXTXa04VYNCMMlBPM0TQrZDrkdcfXFjjfOzmwJWgvOFict3smiJ6uxFFaT9t+z/XyN6r8OCqSBWMz+WKsgILyY4D7Ubi/MeVLGN6VaB75a28xYIsxHg5qOW+JgADmdpkMXveEQMTkPbpCNXXraQ5vWATtQwXeXXuaU/dwrOkv6obJcfPXSgR0sy7juLyDv4uYv9pjP9vYCF1GEwcqPa1XfdkVh8M/K/XK1yx1nuUK9I8gWXOB6+pMa6SCoj6i7x2SIP1qRUGaaySl2anbqjivZhVKVibKD/3qjNQDDoIoMc/XJFKsVZQuM49Hf9FEhIEQEgTP7v4hmwpucPAOFD2OYdryBqxh3rNobaVuI6vhCWo6E5CD5V9BZrDk9Fs5PqEjgtLnALDaQhH4OexrMqMXnDQHE9B9bf2IGuVOaUaVhwbWMfPP3SNyJ6orBzVh5fjMNYJoZrbOMk4X2NbkbSXqa3wQSeVEIv+lvcCY9akq70ZjOmOG2rRFakIr5lM="
+    - secure: "Ct1pnNWeHTLpb+hNoEb2zeslLzMpgY77JHJ4kIFdZ1sbKmBakwkQ1GzXBENfHYMwwk+3RM8Kf/C/eDH1bRXMDtwdOwyB/mbGhnh41QvHf3Wi5z/6NJsyJnthgin7MK7G2vds2pIpJwc8h6omxbE474d7oixhMQWa/rWPAWqzdtkW/f5A1c6uV43hYyarhob1QjGhv8SBjGZ+nc4aPmm1uacdv7IqZDFVRf2485PNLrMFLYomXWFV7D3lmIvzXDDROCauHpGRmEg/X3JMFxTgLenzrsRW7GrgrVqUUoifuFUxlugx5RfLNhTxq+SIgLasQx+eaNi6KxslBvk6aXDZ3+qfQKevTnrIl6jw7e6ijqPTvz8eQbPbvCoRDD/I4G4KJWEOaWZ2h+S/vF2V2IrocdF7DmmtVIj4iZia53jAxKGuhhpgJERD/NugZtnC5WRhiwjNK+TfsQ7dJZUEdOiYEsgzLMHhrw9goMqigKTpGQeX/UDZDgORkKmZRxOWOO5UjATScWaVVVFio/86B2ZUhk0Gg6ItVcOHjAZkzeFihZQ6C5kOuOurSxyaYCSqIUHpbWSHqQ3Y8zqA1l0xwdt3hbjRzhvITbKKjzyDQ3cIrsL8I6XhgZSCkzsA+l4Dx1Ox3vJK8qPPpTJeohC3cVZgvEHpCPi39hI1zeHDLR/YgRA="
+    - secure: "VmF3ebGf1k2O8rXpVDrjxOwZ5TK9h8Iyzz5rBFPX1xshY4YWCAhXhrqbQ9OiDUhVs/Wv0M5WTtUJyL4sdpWAmRx+ekT+zdiPSVo4c3ag0smVT1mpUggrSmZrJlvmg21M0RYdxN9nzndtwnrh5i6F68+6hhYfHnS0AQT9BQ8xooHg+GIguGpSfREB+4Jgw9ONzwofPxKU1gRyz3ByHfqhH/HKmUpcZ4XvEXecfjOA3Y2UxIUtH2RpSxVjvVX8Z+xlCprmSPZRDUCIekAetPW7FdJuk8gVVXnN6m/DKXvsdJSOyjiagQoqpZXPuIgv5RKzeIzq3CoTbt3+Y82/ZfaAIB55vIzHDikSDMMabz9HXFugEFrOsSiHIexYNlqnqGtrjBpVcDxx8CzN45D+pfY8KpjSFlasejinesKYptHx4GPiR7mbqaOLxEkxIhnCAQ/JewJi8S5PNHW1notVeGG3dnzHuNK+HOdWC+RAzk/mCDnElK98tkUAZ6UhxR1A3YgCskDKUHwTNgGR4ilHsaekWJMPkzzblQrE9He8rheIcA4tHnB9aq8O+rZvSAJmRNycva6g1B9VfFPT/6H3eR2ZGfrWVm+5js1CM2KPGGu28HNNZXEUvMEJo5wHvRR/J9hjogt5jmq+lYDxwHYxmBPzW5pF5z20DSWDPQxVKqLUISU="
 
 before_cache:
   - rm -f  $HOME/ChangeXchange/.gradle/caches/modules-2/modules-2.lock
@@ -61,4 +64,23 @@ before_install:
   - cd ChangeXchange
   - chmod +x gradlew
   - ./gradlew dependencies || true
+
+  before_deploy:
+- openssl aes-256-cbc -K $encrypted_3ab2f6a7c4e4_key -iv $encrypted_3ab2f6a7c4e4_iv -in keystore.enc -out keystore -d
+- cd app/build/outputs/apk/release
+- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${TRAVIS_BUILD_DIR}/keystore -storepass $storepass -keypass $keypass app-release-unsigned.apk buildkey
+- jarsigner -verify app-release-unsigned.apk
+- "${ANDROID_HOME}/build-tools/${ANDROID_BUILD_TOOLS}/zipalign -v 4 app-release-unsigned.apk ChangeXchange.apk"
+- cd ../../../../..
+- scripts/tag.sh
+
+deploy:
+  provider: releases
+  on:
+    branch: master
+  api_key:
+      secure: "TvKaai1Z4BBoDlrT15lsDYXGkLCLJoUXwtnZSNZGSm1ZCU0q431wtm8+dJ+fgW4jBIs7VvAUwnQEtcouoQbtzJYC4jWsqLVSoMZPHu9jzskdjhLlomCDwS/eYuVkchNtUYxiuQlUNS35TQeqLIp3iIGu9dvAjLuI3CzoCKfhQfWD64MaYxzgqGC2nmgvltdL3vUGEcR0FBIEsk9tuoF4Zqxrh6Kn0ZTyGVuP3IxeMtjdsHsZ5onGYpfaTKwASD4scIlICYoxIDYNGHuPM+gedVWCKgMJA/KKeZ5be4sX5lF+NDXD/x55eOj/Vr+VMl0K7HlbUAJiUOds3wl3OKYgkFqMsEwjN7PbJVD4lyp7plbrcgkPArhWNIoD/+eVxKLcI1VbevUfJOS1xhCi0UDsDx+819PePMvWjMfmiekYaBLMyOKLSKaLI3jlOeUIZSryjY68AT9QD7PeRcPXx+3bO3ZzLw1pK394oxEOGdjb2C4Eh+ln7Q3/+Pe+BTE53ILwezMFLRiODgNAZn5jGdVE8pMu/0m8Lk9lJFtFXxAds292wUZVY719TTbLI50hc45Q38dAKGo6oRbHsFwEpXLniNOBTr3GuuqFeUA8AHQQ4li0p0oGvsxhtGJbCZGeJwC4hSiyGSd8skpBXtZW4r2MjoZYwAs9H+FroCsW6Pf94G4="
+     file: "app/build/outputs/apk/release/cXc.apk"
+  overwrite: true
+  skip_cleanup: true
 
