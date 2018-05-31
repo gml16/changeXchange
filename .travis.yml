@@ -74,6 +74,7 @@ before_install:
 - cd ../../../../..
 - scripts/tag.sh
 
+
 deploy:
   provider: releases
   on:
