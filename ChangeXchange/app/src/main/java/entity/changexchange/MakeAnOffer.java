@@ -45,6 +45,11 @@ public class MakeAnOffer extends AppCompatActivity {
                 String to = ((Spinner) findViewById(R.id.offer_currency_to))
                         .getSelectedItem().toString();
 
+                if (from.isEmpty() || to.isEmpty()) {
+                    //Erroneous amount entered. Deny clicking effect.
+                    return;
+                }
+
                 // TODO: Get information from logged in user.
 
                 // TODO: Post offer information to database.

@@ -1,5 +1,6 @@
 package entity.changexchange;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 //import for currency tracker
 import java.io.BufferedReader;
@@ -23,6 +28,7 @@ import entity.changexchange.utils.ExchangeRateTracker;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +62,34 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
+        // Create adapter for selection of currencies and link to dropdown objects.
+        ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
+        );
+        this.<Spinner>findViewById(R.id.offers_from).setAdapter(adapter);
+        this.<Spinner>findViewById(R.id.offers_to).setAdapter(adapter);
+
+        // Fetch exchange rate for selected currencies correct exchange rate
+        fetchExchangeRate();
+
+        // Swaps content of the two spinners (currency from / to)
+        this.<ImageButton>findViewById(R.id.offers_swap_curr).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Spinner from = findViewById(R.id.offers_from);
+                        Spinner to = findViewById(R.id.offers_to);
+                        int fromVal = from.getSelectedItemPosition();
+
+                        from.setSelection(to.getSelectedItemPosition());
+                        to.setSelection(fromVal);
+
+                        fetchExchangeRate();
+                    }
+                }
+        );
+
 //        Test for the layout manager
 //        // Setup container for offers.
 //        RecyclerView layout = findViewById(R.id.offer_container);
@@ -65,6 +99,25 @@ public class MainActivity extends AppCompatActivity {
 //        layout.setLayoutManager(manager);
 //        RecyclerView.Adapter adapter = new OfferAdapter();
 //        layout.setAdapter(adapter);
+    }
+
+    /**
+     * Looks up the exchange rate of the selected currency values.
+     */
+    private void fetchExchangeRate()
+    {
+        this.<TextView>findViewById(R.id.offer_exchange_rate).setText(String.valueOf(Math.random()));
+        // TODO: Fix exchange rate fetcher and add this.
+//        this.<TextView>findViewById(R.id.offer_exchange_rate).setText(
+//                String.valueOf(
+//                        ExchangeRateTracker.getExchangeRate(
+//                                ((Spinner) findViewById(R.id.offers_from))
+//                                        .getSelectedItem().toString(),
+//                                ((Spinner) findViewById(R.id.offers_to))
+//                                        .getSelectedItem().toString()
+//                        )
+//                )
+//        );
     }
 
 
