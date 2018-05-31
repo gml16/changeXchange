@@ -7,9 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.SortedList;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -22,9 +26,13 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
+import entity.changexchange.utils.Offer;
+import entity.changexchange.utils.OfferAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +41,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Create adapter for selection of currencies and link to dropdown objects.
+        ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
+        );
+        this.<Spinner>findViewById(R.id.offers_from).setAdapter(adapter);
+        this.<Spinner>findViewById(R.id.offers_to).setAdapter(adapter);
+
+        // Fetch exchange rate for selected currencies correct exchange rate
+        fetchExchangeRate();
+
+        // Setup container for offers.
+        List<Offer> offers = new ArrayList<>();
+        RecyclerView offer_container = findViewById(R.id.offer_container);
+        offer_container.setHasFixedSize(true);
+        offer_container.setLayoutManager(new LinearLayoutManager(this));
+
+        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15));
+        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (long) 9.15));
+        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (long) 0.1231));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241));
+
+        offer_container.setAdapter(new OfferAdapter(this, offers));
+
         // Switch to Messages / Profile activity.
         this.<BottomNavigationView>findViewById(R.id.navigation).setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,27 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // Clicking on (+) brings up offer creation activity.
-        this.<FloatingActionButton>findViewById(R.id.button_new_offer).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
-                    }
-                });
 
-
-        // Create adapter for selection of currencies and link to dropdown objects.
-        ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
-        );
-        this.<Spinner>findViewById(R.id.offers_from).setAdapter(adapter);
-        this.<Spinner>findViewById(R.id.offers_to).setAdapter(adapter);
-
-        // Fetch exchange rate for selected currencies correct exchange rate
-        fetchExchangeRate();
-
-        // Swaps content of the two spinners (currency from / to)
+        // Clicking swap button, swaps the content of the two spinners (currency from / to)
         this.<ImageButton>findViewById(R.id.offers_swap_curr).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -90,15 +103,14 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-//        Test for the layout manager
-//        // Setup container for offers.
-//        RecyclerView layout = findViewById(R.id.offer_container);
-//        // Content of offers won't change the container size.
-//        layout.setHasFixedSize(true);
-//        LinearLayoutManager manager = new LinearLayoutManager(this);
-//        layout.setLayoutManager(manager);
-//        RecyclerView.Adapter adapter = new OfferAdapter();
-//        layout.setAdapter(adapter);
+        // Clicking on (+) brings up offer creation activity.
+        this.<FloatingActionButton>findViewById(R.id.button_new_offer).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
+                    }
+                });
     }
 
     /**
