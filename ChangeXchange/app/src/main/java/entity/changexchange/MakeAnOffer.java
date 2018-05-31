@@ -3,12 +3,17 @@ package entity.changexchange;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+
+import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.RequestDatabase;
 
 
 public class MakeAnOffer extends AppCompatActivity {
@@ -26,6 +31,12 @@ public class MakeAnOffer extends AppCompatActivity {
         );
         this.<Spinner>findViewById(R.id.new_offer_currency_from).setAdapter(adapter);
         this.<Spinner>findViewById(R.id.new_offer_currency_to).setAdapter(adapter);
+
+        // Create adapter for list of airports.
+        ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, Airport.values()
+        );
+        this.<Spinner>findViewById(R.id.new_offer_location).setAdapter(adapter1);
 
         // Canceling an offer creation simply returns to offer page.
         this.<Button>findViewById(R.id.new_offer_cancel).setOnClickListener(
@@ -53,8 +64,10 @@ public class MakeAnOffer extends AppCompatActivity {
                         .getSelectedItem().toString();
                 String to = ((Spinner) findViewById(R.id.new_offer_currency_to))
                         .getSelectedItem().toString();
+                String location = ((Spinner) findViewById(R.id.new_offer_location))
+                        .getSelectedItem().toString();
 
-                if (from.isEmpty() || to.isEmpty()) {
+                if (from.isEmpty() || to.isEmpty() || location.isEmpty()) {
                     //Erroneous amount entered. Deny clicking effect.
                     return;
                 }
@@ -62,6 +75,21 @@ public class MakeAnOffer extends AppCompatActivity {
                 // TODO: Get information from logged in user.
 
                 // TODO: Post offer information to database.
+
+                Log.d("test",
+                        "INSERT INTO offers VALUES ('john', "
+                                + from + ", "
+                                + to + ", "
+                                + amount + ", "
+                                + location + ");");
+
+                new RequestDatabase().execute(
+                        "INSERT INTO offers VALUES ('john', "
+                                + from + ", "
+                                + to + ", "
+                                + amount + ", "
+                                + location + ");"
+                );
 
                 startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
             }

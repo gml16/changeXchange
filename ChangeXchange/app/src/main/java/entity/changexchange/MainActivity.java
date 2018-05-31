@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,7 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.OfferAdapter;
 import entity.changexchange.utils.ExchangeRateTracker;
+import entity.changexchange.utils.RequestDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,14 +53,16 @@ public class MainActivity extends AppCompatActivity {
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(this));
 
-        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
-        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
-        offers.add(new Offer("Lea", Currency.JPY, Currency.EUR, (float) 0.1231, Airport.STD));
-        offers.add(new Offer("Bla", Currency.CAD, Currency.AUD, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.AUD, Currency.CHF, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.EUR, Currency.AUD, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
+        new RequestDatabase(offers).execute("SELECT * FROM offers");
+
+//        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
+//        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
+//        offers.add(new Offer("Lea", Currency.JPY, Currency.EUR, (float) 0.1231, Airport.STD));
+//        offers.add(new Offer("Bla", Currency.CAD, Currency.AUD, 151241, Airport.LTN));
+//        offers.add(new Offer("Bla", Currency.AUD, Currency.CHF, 151241, Airport.LTN));
+//        offers.add(new Offer("Bla", Currency.EUR, Currency.AUD, 151241, Airport.LTN));
+//        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
+//        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
 
         offer_container.setAdapter(new OfferAdapter(this, offers));
 
