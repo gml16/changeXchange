@@ -11,12 +11,15 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=27.0.3
     - ADB_INSTALL_TIMEOUT=2 # minutes (If ABD instalation pass this time, the build will throw an error)
 
+before_cache:
+  - rm -f  $HOME/ChangeXchange/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/ChangeXchange/.gradle/caches/*/plugin-resolution/
+  
 cache:
   directories:
-  - "/ChangeXchange/.m2"
-  - "/ChangeXchange/.gradle"
-  - "/ChangeXchange/.gradle/caches/"
-  - "/ChangeXchange/.gradle/wrapper/"
+    - $HOME/ChangeXchange/.gradle/caches/
+    - $HOME/ChangeXchange/.gradle/wrapper/
+
 
 android:
   components:
@@ -40,6 +43,7 @@ android:
 
 # This step is made for automatic acception of licenses whenever Travis builds the code.
 before_install:
+    -echo $HOME
   - mkdir "$ANDROID_HOME/licenses" || true
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
   - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
