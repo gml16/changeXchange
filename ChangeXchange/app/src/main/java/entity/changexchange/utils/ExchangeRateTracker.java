@@ -27,6 +27,10 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
     protected Double doInBackground(String... strings) {
             double result = 0;
 
+            if(strings[0].equals(strings[1])){
+                return 1.0;
+            }
+
             try {
                 // Open a connection to bloomberg to get exchange rates
                 URL bloombergCurrency = new URL("https://www.bloomberg.com/quote/" + strings[0] + strings[1] + ":CUR");
