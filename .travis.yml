@@ -11,6 +11,13 @@ env:
     - ANDROID_BUILD_TOOLS_VERSION=27.0.3
     - ADB_INSTALL_TIMEOUT=2 # minutes (If ABD instalation pass this time, the build will throw an error)
 
+cache:
+  directories:
+  - "/ChangeXchange/.m2"
+  - "/ChangeXchange/.gradle"
+  - "/ChangeXchange/.gradle/caches/"
+  - "/ChangeXchange/.gradle/wrapper/"
+
 android:
   components:
     - platform-tools
