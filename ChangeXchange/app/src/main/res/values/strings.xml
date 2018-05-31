@@ -9,4 +9,6 @@
     <string name="offer_amount">Amount</string>
     <string name="test">Test</string>
     <string name="offer_cancel">Cancel</string>
+    <string name="offer_current_rate">The most recent exchange rate is:</string>
+    <string name="offer_reload">Update</string>
 </resources>

@@ -95,4 +95,16 @@
         app:layout_constraintTop_toBottomOf="@+id/offer_exchange_rate"
         app:srcCompat="@mipmap/baseline_cached_black_48" />
 
+    <Button
+        android:id="@+id/offers_update_exchange"
+        android:layout_width="62dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/offer_reload"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offers_to" />
+
 </android.support.constraint.ConstraintLayout>

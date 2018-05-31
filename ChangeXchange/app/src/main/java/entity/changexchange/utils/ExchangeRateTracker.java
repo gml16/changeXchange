@@ -15,12 +15,12 @@ import java.net.URLConnection;
 
 import javax.xml.parsers.*;
 
-public class RetrieveCurrencyRate extends AsyncTask<String, Void, Double> {
+public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
 
     private Exception exception;
     private TextView textToBeUpdated;
 
-    public RetrieveCurrencyRate(TextView textToBeUpdated) {
+    public ExchangeRateTracker(TextView textToBeUpdated) {
         this.textToBeUpdated = textToBeUpdated;
     }
 
@@ -58,7 +58,4 @@ public class RetrieveCurrencyRate extends AsyncTask<String, Void, Double> {
         protected void onPostExecute(Double result) {
             textToBeUpdated.setText(String.valueOf(result));
         }
-
-
-
 }

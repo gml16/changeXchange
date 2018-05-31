@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.OfferAdapter;
-import entity.changexchange.utils.RetrieveCurrencyRate;
+import entity.changexchange.utils.ExchangeRateTracker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,12 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
         offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
-        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (float) 0.1231, Airport.STD));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Lea", Currency.JPY, Currency.EUR, (float) 0.1231, Airport.STD));
+        offers.add(new Offer("Bla", Currency.CAD, Currency.AUD, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.AUD, Currency.CHF, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.EUR, Currency.AUD, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
 
         offer_container.setAdapter(new OfferAdapter(this, offers));
 
@@ -99,6 +100,16 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
+        // Clicking (UPDATE) reloads the exchange rate shown.
+        this.<Button>findViewById(R.id.offers_update_exchange).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fetchExchangeRate();
+                    }
+                }
+        );
+
         // Clicking on (+) brings up offer creation activity.
         this.<FloatingActionButton>findViewById(R.id.button_new_offer).setOnClickListener(
                 new View.OnClickListener() {
@@ -107,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
                     }
                 });
-        new RetrieveCurrencyRate().execute("USD", "EUR");
     }
 
     /**
@@ -115,18 +125,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void fetchExchangeRate()
     {
-        this.<TextView>findViewById(R.id.offer_exchange_rate).setText(String.valueOf(Math.random()));
-        // TODO: Fix exchange rate fetcher and add this.
-//        this.<TextView>findViewById(R.id.offer_exchange_rate).setText(
-//                String.valueOf(
-//                        ExchangeRateTracker.getExchangeRate(
-//                                ((Spinner) findViewById(R.id.offers_from))
-//                                        .getSelectedItem().toString(),
-//                                ((Spinner) findViewById(R.id.offers_to))
-//                                        .getSelectedItem().toString()
-//                        )
-//                )
-//        );
+        new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate)).execute(
+                ((Spinner) findViewById(R.id.offers_from))
+                                        .getSelectedItem().toString(),
+                ((Spinner) findViewById(R.id.offers_to))
+                                        .getSelectedItem().toString()
+        );
     }
 
 

@@ -48,13 +48,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                         + offer.getLocation().toString()
                         + "!"
         );
-        holder.exchangeRate.setText(
-                "Current exchange rate is: "
-                + String.valueOf(Math.random())
-//              + String.valueOf(ExchangeRateTracker.getExchangeRate(
-//                        offer.getBuying().toString(),
-//                        offer.getSelling().toString()
-//                ))
+
+        new ExchangeRateTracker(holder.exchangeRate).execute(
+                offer.getBuying().toString(),
+                offer.getSelling().toString()
         );
     }
 

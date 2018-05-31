@@ -21,13 +21,23 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/offer_current_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/offer_title"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/offer_current_rate" />
+
+        <TextView
             android:id="@+id/offer_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/offer_title"
             android:layout_marginTop="5dp"
-            android:layout_below="@id/offer_title"
-            android:text="TextView" />
+            android:layout_toRightOf="@+id/offer_current_rate"
+            android:layout_marginLeft="5dp"
+            android:text="@string/test" />
 
     </RelativeLayout>
 
