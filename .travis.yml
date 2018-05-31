@@ -18,9 +18,10 @@ cache:
   directories:
     - $HOME/ChangeXchange/.gradle/caches/
     - $HOME/ChangeXchange/.gradle/wrapper/
+    - $HOME/ChangeXchange/.android/build-cache
 
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-22 --abi google_apis/armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
@@ -31,6 +32,7 @@ android:
     - tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
+    - android-22
     # Google Play Services
     - extra-google-google_play_services
     # Support library
@@ -38,7 +40,7 @@ android:
     # Latest artifacts in local repository
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL
+    - sys-img-armeabi-v7a-google_apis-22
 
   licenses:
     - android-sdk-preview-license-.+
