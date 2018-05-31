@@ -33,6 +33,7 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.OfferAdapter;
+import entity.changexchange.utils.RetrieveCurrencyRate;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
                     }
                 });
+        new RetrieveCurrencyRate().execute("USD", "EUR");
     }
 
     /**

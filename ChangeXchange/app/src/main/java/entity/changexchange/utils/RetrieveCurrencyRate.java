@@ -1,0 +1,64 @@
+package entity.changexchange.utils;
+
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.TextView;
+
+import org.xml.sax.XMLReader;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import javax.xml.parsers.*;
+
+public class RetrieveCurrencyRate extends AsyncTask<String, Void, Double> {
+
+    private Exception exception;
+    private TextView textToBeUpdated;
+
+    public RetrieveCurrencyRate(TextView textToBeUpdated) {
+        this.textToBeUpdated = textToBeUpdated;
+    }
+
+    protected Double doInBackground(String... strings) {
+            double result = -1;
+
+            try {
+                // Open a connection to bloomberg to get exchange rates
+                URL bloombergCurrency = new URL("https://www.bloomberg.com/quote/" + strings[0] + strings[1] + ":CUR");
+                URLConnection bc = bloombergCurrency.openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(bc.getInputStream()));
+
+                String inputLine;  //Used to read in lines from webpage
+                while ((inputLine = in.readLine()) != null && result == -1) {
+                    if(inputLine.length() > 18) {
+                        if (inputLine.substring(0, 17).equals("bootstrappedData:")) {
+                            result = Double.parseDouble(inputLine.substring(inputLine.indexOf("\"price\":")+8 , inputLine.indexOf("\"price\":")+14));
+                        }
+                    }
+
+                }
+                in.close(); //DONE. Closing connection.
+
+            } catch (MalformedURLException ex) {
+                System.out.println("MalformedURLException in getExchangeRate(): Invalid URL.");
+            } catch (NumberFormatException ex) {
+                System.out.println("NumberFormatException in getExchangeRate(): Invalid response from server.");
+            } catch (IOException ex) {
+                System.out.println("IOException in getExchangeRate(): Cannot connect to server.");
+            }
+
+            return result;
+        }
+
+        protected void onPostExecute(Double result) {
+            textToBeUpdated.setText(String.valueOf(result));
+        }
+
+
+
+}
