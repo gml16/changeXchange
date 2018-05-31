@@ -24,6 +24,8 @@ android {
 }
 
 dependencies {
+    compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'

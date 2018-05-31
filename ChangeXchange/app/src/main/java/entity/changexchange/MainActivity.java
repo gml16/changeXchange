@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView offer_container = findViewById(R.id.offer_container);
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(this));
-
         new RequestDatabase(offers).execute("SELECT * FROM offers");
 
 //        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));

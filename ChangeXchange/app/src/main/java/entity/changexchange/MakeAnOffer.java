@@ -54,11 +54,13 @@ public class MakeAnOffer extends AppCompatActivity {
             public void onClick(View v) {
 
                 String amount = findViewById(R.id.new_offer_price).toString();
-
+                Log.d("guy","Amount is Empty?");
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
+                    Log.d("guy","Amount IS Empty");
                     //Erroneous amount entered. Deny clicking effect.
                     return;
                 }
+                Log.d("guy","Amount is not Empty");
 
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
@@ -76,7 +78,7 @@ public class MakeAnOffer extends AppCompatActivity {
 
                 // TODO: Post offer information to database.
 
-                Log.d("test",
+                Log.d("guy",
                         "INSERT INTO offers VALUES ('john', "
                                 + from + ", "
                                 + to + ", "
