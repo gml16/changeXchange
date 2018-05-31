@@ -7,7 +7,7 @@
     tools:context=".MakeAnOffer">
 
     <Spinner
-        android:id="@+id/offer_currency_to"
+        android:id="@+id/new_offer_currency_to"
         android:layout_width="306dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -17,10 +17,10 @@
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offer_currency_from" />
+        app:layout_constraintTop_toBottomOf="@+id/new_offer_currency_from" />
 
     <Spinner
-        android:id="@+id/offer_currency_from"
+        android:id="@+id/new_offer_currency_from"
         android:layout_width="306dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -30,20 +30,20 @@
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offer_title" />
+        app:layout_constraintTop_toBottomOf="@+id/new_offer_title" />
 
     <Button
-        android:id="@+id/offer_submit"
+        android:id="@+id/new_offer_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="@string/offer_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offer_price" />
+        app:layout_constraintTop_toBottomOf="@+id/new_offer_price" />
 
     <EditText
-        android:id="@+id/offer_price"
+        android:id="@+id/new_offer_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -52,10 +52,10 @@
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offer_currency_to" />
+        app:layout_constraintTop_toBottomOf="@+id/new_offer_currency_to" />
 
     <TextView
-        android:id="@+id/offer_title"
+        android:id="@+id/new_offer_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -67,7 +67,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/offer_cancel"
+        android:id="@+id/new_offer_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -78,5 +78,5 @@
         android:text="@string/offer_cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/offer_submit" />
+        app:layout_constraintTop_toBottomOf="@+id/new_offer_submit" />
 </android.support.constraint.ConstraintLayout>

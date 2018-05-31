@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import entity.changexchange.utils.Currency;
 
@@ -25,24 +24,34 @@ public class MakeAnOffer extends AppCompatActivity {
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
         );
-        this.<Spinner>findViewById(R.id.offer_currency_from).setAdapter(adapter);
-        this.<Spinner>findViewById(R.id.offer_currency_to).setAdapter(adapter);
+        this.<Spinner>findViewById(R.id.new_offer_currency_from).setAdapter(adapter);
+        this.<Spinner>findViewById(R.id.new_offer_currency_to).setAdapter(adapter);
+
+        // Canceling an offer creation simply returns to offer page.
+        this.<Button>findViewById(R.id.new_offer_cancel).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
+                    }
+                }
+        );
 
         // Submitting an offer triggers the migration of all the data to the database.
-        this.<Button>findViewById(R.id.offer_submit).setOnClickListener(new View.OnClickListener() {
+        this.<Button>findViewById(R.id.new_offer_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String amount = findViewById(R.id.offer_price).toString();
+                String amount = findViewById(R.id.new_offer_price).toString();
 
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
                     //Erroneous amount entered. Deny clicking effect.
                     return;
                 }
 
-                String from = ((Spinner) findViewById(R.id.offer_currency_from))
+                String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
-                String to = ((Spinner) findViewById(R.id.offer_currency_to))
+                String to = ((Spinner) findViewById(R.id.new_offer_currency_to))
                         .getSelectedItem().toString();
 
                 if (from.isEmpty() || to.isEmpty()) {

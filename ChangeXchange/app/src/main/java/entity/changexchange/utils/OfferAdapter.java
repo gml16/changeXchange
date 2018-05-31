@@ -1,5 +1,6 @@
 package entity.changexchange.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -31,14 +32,30 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         return new OfferViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OfferViewHolder holder, int position) {
         Offer offer = offers.get(position);
 
-        holder.poster.setText(offer.getPoster_nickname());
-        holder.buying.setText(offer.getBuying().toString());
-        holder.selling.setText(offer.getSelling().toString());
-        holder.amount.setText(String.valueOf(offer.getAmount()));
+        holder.title.setText(
+                offer.getPoster_nickname()
+                        + " is looking to buy "
+                        + offer.getAmount()
+                        + " of "
+                        + offer.getBuying().toString()
+                        + " for " + offer.getSelling().toString()
+                        + " at "
+                        + offer.getLocation().toString()
+                        + "!"
+        );
+        holder.exchangeRate.setText(
+                "Current exchange rate is: "
+                + String.valueOf(Math.random())
+//              + String.valueOf(ExchangeRateTracker.getExchangeRate(
+//                        offer.getBuying().toString(),
+//                        offer.getSelling().toString()
+//                ))
+        );
     }
 
     @Override
@@ -48,19 +65,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
     class OfferViewHolder extends RecyclerView.ViewHolder {
 
-        TextView poster;
-        TextView buying;
-        TextView selling;
-        TextView amount;
+        TextView title;
+        TextView exchangeRate;
 
         public OfferViewHolder(View itemView) {
             super(itemView);
 
-            poster = itemView.findViewById(R.id.textViewTitle);
-            buying = itemView.findViewById(R.id.textViewShortDesc);
-            selling = itemView.findViewById(R.id.textViewRating);
-            amount = itemView.findViewById(R.id.textViewPrice);
-
+            title = itemView.findViewById(R.id.offer_title);
+            exchangeRate = itemView.findViewById(R.id.offer_rate);
         }
     }
 

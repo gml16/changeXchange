@@ -7,30 +7,21 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 //import for currency tracker
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
-import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.OfferAdapter;
 import entity.changexchange.utils.RetrieveCurrencyRate;
@@ -59,10 +50,14 @@ public class MainActivity extends AppCompatActivity {
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(this));
 
-        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15));
-        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (long) 9.15));
-        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (long) 0.1231));
-        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241));
+        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
+        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
+        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (float) 0.1231, Airport.STD));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
 
         offer_container.setAdapter(new OfferAdapter(this, offers));
 
