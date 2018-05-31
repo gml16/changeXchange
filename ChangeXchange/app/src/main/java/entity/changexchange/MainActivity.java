@@ -50,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
         offer_container.setLayoutManager(new LinearLayoutManager(this));
 
         offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
-        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (long) 9.15, Airport.LHR));
-        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (long) 0.1231, Airport.STD));
+        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
+        offers.add(new Offer("Lea", Currency.YER, Currency.EAC, (float) 0.1231, Airport.STD));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
+        offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
         offers.add(new Offer("Bla", Currency.NAD, Currency.AED, 151241, Airport.LTN));
 
         offer_container.setAdapter(new OfferAdapter(this, offers));

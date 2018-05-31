@@ -5,11 +5,11 @@ public class Offer {
     private final String poster_nickname;
     private final Currency buying;
     private final Currency selling;
-    private final long amount;
+    private final float amount;
     private final Airport airport;
 
 
-    public Offer(String poster_nickname, Currency buying, Currency selling, long amount, Airport airport) {
+    public Offer(String poster_nickname, Currency buying, Currency selling, float amount, Airport airport) {
         this.poster_nickname = poster_nickname;
         this.buying = buying;
         this.selling = selling;
@@ -29,7 +29,7 @@ public class Offer {
         return selling;
     }
 
-    public long getAmount() {
+    public float getAmount() {
         return amount;
     }
 

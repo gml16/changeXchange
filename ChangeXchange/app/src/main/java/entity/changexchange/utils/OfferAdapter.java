@@ -40,7 +40,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.title.setText(
                 offer.getPoster_nickname()
                         + " is looking to buy "
-                        + String.valueOf(offer.getAmount())
+                        + offer.getAmount()
                         + " of "
                         + offer.getBuying().toString()
                         + " for " + offer.getSelling().toString()
