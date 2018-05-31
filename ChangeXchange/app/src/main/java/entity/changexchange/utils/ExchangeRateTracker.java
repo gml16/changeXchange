@@ -25,7 +25,7 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
     }
 
     protected Double doInBackground(String... strings) {
-            double result = -1;
+            double result = 0;
 
             try {
                 // Open a connection to bloomberg to get exchange rates
@@ -34,7 +34,7 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
                 BufferedReader in = new BufferedReader(new InputStreamReader(bc.getInputStream()));
 
                 String inputLine;  //Used to read in lines from webpage
-                while ((inputLine = in.readLine()) != null && result == -1) {
+                while ((inputLine = in.readLine()) != null && result == 0) {
                     if(inputLine.length() > 18) {
                         if (inputLine.substring(0, 17).equals("bootstrappedData:")) {
                             result = Double.parseDouble(inputLine.substring(inputLine.indexOf("\"price\":")+8 , inputLine.indexOf("\"price\":")+14));

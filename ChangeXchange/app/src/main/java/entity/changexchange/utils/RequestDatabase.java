@@ -34,7 +34,6 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                     .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u",
                             "g1727132_u", "4ihe2mwvgy");
             c.setAutoCommit(false);
-            Log.d("guy", "3");
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery(strings[0]);
             if (strings[0].split(" ")[0].equals("SELECT")) {

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -53,14 +54,12 @@ public class MakeAnOffer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String amount = findViewById(R.id.new_offer_price).toString();
-                Log.d("guy","Amount is Empty?");
+                EditText amountEditText = (EditText) findViewById(R.id.new_offer_price);
+                String amount = amountEditText.getText().toString();
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
-                    Log.d("guy","Amount IS Empty");
                     //Erroneous amount entered. Deny clicking effect.
                     return;
                 }
-                Log.d("guy","Amount is not Empty");
 
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
