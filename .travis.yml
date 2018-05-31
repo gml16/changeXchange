@@ -4,6 +4,9 @@ jdk: oraclejdk8
 
 sudo: true
 
+notifications:
+  email: false
+
 env:
   global:
     - ANDROID_API_LEVEL=27
