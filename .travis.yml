@@ -34,7 +34,7 @@ cache:
 #  - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew assemble
+  - ./gradlew clean test build
 
 android:
   components:
