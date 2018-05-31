@@ -1,0 +1,28 @@
+WebApps
+
+"Most tourists don't have cash on arrival and can face upto 25% loss in value at local exchanges."
+
+
+Problem Statement:
+How might we design a service to reduce the uncertainty of tourists, cashless, upon arrival?
+
+Goals:
+- Easing travel
+- No home-sickness
+- Financial security
+- Cheap exchange
+- Peer-to-peer
+- Low/No fees
+
+Issues:
+"May not have local exchange available on site of arrival."
+"Allways an insecurity when arriving somewhere new."
+"Feeling unsafe due to unfamiliar environment."
+"Uneasy feeling of being lost cashless."
+"Holding onto leftover, now unusable cash is cumbersome."
+"Can cause a fear of travel, panic situation etc."
+
+
+
+Websites used:
+Trello Kanban

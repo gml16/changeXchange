@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ChangeXchange</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_offers">Offers</string>
+    <string name="title_messages">Messages</string>
+
+    <string name="title_making_offer">Post an offer</string>
+    <string name="offer_send">Submit</string>
+    <string name="offer_amount">Amount</string>
+    <string name="test">Test</string>
+</resources>
