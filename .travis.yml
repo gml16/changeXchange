@@ -38,6 +38,7 @@ android:
     # Latest artifacts in local repository
     - extra-google-m2repository
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-$ANDROID_API_LEVEL
 
   licenses:
     - android-sdk-preview-license-.+
