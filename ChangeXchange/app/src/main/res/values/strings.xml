@@ -12,4 +12,5 @@
     <string name="offer_current_rate">The most recent exchange rate is:</string>
     <string name="offer_reload">Update</string>
     <string name="load_value">Loading...</string>
+    <string name="accept_offer">Accept!</string>
 </resources>
