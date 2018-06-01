@@ -52,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView offer_container = findViewById(R.id.offer_container);
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(this));
-        new RequestDatabase(offers).execute("SELECT * FROM offers");
+
+        String fromString = ((Spinner) findViewById(R.id.offers_from))
+                .getSelectedItem().toString();
+        String toString =((Spinner) findViewById(R.id.offers_to))
+                        .getSelectedItem().toString();
+        new RequestDatabase(offers).execute("SELECT * FROM offers WHERE buying='" + fromString + "' and selling='" + toString + "';");
+        Log.d("guy", "SELECT * FROM offers WHERE buying='" + fromString + "' and selling='" + toString + "';");
 
 //        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
 //        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
