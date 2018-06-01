@@ -31,6 +31,8 @@ import entity.changexchange.utils.RequestDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final List<Offer> offers = new ArrayList<>();
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +49,8 @@ public class MainActivity extends AppCompatActivity {
         // Fetch exchange rate for selected currencies correct exchange rate
         fetchExchangeRate();
 
-        // Setup container for offers.
-        List<Offer> offers = new ArrayList<>();
-        RecyclerView offer_container = findViewById(R.id.offer_container);
-        offer_container.setHasFixedSize(true);
-        offer_container.setLayoutManager(new LinearLayoutManager(this));
-
-        String fromString = ((Spinner) findViewById(R.id.offers_from))
-                .getSelectedItem().toString();
-        String toString =((Spinner) findViewById(R.id.offers_to))
-                        .getSelectedItem().toString();
-        new RequestDatabase(offers).execute("SELECT * FROM offers WHERE buying='" + fromString + "' and selling='" + toString + "';");
-        Log.d("guy", "SELECT * FROM offers WHERE buying='" + fromString + "' and selling='" + toString + "';");
+        // Get offers from database
+        showOffers();
 
 //        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
 //        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
@@ -69,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 //        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
 //        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
 
-        offer_container.setAdapter(new OfferAdapter(this, offers));
 
         // Switch to Messages / Profile activity.
         this.<BottomNavigationView>findViewById(R.id.navigation).setOnNavigationItemSelectedListener(
@@ -115,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         fetchExchangeRate();
+                        showOffers();
                     }
                 }
         );
@@ -127,6 +119,20 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
                     }
                 });
+    }
+
+    /**
+     * Fetches offers with selected currencies from database.
+     */
+    private void showOffers() {
+        new RequestDatabase(this).execute(
+                "SELECT * FROM offers WHERE buying='"
+                        + ((Spinner) findViewById(R.id.offers_from))
+                                .getSelectedItem().toString()
+                        + "' and selling='"
+                        + ((Spinner) findViewById(R.id.offers_to))
+                                .getSelectedItem().toString() + "';"
+        );
     }
 
     /**

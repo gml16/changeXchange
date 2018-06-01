@@ -1,6 +1,8 @@
 package entity.changexchange.utils;
 
 import android.os.AsyncTask;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.sql.Connection;
@@ -10,10 +12,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.changexchange.MainActivity;
+import entity.changexchange.R;
+
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     private Exception exception;
     private List<Offer> offers;
+    private MainActivity activity;
 
     public RequestDatabase() {
 
@@ -22,6 +28,11 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     public RequestDatabase(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public RequestDatabase(MainActivity activity) {
+        this.activity = activity;
+        offers = new ArrayList<>();
     }
 
     protected Void doInBackground(String... strings) {
@@ -70,8 +81,12 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-    protected void onPostExecute() {
-
+    protected void onPostExecute(Void unused) {
+        // Setup container for offers.
+        RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+        offer_container.setHasFixedSize(true);
+        offer_container.setLayoutManager(new LinearLayoutManager(activity));
+        offer_container.setAdapter(new OfferAdapter(activity, offers));
     }
 
 }

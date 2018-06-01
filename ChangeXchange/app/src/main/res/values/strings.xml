@@ -11,4 +11,5 @@
     <string name="offer_cancel">Cancel</string>
     <string name="offer_current_rate">The most recent exchange rate is:</string>
     <string name="offer_reload">Update</string>
+    <string name="load_value">Loading...</string>
 </resources>
