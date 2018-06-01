@@ -20,6 +20,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     private Exception exception;
     private List<Offer> offers;
     private MainActivity activity;
+    private String instruction;
 
     public RequestDatabase() {
 
@@ -38,6 +39,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         Connection c = null;
         Statement stmt = null;
+        instruction = strings[0].split(" ")[0];
+        Log.d("test", strings[0]);
+        Log.d("test", "["+instruction+"]");
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -46,27 +50,23 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                             "g1727132_u", "4ihe2mwvgy");
             c.setAutoCommit(false);
             stmt = c.createStatement();
-            if (strings[0].split(" ")[0].equals("SELECT")) {
+            if (instruction.equals("SELECT")) {
+                Log.d("guy", "selecting: " + strings[0]);
                 ResultSet rs = stmt.executeQuery(strings[0]);
                 while (rs.next()) {
-                    String nickname = rs.getString("nickname");
-                    String buying = rs.getString("buying");
-                    String selling = rs.getString("selling");
-                    String amount = rs.getString("amount");
-                    String location = rs.getString("location");
 
                     offers.add(new Offer(
-                            nickname,
-                            Currency.valueOf(buying),
-                            Currency.valueOf(selling),
-                            Float.valueOf(amount),
-                            Airport.valueOf(location)
+                            rs.getString("nickname"),
+                            Currency.valueOf(rs.getString("buying")),
+                            Currency.valueOf(rs.getString("selling")),
+                            Float.valueOf(rs.getString("amount")),
+                            Airport.valueOf(rs.getString("location"))
                     ));
 
                 }
                 rs.close();
                 stmt.close();
-            } else if(strings[0].split(" ")[0].equals("INSERT")){
+            } else if(instruction.equals("INSERT")){
                 Log.d("guy", "inserting: " + strings[0]);
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
@@ -83,10 +83,12 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     protected void onPostExecute(Void unused) {
         // Setup container for offers.
-        RecyclerView offer_container = activity.findViewById(R.id.offer_container);
-        offer_container.setHasFixedSize(true);
-        offer_container.setLayoutManager(new LinearLayoutManager(activity));
-        offer_container.setAdapter(new OfferAdapter(activity, offers));
+        if (instruction.equals("SELECT")) {
+            RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+            offer_container.setHasFixedSize(true);
+            offer_container.setLayoutManager(new LinearLayoutManager(activity));
+            offer_container.setAdapter(new OfferAdapter(activity, offers));
+        }
     }
 
 }

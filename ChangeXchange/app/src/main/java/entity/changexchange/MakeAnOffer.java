@@ -54,8 +54,7 @@ public class MakeAnOffer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                EditText amountEditText = (EditText) findViewById(R.id.new_offer_price);
-                String amount = amountEditText.getText().toString();
+                String amount = ((EditText) findViewById(R.id.new_offer_price)).getText().toString();
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
                     //Erroneous amount entered. Deny clicking effect.
                     return;

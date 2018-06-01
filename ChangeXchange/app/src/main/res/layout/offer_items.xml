@@ -6,9 +6,11 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:id="@+id/offer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:onClick="selectOffer"
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="0dp">
 
@@ -41,15 +43,6 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/offer_current_rate"
             android:text="@string/load_value" />
-
-        <Button
-            android:id="@+id/offer_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/offer_current_rate"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:text="@string/accept_offer" />
 
     </RelativeLayout>
 

@@ -119,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
                     }
                 });
+
+    }
+
+    /**
+     * Clicking on an offer brings up contact details for it.
+     */
+    public void selectOffer(View view) {
+        startActivity(new Intent(MainActivity.this, sendText.class)
+                    .putExtra("CONTACT", R.id.offer_title));
     }
 
     /**
@@ -147,6 +156,4 @@ public class MainActivity extends AppCompatActivity {
                                         .getSelectedItem().toString()
         );
     }
-
-
 }

@@ -58,13 +58,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                 offer.getBuying().toString(),
                 offer.getSelling().toString()
         );
-
-//        holder.accept.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, sendText.class));
-//            }
-//        });
     }
 
     @Override
@@ -76,14 +69,12 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
         TextView title;
         TextView exchangeRate;
-        Button accept;
 
         public OfferViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.offer_title);
             exchangeRate = itemView.findViewById(R.id.offer_rate);
-            accept = itemView.findViewById(R.id.offer_accept);
         }
     }
 
