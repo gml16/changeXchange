@@ -60,8 +60,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                             Currency.valueOf(rs.getString("buying")),
                             Currency.valueOf(rs.getString("selling")),
                             Float.valueOf(rs.getString("amount")),
-                            Airport.valueOf(rs.getString("location"))
-                    ));
+                            Airport.valueOf(rs.getString("location")),
+                            note));
 
                 }
                 rs.close();

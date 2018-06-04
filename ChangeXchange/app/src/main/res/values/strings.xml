@@ -14,4 +14,5 @@
     <string name="load_value">Loading...</string>
     <string name="accept_offer">Accept!</string>
     <string name="selected_contact">Contact them now!</string>
+    <string name="offer_note_hint"><b>Add a note:</b> Let\'s meet in Terminal 3 I\'ll be the guy in the hawaiian shirt!</string>
 </resources>

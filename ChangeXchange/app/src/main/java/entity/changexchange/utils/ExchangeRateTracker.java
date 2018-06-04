@@ -1,5 +1,6 @@
 package entity.changexchange.utils;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
@@ -59,7 +60,8 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
             return result;
         }
 
+        @SuppressLint("SetTextI18n")
         protected void onPostExecute(Double result) {
-            textToBeUpdated.setText(String.valueOf(result));
+            textToBeUpdated.setText("1:" + String.valueOf(result));
         }
 }

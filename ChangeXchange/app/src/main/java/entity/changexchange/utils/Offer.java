@@ -7,14 +7,16 @@ public class Offer {
     private final Currency selling;
     private final float amount;
     private final Airport airport;
+    private final String note;
 
 
-    public Offer(String poster_nickname, Currency buying, Currency selling, float amount, Airport airport) {
+    public Offer(String poster_nickname, Currency buying, Currency selling, float amount, Airport airport, String note) {
         this.poster_nickname = poster_nickname;
         this.buying = buying;
         this.selling = selling;
         this.amount = amount;
         this.airport = airport;
+        this.note = note;
     }
 
     public String getPoster_nickname() {
@@ -35,5 +37,9 @@ public class Offer {
 
     public Airport getLocation() {
         return airport;
+    }
+
+    public String getNote() {
+        return note;
     }
 }

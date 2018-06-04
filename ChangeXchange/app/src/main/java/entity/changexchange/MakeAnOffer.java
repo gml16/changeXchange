@@ -55,10 +55,11 @@ public class MakeAnOffer extends AppCompatActivity {
             public void onClick(View v) {
 
                 String amount = ((EditText) findViewById(R.id.new_offer_price)).getText().toString();
-                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
-                    //Erroneous amount entered. Deny clicking effect.
-                    return;
-                }
+
+                //Erroneous amount entered. Deny clicking effect.
+                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) return;
+
+                String name = "John"; // TODO: Get poster name from login.
 
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
@@ -66,22 +67,24 @@ public class MakeAnOffer extends AppCompatActivity {
                         .getSelectedItem().toString();
                 String location = ((Spinner) findViewById(R.id.new_offer_location))
                         .getSelectedItem().toString();
+                String note = ((EditText) findViewById(R.id.new_offer_note))
+                        .getText().toString();
 
-                if (from.isEmpty() || to.isEmpty() || location.isEmpty()) {
-                    //Erroneous amount entered. Deny clicking effect.
-                    return;
-                }
+                // If note hasn't been filled, replace with default value.
+                if (note.isEmpty()) note = "//" + name + " did not add a note.";
 
-                // TODO: Get information from logged in user.
+                // Erroneous amount entered. Deny clicking effect.
+                if (from.isEmpty() || to.isEmpty() || location.isEmpty()) return;
 
-                // TODO: Post offer information to database.
+                // TODO: Add note to database.
 
                 new RequestDatabase().execute(
                         "INSERT INTO offers VALUES ('John', '"
                                 + from + "', '"
                                 + to + "', '"
                                 + amount + "', '"
-                                + location + "');"
+                                + location + "', '"
+                                + note + "');"
                 );
 
                 startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
