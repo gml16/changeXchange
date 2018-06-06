@@ -9,6 +9,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,8 +40,24 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
         );
-        this.<Spinner>findViewById(R.id.offers_from).setAdapter(adapter);
-        this.<Spinner>findViewById(R.id.offers_to).setAdapter(adapter);
+        Spinner from = findViewById(R.id.offers_from);
+        from.setAdapter(adapter);
+        from.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                fetchExchangeRate(v);
+                return false;
+            }
+        });
+        Spinner to = findViewById(R.id.offers_to);
+        to.setAdapter(adapter);
+        to.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                fetchExchangeRate(v);
+                return false;
+            }
+        });
 
         // Fetch exchange rate for selected currencies correct exchange rate
         fetchExchangeRate();
