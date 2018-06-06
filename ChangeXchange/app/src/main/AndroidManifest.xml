@@ -23,7 +23,8 @@
         <activity android:name=".MakeAnOffer" />
         <activity android:name=".Profile" />
         <activity android:name=".EditProfile" />
-        <activity android:name=".sendText"></activity>
+        <activity android:name=".sendText" />
+        <activity android:name=".BurgerMenuTest"></activity>
     </application>
 
 </manifest>
