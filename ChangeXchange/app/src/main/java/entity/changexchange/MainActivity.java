@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         new RequestDatabase(this).execute(
                 "SELECT * FROM offers WHERE buying='"
                         + getCurFrom() + "' and selling='" + getCurTo()
-                        + "' and amount <= '" + getAmount() + "';"
+                        + "' and amount<=" + getAmount() + ";"
         );
     }
 
