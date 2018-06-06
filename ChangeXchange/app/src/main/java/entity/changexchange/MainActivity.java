@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,11 +64,8 @@ public class MainActivity extends AppCompatActivity {
         );
         this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
 
-        // Fetch exchange rate for selected currencies correct exchange rate
-        fetchExchangeRate();
-
-        // Get offers from database
-        showOffers();
+        // Fetch exchange rate for selected currencies correct exchange rate and offers
+        updateDisplay();
 
 //        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
 //        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
@@ -91,21 +89,31 @@ public class MainActivity extends AppCompatActivity {
                         from.setSelection(to.getSelectedItemPosition());
                         to.setSelection(fromVal);
 
-                        fetchExchangeRate();
+                        updateDisplay(v);
+                    }
+                }
+        );
+
+        // Pulling offers down will refresh them.
+        this.<SwipeRefreshLayout>findViewById(R.id.offers_swiper).setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        updateDisplay();
                     }
                 }
         );
 
         // Clicking (UPDATE) reloads the exchange rate shown.
-        this.<Button>findViewById(R.id.offers_update_exchange).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fetchExchangeRate();
-                        showOffers();
-                    }
-                }
-        );
+//        this.<Button>findViewById(R.id.offers_update_exchange).setOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        fetchExchangeRate();
+//                        showOffers();
+//                    }
+//                }
+//        );
 
         // Clicking on (+) brings up offer creation activity.
         this.<FloatingActionButton>findViewById(R.id.button_new_offer).setOnClickListener(
@@ -132,29 +140,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Fetches offers with selected currencies from database.
+     * Wrappers for exchange rate fetching and database requesting
      */
-    private void showOffers() {
+    private void updateDisplay() {
+        // Fetch exchange rate
+        new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate))
+                .execute(getCurFrom(), getCurTo()
+                );
+        // Show offers
         new RequestDatabase(this).execute(
                 "SELECT * FROM offers WHERE buying='"
                         + getCurFrom() + "' and selling='" + getCurTo() + "' "
                         + "ORDER BY ABS(amount-" + getAmount() + ");"
         );
     }
-
-    /**
-     * Looks up the exchange rate of the selected currency values.
-     */
-    private void fetchExchangeRate()
-    {
-        new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate))
-                .execute(getCurFrom(), getCurTo()
-        );
-    }
     public void updateDisplay(View view) {
         // For spinners
-        fetchExchangeRate();
-        showOffers();
+        updateDisplay();
     }
 
     private String getCurFrom() {

@@ -3,6 +3,7 @@ package entity.changexchange.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
+import entity.changexchange.MainActivity;
 import entity.changexchange.R;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHolder> {
@@ -34,7 +38,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull OfferViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final OfferViewHolder holder, int position) {
         Offer offer = offers.get(position);
 
         holder.title.setText(
@@ -75,5 +79,4 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             note = itemView.findViewById(R.id.offer_note);
         }
     }
-
 }
