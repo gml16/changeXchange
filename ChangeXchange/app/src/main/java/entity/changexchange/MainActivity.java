@@ -104,17 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        // Clicking (UPDATE) reloads the exchange rate shown.
-//        this.<Button>findViewById(R.id.offers_update_exchange).setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        fetchExchangeRate();
-//                        showOffers();
-//                    }
-//                }
-//        );
-
         // Clicking on (+) brings up offer creation activity.
         this.<FloatingActionButton>findViewById(R.id.button_new_offer).setOnClickListener(
                 new View.OnClickListener() {
