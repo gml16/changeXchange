@@ -39,16 +39,6 @@ public class MakeAnOffer extends AppCompatActivity {
         );
         this.<Spinner>findViewById(R.id.new_offer_location).setAdapter(adapter1);
 
-        // Canceling an offer creation simply returns to offer page.
-        this.<Button>findViewById(R.id.new_offer_cancel).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
-                    }
-                }
-        );
-
         // Submitting an offer triggers the migration of all the data to the database.
         this.<Button>findViewById(R.id.new_offer_submit).setOnClickListener(new View.OnClickListener() {
             @Override
