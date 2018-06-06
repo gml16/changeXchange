@@ -58,25 +58,7 @@ public class MainActivity extends AppCompatActivity {
 //        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
 
 
-        // Switch to Messages / Profile activity.
-        this.<BottomNavigationView>findViewById(R.id.navigation).setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.navigation_profile:
-                                startActivity(new Intent(MainActivity.this, Profile.class));
-                                break;
-                            case R.id.navigation_offers:
-                                //Do nothing.
-                                break;
-                            case R.id.navigation_messages:
-                                //TODO:startActivity(new Intent(MainActivity.this, Messages.class));
-                                break;
-                        }
-                        return false;
-                    }
-                });
+
 
 
         // Clicking swap button, swaps the content of the two spinners (currency from / to)
