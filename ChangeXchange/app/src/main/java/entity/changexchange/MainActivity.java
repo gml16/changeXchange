@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.ExchangeRateTracker;
@@ -59,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Create adapter for selection of airport location.
+        ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_dropdown_item, Airport.values()
+        );
+        this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
+
         // Fetch exchange rate for selected currencies correct exchange rate
         fetchExchangeRate();
 
@@ -73,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
 //        offers.add(new Offer("Bla", Currency.EUR, Currency.AUD, 151241, Airport.LTN));
 //        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
 //        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
-
-
-
 
 
         // Clicking swap button, swaps the content of the two spinners (currency from / to)
@@ -111,7 +116,12 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, MakeAnOffer.class));
+                        Intent intent = new Intent(MainActivity.this, MakeAnOffer.class);
+                        intent.putExtra("buying", getCurTo());
+                        intent.putExtra("selling", getCurFrom());
+                        intent.putExtra("airport", getLocation());
+                        intent.putExtra("amount", getAmount());
+                        startActivity(intent);
                     }
                 });
 
@@ -131,11 +141,8 @@ public class MainActivity extends AppCompatActivity {
     private void showOffers() {
         new RequestDatabase(this).execute(
                 "SELECT * FROM offers WHERE buying='"
-                        + ((Spinner) findViewById(R.id.offers_from))
-                                .getSelectedItem().toString()
-                        + "' and selling='"
-                        + ((Spinner) findViewById(R.id.offers_to))
-                                .getSelectedItem().toString() + "';"
+                        + getCurFrom() + "' and selling='" + getCurTo()
+                        + "' and amount <= '" + getAmount() + "';"
         );
     }
 
@@ -144,16 +151,31 @@ public class MainActivity extends AppCompatActivity {
      */
     private void fetchExchangeRate()
     {
-        new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate)).execute(
-                ((Spinner) findViewById(R.id.offers_from))
-                                        .getSelectedItem().toString(),
-                ((Spinner) findViewById(R.id.offers_to))
-                                        .getSelectedItem().toString()
+        new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate))
+                .execute(getCurFrom(), getCurTo()
         );
     }
     public void fetchExchangeRate(View view) {
         // For spinners
         fetchExchangeRate();
         showOffers();
+    }
+
+    private String getCurFrom() {
+        return ((Spinner) findViewById(R.id.offers_from)).getSelectedItem().toString();
+    }
+
+    private String getCurTo() {
+        return ((Spinner) findViewById(R.id.offers_to)).getSelectedItem().toString();
+    }
+
+    private String getLocation() {
+        return ((Spinner) findViewById(R.id.offers_at)).getSelectedItem().toString();
+    }
+
+    private float getAmount() {
+        return Float.parseFloat(
+                ((EditText) findViewById(R.id.offers_max_amt)).getText().toString()
+        );
     }
 }

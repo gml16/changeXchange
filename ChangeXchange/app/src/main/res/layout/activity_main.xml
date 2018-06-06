@@ -12,14 +12,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@android:color/holo_blue_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@mipmap/baseline_add_circle_outline_black_48"
-        tools:layout_editor_absoluteY="399dp" />
+        app:srcCompat="@mipmap/baseline_add_circle_outline_black_48" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/offer_container"
@@ -31,7 +32,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="109dp" />
+        tools:layout_editor_absoluteY="155dp" />
 
     <TextView
         android:id="@+id/offer_exchange_rate"
@@ -92,6 +93,29 @@
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/offers_to" />
+
+    <Spinner
+        android:id="@+id/offers_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/offers_from" />
+
+    <EditText
+        android:id="@+id/offers_max_amt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="@string/offer_max_amt"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/offers_at"
+        app:layout_constraintTop_toBottomOf="@+id/offers_from" />
 
 
 </android.support.constraint.ConstraintLayout>

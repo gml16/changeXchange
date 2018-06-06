@@ -3,14 +3,11 @@ package entity.changexchange;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
-import java.util.ArrayList;
 
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
@@ -25,26 +22,48 @@ public class MakeAnOffer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_an_offer);
+        Intent intent = getIntent();
 
         // Create adapter for list of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
         );
-        this.<Spinner>findViewById(R.id.new_offer_currency_from).setAdapter(adapter);
-        this.<Spinner>findViewById(R.id.new_offer_currency_to).setAdapter(adapter);
+        Spinner selling = findViewById(R.id.new_offer_currency_from);
+        Spinner buying = findViewById(R.id.new_offer_currency_to);
+        selling.setAdapter(adapter);
+        buying.setAdapter(adapter);
+
 
         // Create adapter for list of airports.
         ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Airport.values()
         );
-        this.<Spinner>findViewById(R.id.new_offer_location).setAdapter(adapter1);
+        Spinner airport = findViewById(R.id.new_offer_location);
+        airport.setAdapter(adapter1);
+
+
+        // Set selection to what was being searched on the offers page.
+        selling.setSelection(Currency.valueOf(
+                intent.getStringExtra("selling")).ordinal()
+        );
+        buying.setSelection(Currency.valueOf(
+                intent.getStringExtra("buying")).ordinal()
+        );
+        airport.setSelection(Airport.valueOf(
+                intent.getStringExtra("airport")).ordinal()
+        );
+        this.<EditText>findViewById(R.id.new_offer_amount).setText(
+                String.valueOf(
+                        intent.getFloatExtra("amount", 1.0f)
+                )
+        );
 
         // Submitting an offer triggers the migration of all the data to the database.
         this.<Button>findViewById(R.id.new_offer_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String amount = ((EditText) findViewById(R.id.new_offer_price)).getText().toString();
+                String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
 
                 //Erroneous amount entered. Deny clicking effect.
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) return;
