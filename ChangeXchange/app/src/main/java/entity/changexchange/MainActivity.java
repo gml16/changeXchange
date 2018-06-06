@@ -1,15 +1,13 @@
 package entity.changexchange;
 
 import android.annotation.SuppressLint;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,10 +20,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.Offer;
-import entity.changexchange.utils.OfferAdapter;
 import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.RequestDatabase;
 
@@ -155,5 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 ((Spinner) findViewById(R.id.offers_to))
                                         .getSelectedItem().toString()
         );
+    }
+    public void fetchExchangeRate(View view) {
+        // For spinners
+        fetchExchangeRate();
+        showOffers();
     }
 }
