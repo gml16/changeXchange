@@ -174,8 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private float getAmount() {
-        return Float.parseFloat(
-                ((EditText) findViewById(R.id.offers_max_amt)).getText().toString()
-        );
+        String amount = ((EditText) findViewById(R.id.offers_max_amt)).getText().toString();
+        return amount.isEmpty() ? 0.0f : Float.parseFloat(amount);
     }
 }
