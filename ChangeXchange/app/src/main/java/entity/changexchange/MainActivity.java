@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
     private void showOffers() {
         new RequestDatabase(this).execute(
                 "SELECT * FROM offers WHERE buying='"
-                        + getCurFrom() + "' and selling='" + getCurTo()
-                        + "' and amount<=" + getAmount() + ";"
+                        + getCurFrom() + "' and selling='" + getCurTo() + "' "
+                        + "ORDER BY ABS(amount-" + getAmount() + ");"
         );
     }
 
