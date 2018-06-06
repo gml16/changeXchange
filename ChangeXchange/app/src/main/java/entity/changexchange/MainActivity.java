@@ -1,14 +1,10 @@
 package entity.changexchange;
 
 import android.annotation.SuppressLint;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         from.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                fetchExchangeRate(v);
+                updateDisplay(v);
                 return false;
             }
         });
@@ -56,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         to.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                fetchExchangeRate(v);
+                updateDisplay(v);
                 return false;
             }
         });
@@ -155,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 .execute(getCurFrom(), getCurTo()
         );
     }
-    public void fetchExchangeRate(View view) {
+    public void updateDisplay(View view) {
         // For spinners
         fetchExchangeRate();
         showOffers();
