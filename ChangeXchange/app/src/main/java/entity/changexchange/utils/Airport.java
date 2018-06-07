@@ -1,16 +1,26 @@
 package entity.changexchange.utils;
 
+import android.location.Location;
+
 public enum Airport {
 
-    LTN("London-Luton", "LTN"), LHR("London-Heathrow", "LHR"), LGW("London-Gatwick", "LGW"),
-    STD("London-Stanstead", "STD");
+    DEFAULT("London-Heathrow", "LHR", 51.47138888, -0.45277777),
+    LTN("London-Luton", "LTN", 51.8769444444, -0.3705555556),
+    LHR("London-Heathrow", "LHR", 51.47138888, -0.45277777),
+    LGW("London-Gatwick", "LGW", 51.1522222222, -0.1825),
+    STD("London-Stanstead", "STN", 51.8838888889, 0.2377777778),
+    LCY("London-City", "LCY", 51.5052777778, 0.0552777778);
 
     private String fullName;
     private String shortcode;
+    private double latitude; // used https://www.travelmath.com/airport/LGW
+    private double longitude;
 
-    Airport(String fullName, String shortcode) {
+    Airport(String fullName, String shortcode, double latitude, double longitude) {
         this.fullName = fullName;
         this.shortcode = shortcode;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     @Override
@@ -21,5 +31,12 @@ public enum Airport {
     public String getShortcode() {return shortcode;}
 
     public String getFullName() {return fullName;}
+
+    public Location getLocation() {
+        Location location = new Location(fullName);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+        return location;
+    }
 
 }
