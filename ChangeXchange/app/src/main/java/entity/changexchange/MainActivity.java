@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     // Not granted, i.e. warn user that no location will be used.
                     Toast.makeText(
                             this,
-                            "Unable to access location. Default Airport might not be optimal.",
+                            "Unable to access location.\nDefault Airport might not be optimal.",
                             Toast.LENGTH_SHORT
                     ).show();
                 break;
@@ -69,15 +69,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this,
                 this
         ).addApi(LocationServices.API).build();
-
-        // Check if user has given location permission.
-        if (!locationPermitted()) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
-                    PERMISSION_ACCESS_COARSE_LOCATION
-            );
-        }
 
         // Create adapter for selection of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
@@ -107,6 +98,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this, android.R.layout.simple_spinner_dropdown_item, Airport.values()
         );
         this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
+
+        // Check if user has given location permission and set default Airport.
+        ActivityCompat.requestPermissions(
+                this,
+                new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
+                PERMISSION_ACCESS_COARSE_LOCATION
+        );
         if (locationPermitted())
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
 

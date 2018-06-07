@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compile group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc4'
+    compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
     compile 'com.google.android.gms:play-services:12.0.1'
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
