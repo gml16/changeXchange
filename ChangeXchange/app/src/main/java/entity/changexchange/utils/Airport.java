@@ -11,9 +11,12 @@ public enum Airport {
     STD("London-Stanstead", "STN", 51.8838888889, 0.2377777778),
     LCY("London-City", "LCY", 51.5052777778, 0.0552777778);
 
+    // TODO: use https://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A-Z to find ALL airports.
+    // TODO: use https://www.travelmath.com/airport/ to find their lon / lat.
+
     private String fullName;
     private String shortcode;
-    private double latitude; // used https://www.travelmath.com/airport/LGW
+    private double latitude;
     private double longitude;
 
     Airport(String fullName, String shortcode, double latitude, double longitude) {
