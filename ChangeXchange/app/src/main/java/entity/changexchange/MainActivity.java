@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,15 +12,20 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,16 +43,33 @@ import entity.changexchange.utils.RequestDatabase;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    // Location related fields.
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
+
+    // Menu related fields.
+    private ListView drawerList;
+    private DrawerLayout drawerLayout;
+    private ArrayAdapter<String> drawerAdapter;
+    private ActionBarDrawerToggle drawerToggle;
+    private String title;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //startActivity(new Intent(MainActivity.this, BurgerMenuTest.class));
+
+        // Menu setup.
+        drawerList = findViewById(R.id.navList);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        title = getTitle().toString();
+        addDrawerItems();
+        setupDrawer();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         // Authorise and setup location.
         googleApiClient = new GoogleApiClient.Builder(
                 this,
@@ -146,20 +169,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_ACCESS_COARSE_LOCATION:
-                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
-                    // Not granted, i.e. warn user that no location will be used.
-                    Toast.makeText(
-                            this,
-                            "Unable to access location.\nDefault Airport might not be optimal.",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                break;
-        }
-    }
+    /**
+     * UTIL RELATED METHODS
+     */
 
     /**
      * Clicking on an offer brings up contact details for it.
@@ -204,6 +216,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private float getAmount() {
         String amount = ((EditText) findViewById(R.id.offers_max_amt)).getText().toString();
         return amount.isEmpty() ? 0.0f : Float.parseFloat(amount);
+    }
+
+    /**
+     * LOCATION RELATED METHODS
+     */
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                    // Not granted, i.e. warn user that no location will be used.
+                    Toast.makeText(
+                            this,
+                            "Unable to access location.\nDefault Airport might not be optimal.",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                break;
+        }
     }
 
     /**
@@ -256,5 +287,96 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    /**
+     * MENU RELATED METHODS
+     */
+
+    private void addDrawerItems() {
+        String[] tabs = { "Profile", "Messages", "Settings"};
+        drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
+        drawerList.setAdapter(drawerAdapter);
+
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch(position) {
+                    case 0:
+                        startActivity(new Intent(MainActivity.this, Profile.class));
+                        break;
+                    case 1:
+//                        startActivity(new Intent(MainActivity.this, Messages.class));
+                        Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+//                        startActivity(new Intent(MainActivity.this, Settings.class));
+                        Toast.makeText(MainActivity.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+
+            }
+        });
+    }
+
+    private void setupDrawer() {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.test, R.string.test) {
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("ChangeXchange");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getSupportActionBar().setTitle(title);
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+        };
+
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        // Activate the navigation drawer toggle
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
