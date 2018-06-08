@@ -211,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     @SuppressLint("MissingPermission") // Checked before call
     private Airport findNearestAirport() {
+        if (lastLocation == null)
+            return Airport.DEFAULT;
         Airport closest = Airport.DEFAULT;
         for (Airport airport : Airport.values()) {
             if (lastLocation.distanceTo(airport.getLocation())
