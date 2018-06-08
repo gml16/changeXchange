@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
-//    private FusedLocationProviderClient locator;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -61,12 +60,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        locator = LocationServices.getFusedLocationProviderClient(this);
+
+        // Authorise and setup location.
         googleApiClient = new GoogleApiClient.Builder(
                 this,
                 this,
                 this
         ).addApi(LocationServices.API).build();
+        ActivityCompat.requestPermissions(
+                this,
+                new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
+                PERMISSION_ACCESS_COARSE_LOCATION
+        );
 
         // Create adapter for selection of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
@@ -98,11 +103,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
 
         // Check if user has given location permission and set default Airport.
-        ActivityCompat.requestPermissions(
-                this,
-                new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
-                PERMISSION_ACCESS_COARSE_LOCATION
-        );
         if (locationPermitted())
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
 
