@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -26,14 +25,11 @@ import android.widget.Toast;
 //import for currency tracker
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
-import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.RequestDatabase;
 
@@ -43,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int PERMISSION_ACCESS_COARSE_LOCATION = 1;
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
+//    private FusedLocationProviderClient locator;
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -64,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        locator = LocationServices.getFusedLocationProviderClient(this);
         googleApiClient = new GoogleApiClient.Builder(
                 this,
                 this,
@@ -211,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      * Uses user location to find the nearest known airport. TODO: Make this more efficient.
      */
+    @SuppressLint("MissingPermission") // Checked before call
     private Airport findNearestAirport() {
         Airport closest = Airport.DEFAULT;
         for (Airport airport : Airport.values()) {
