@@ -52,14 +52,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this,
                 this
         ).addApi(LocationServices.API).build();
-
-        Log.d("ask", "ask");
         ActivityCompat.requestPermissions(
         this,
                 new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
                 PERMISSION_ACCESS_COARSE_LOCATION
         );
-        Log.d("ask", "asked");
 
         // Create adapter for selection of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
@@ -88,17 +85,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Airport.values()
         );
-        this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
+        Spinner at = findViewById(R.id.offers_at);
+        at.setAdapter(adapter1);
+        at.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                updateDisplay(v);
+                return false;
+            }
+        });
 
         // Check if user has given location permission and set default Airport.
-        if (locationPermitted()) {
-
-            Log.d("ask", "permitted");
+        if (locationPermitted())
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
-        } else {
-
-            Log.d("ask", "not permitted");
-        }
 
         // Fetch exchange rate for selected currencies correct exchange rate and offers
         updateDisplay();
