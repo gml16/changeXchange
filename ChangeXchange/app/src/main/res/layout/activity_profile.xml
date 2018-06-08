@@ -7,28 +7,18 @@
     tools:context=".Profile"
     tools:layout_editor_absoluteY="81dp">
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/navigation" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/profile_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@android:color/holo_blue_dark"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@mipmap/baseline_edit_black_48" />
 
@@ -55,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
     <TextView
-        android:id="@+id/profile_email"
+        android:id="@+id/profile_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,17 +54,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_fav_currency" />
-
-    <TextView
-        android:id="@+id/profile_phone_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/test"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_email" />
 
     <TextView
         android:id="@+id/profile_fav_currency"
@@ -120,34 +99,22 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="Currency:"
+        android:text="Default currency:"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@+id/profile_fav_currency"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/email_tag"
+        android:id="@+id/contact_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:text="Email:"
+        android:text="Prefered contact:"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/profile_email"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/phone_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Phone:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/profile_phone_num"
+        app:layout_constraintBaseline_toBaselineOf="@+id/profile_contact"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

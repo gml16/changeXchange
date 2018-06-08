@@ -39,6 +39,7 @@ import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.RequestDatabase;
+import entity.changexchange.utils.User;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -55,12 +56,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private ActionBarDrawerToggle drawerToggle;
     private String title;
 
+    private User user;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        user = new User("Valerie", "Val92", Currency.CHF, "07460373769");
         // Menu setup.
         drawerList = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -303,7 +307,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch(position) {
                     case 0:
-                        startActivity(new Intent(MainActivity.this, Profile.class));
+                        Intent profileIntent = new Intent(MainActivity.this, Profile.class);
+                        profileIntent.putExtra("user", user);
+                        startActivity(profileIntent);
                         break;
                     case 1:
 //                        startActivity(new Intent(MainActivity.this, Messages.class));
