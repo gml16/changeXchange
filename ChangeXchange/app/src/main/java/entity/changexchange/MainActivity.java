@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //startActivity(new Intent(MainActivity.this, BurgerMenuTest.class));
         // Authorise and setup location.
         googleApiClient = new GoogleApiClient.Builder(
                 this,
