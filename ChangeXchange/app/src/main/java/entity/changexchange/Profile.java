@@ -70,11 +70,6 @@ public class Profile extends AppCompatActivity {
     }
 
     /**
-     * MENU RELATED
-     */
-
-
-    /**
      * MENU RELATED METHODS
      */
 
@@ -163,9 +158,6 @@ public class Profile extends AppCompatActivity {
         }
 
         // Activate the navigation drawer toggle
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }

@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this
         ).addApi(LocationServices.API).build();
         ActivityCompat.requestPermissions(
-        this,
-                new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
+                this,
+                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                 PERMISSION_ACCESS_COARSE_LOCATION
         );
 
@@ -206,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // For spinners
         updateDisplay();
     }
+
     private String getCurFrom() {
         return ((Spinner) findViewById(R.id.offers_from)).getSelectedItem().toString();
     }
@@ -299,14 +300,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
 
     private void addDrawerItems() {
-        String[] tabs = { "Offers", "Profile", "Messages", "Settings"};
+        String[] tabs = {"Offers", "Profile", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
         drawerList.setAdapter(drawerAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position) {
+                switch (position) {
                     case 0:
                         // Do nothing.
                         Toast.makeText(MainActivity.this, "Already in Offers!", Toast.LENGTH_SHORT).show();
@@ -385,9 +386,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
         // Activate the navigation drawer toggle
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }
