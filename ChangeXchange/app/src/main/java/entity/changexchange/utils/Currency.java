@@ -32,8 +32,8 @@ public enum Currency {
 //    EAO("EAO"), XPF("XPF"), CFP("CFP"), YER("YER"), ZAR("ZAR"), ZMW("ZMW"),
 //    ZWD("ZWD");
 
-    EUR("EUR"), USD("USD"), CHF("CHF"), CAD("CAD"), JPY("JPY"), AUD("AUD"),
-    GBP("GBP");
+    GBP("GBP"), EUR("EUR"), USD("USD"), CHF("CHF"), CAD("CAD"), JPY("JPY"),
+    AUD("AUD");
 
     private String currency;
 
