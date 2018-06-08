@@ -1,7 +1,6 @@
 package entity.changexchange.utils;
 
 import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -62,7 +61,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                             Currency.valueOf(rs.getString("selling")),
                             Float.valueOf(rs.getString("amount")),
                             Airport.valueOf(rs.getString("location")),
-                            rs.getString("note")));
+                            rs.getString("note")
+                    ));
 
                 }
                 rs.close();

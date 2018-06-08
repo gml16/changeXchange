@@ -25,7 +25,6 @@ import android.widget.Toast;
 //import for currency tracker
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import entity.changexchange.utils.Airport;
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 //        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
 //        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
 
-
         // Clicking swap button, swaps the content of the two spinners (currency from / to)
         this.<ImageButton>findViewById(R.id.offers_swap_curr).setOnClickListener(
                 new View.OnClickListener() {
@@ -167,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void selectOffer(View view) {
         startActivity(new Intent(MainActivity.this, sendText.class)
-                    .putExtra("CONTACT", R.id.offer_title));
+                .putExtra("contact", R.id.offer_title));
     }
 
     /**
@@ -209,7 +207,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     /**
      * Uses user location to find the nearest known airport. TODO: Make this more efficient.
      */
-    @SuppressLint("MissingPermission") // Checked before call
     private Airport findNearestAirport() {
         if (lastLocation == null)
             return Airport.DEFAULT;

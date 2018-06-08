@@ -80,7 +80,7 @@ public class MakeAnOffer extends AppCompatActivity {
                         .getText().toString();
 
                 // If note hasn't been filled, replace with default value.
-                if (note.isEmpty()) note = "//" + name + " did not add a note.";
+                if (note.isEmpty()) note = name + " did not add a note.";
 
                 // Erroneous amount entered. Deny clicking effect.
                 if (from.isEmpty() || to.isEmpty() || location.isEmpty()) return;
