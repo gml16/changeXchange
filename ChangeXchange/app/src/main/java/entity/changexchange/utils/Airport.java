@@ -4,7 +4,7 @@ import android.location.Location;
 
 public enum Airport {
 
-    STD("London-Stanstead", "STN", 51.8838888889, 0.2377777778),
+    STN("London-Stanstead", "STN", 51.8838888889, 0.2377777778),
     LTN("London-Luton", "LTN", 51.8769444444, -0.3705555556),
     LHR("London-Heathrow", "LHR", 51.47138888, -0.45277777),
     LGW("London-Gatwick", "LGW", 51.1522222222, -0.1825),

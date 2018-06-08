@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -51,11 +52,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 this,
                 this
         ).addApi(LocationServices.API).build();
+
+        Log.d("ask", "ask");
         ActivityCompat.requestPermissions(
-                this,
+        this,
                 new String[] { Manifest.permission.ACCESS_COARSE_LOCATION },
                 PERMISSION_ACCESS_COARSE_LOCATION
         );
+        Log.d("ask", "asked");
 
         // Create adapter for selection of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
@@ -87,8 +91,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         this.<Spinner>findViewById(R.id.offers_at).setAdapter(adapter1);
 
         // Check if user has given location permission and set default Airport.
-        if (locationPermitted())
+        if (locationPermitted()) {
+
+            Log.d("ask", "permitted");
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
+        } else {
+
+            Log.d("ask", "not permitted");
+        }
 
         // Fetch exchange rate for selected currencies correct exchange rate and offers
         updateDisplay();
@@ -173,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Show offers
         new RequestDatabase(this).execute(
                 "SELECT * FROM offers WHERE buying='"
-                        + getCurFrom() + "' and selling='" + getCurTo() + "' "
+                        + getCurFrom() + "' and selling='"
+                        + getCurTo() + "' and location='" + getLocation() + "' "
                         + "ORDER BY ABS(amount-" + getAmount() + ");"
         );
     }
