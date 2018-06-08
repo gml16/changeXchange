@@ -16,10 +16,20 @@ import java.net.URLConnection;
 
 import javax.xml.parsers.*;
 
+import entity.changexchange.R;
+
 public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
 
     private Exception exception;
     private TextView textToBeUpdated;
+    private float selling;
+    private Currency buying;
+
+    public ExchangeRateTracker(TextView textToBeUpdated, float selling, Currency buying) {
+        this.textToBeUpdated = textToBeUpdated;
+        this.selling = selling;
+        this.buying = buying;
+    }
 
     public ExchangeRateTracker(TextView textToBeUpdated) {
         this.textToBeUpdated = textToBeUpdated;
@@ -60,8 +70,14 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
             return result;
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint({"SetTextI18n", "DefaultLocale"})
         protected void onPostExecute(Double result) {
-            textToBeUpdated.setText("1:" + String.valueOf(result));
+            textToBeUpdated.setText(
+                    textToBeUpdated.getId() == R.id.offer_rate ?
+                            // Inside an offer.
+                            String.format("%.2f", selling * result) + " " + buying :
+                            // Showing the global exchange rate.
+                            "1:" + String.valueOf(result)
+            );
         }
 }

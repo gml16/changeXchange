@@ -37,25 +37,26 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     public void onBindViewHolder(@NonNull final OfferViewHolder holder, int position) {
         Offer offer = offers.get(position);
 
+        // Get offer announcement.
         holder.title.setText(
                 offer.getPoster_nickname()
                         + " is looking to buy "
                         + offer.getAmount() + " "
                         + offer.getBuying().toString()
-                        + " for " + offer.getSelling().toString()
+//                        + " for " + offer.getSelling().toString()
                         + " at "
                         + offer.getLocation().toString()
                         + "!"
         );
 
-        new ExchangeRateTracker(holder.exchangeRate).execute(
+        // Get exchange rate.
+        new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getSelling()).execute(
                 offer.getBuying().toString(),
                 offer.getSelling().toString()
         );
 
+        // Get note.
         holder.note.setText(offer.getNote());
-
-
     }
 
     @Override
@@ -66,14 +67,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     class OfferViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
-        TextView exchangeRate;
+        TextView exchangeValue;
         TextView note;
 
         OfferViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.offer_title);
-            exchangeRate = itemView.findViewById(R.id.offer_rate);
+            exchangeValue = itemView.findViewById(R.id.offer_rate);
             note = itemView.findViewById(R.id.offer_note);
         }
     }
