@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         user = new User("Valerie", "Val92", Currency.CHF, "07460373769");
+
         // Menu setup.
         drawerList = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -298,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
 
     private void addDrawerItems() {
-        String[] tabs = { "Profile", "Messages", "Settings"};
+        String[] tabs = { "Offers", "Profile", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
         drawerList.setAdapter(drawerAdapter);
 
@@ -307,15 +308,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch(position) {
                     case 0:
+                        // Do nothing.
+                        Toast.makeText(MainActivity.this, "Already in Offers!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
                         Intent profileIntent = new Intent(MainActivity.this, Profile.class);
                         profileIntent.putExtra("user", user);
                         startActivity(profileIntent);
                         break;
-                    case 1:
+                    case 2:
 //                        startActivity(new Intent(MainActivity.this, Messages.class));
                         Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
-                    case 2:
+                    case 3:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
                         Toast.makeText(MainActivity.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;
