@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -58,28 +59,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 PERMISSION_ACCESS_COARSE_LOCATION
         );
 
+        // Adapter to trigger offer reload on spinner selection.
+        AdapterView.OnItemSelectedListener reloader = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                updateDisplay(view);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+
         // Create adapter for selection of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
         );
         Spinner from = findViewById(R.id.offers_from);
         from.setAdapter(adapter);
-        from.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                updateDisplay(v);
-                return false;
-            }
-        });
+        from.setOnItemSelectedListener(reloader);
+
         Spinner to = findViewById(R.id.offers_to);
         to.setAdapter(adapter);
-        to.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                updateDisplay(v);
-                return false;
-            }
-        });
+        to.setOnItemSelectedListener(reloader);
 
         // Create adapter for selection of airport location.
         ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
@@ -87,13 +90,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         );
         Spinner at = findViewById(R.id.offers_at);
         at.setAdapter(adapter1);
-        at.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                updateDisplay(v);
-                return false;
-            }
-        });
+        at.setOnItemSelectedListener(reloader);
 
         // Check if user has given location permission and set default Airport.
         if (locationPermitted())
