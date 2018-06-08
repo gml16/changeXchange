@@ -110,12 +110,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
         );
 
+        final SwipeRefreshLayout layout = findViewById(R.id.offers_swiper);
+
         // Pulling offers down will refresh them.
-        this.<SwipeRefreshLayout>findViewById(R.id.offers_swiper).setOnRefreshListener(
+        layout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         updateDisplay();
+                        if (layout.isRefreshing()) {
+                            layout.setRefreshing(false);
+                        }
                     }
                 }
         );
