@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/offer"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="wrap_content"
         android:onClick="selectOffer"
         android:padding="8dp"
         tools:layout_editor_absoluteX="99dp"
@@ -48,13 +48,13 @@
             android:id="@+id/offer_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/offer_current_rate"
             android:layout_alignParentBottom="true"
+            android:layout_below="@id/offer_current_rate"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/test"
-            android:hint="@string/offer_note_hint"/>
+            android:hint="@string/offer_note_hint"
+            android:text="@string/test" />
 
     </RelativeLayout>
 
