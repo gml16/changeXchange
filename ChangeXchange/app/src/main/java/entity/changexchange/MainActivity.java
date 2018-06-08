@@ -40,27 +40,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private Location lastLocation;
     private GoogleApiClient googleApiClient;
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_ACCESS_COARSE_LOCATION:
-                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
-                    // Not granted, i.e. warn user that no location will be used.
-                    Toast.makeText(
-                            this,
-                            "Unable to access location.\nDefault Airport might not be optimal.",
-                            Toast.LENGTH_SHORT
-                    ).show();
-                break;
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Authorise and setup location.
         googleApiClient = new GoogleApiClient.Builder(
                 this,
@@ -109,16 +93,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         // Fetch exchange rate for selected currencies correct exchange rate and offers
         updateDisplay();
 
-//        offers.add(new Offer("John", Currency.USD, Currency.EUR, 15, Airport.LGW));
-//        offers.add(new Offer("Smith", Currency.CHF, Currency.JPY, (float) 9.15, Airport.LHR));
-//        offers.add(new Offer("Lea", Currency.JPY, Currency.EUR, (float) 0.1231, Airport.STD));
-//        offers.add(new Offer("Bla", Currency.CAD, Currency.AUD, 151241, Airport.LTN));
-//        offers.add(new Offer("Bla", Currency.AUD, Currency.CHF, 151241, Airport.LTN));
-//        offers.add(new Offer("Bla", Currency.EUR, Currency.AUD, 151241, Airport.LTN));
-//        offers.add(new Offer("Bla", Currency.JPY, Currency.EUR, 151241, Airport.LTN));
-//        offers.add(new Offer("Bla", Currency.CHF, Currency.AUD, 151241, Airport.LTN));
-
-
         // Clicking swap button, swaps the content of the two spinners (currency from / to)
         this.<ImageButton>findViewById(R.id.offers_swap_curr).setOnClickListener(
                 new View.OnClickListener() {
@@ -160,6 +134,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     }
                 });
 
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_ACCESS_COARSE_LOCATION:
+                if (grantResults.length <= 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED)
+                    // Not granted, i.e. warn user that no location will be used.
+                    Toast.makeText(
+                            this,
+                            "Unable to access location.\nDefault Airport might not be optimal.",
+                            Toast.LENGTH_SHORT
+                    ).show();
+                break;
+        }
     }
 
     /**
