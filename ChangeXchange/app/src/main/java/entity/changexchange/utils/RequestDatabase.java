@@ -32,6 +32,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     private Profile profile;
     private User user;
 
+    // For showing correcut contact detail.
+    private TextView textView;
+
     public RequestDatabase() {
         this.offers = new ArrayList<>();
     }
@@ -47,6 +50,10 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     public RequestDatabase(MainActivity activity) {
         this.activity = activity;
         offers = new ArrayList<>();
+    }
+
+    public RequestDatabase(TextView textView) {
+        this.textView = textView;
     }
 
     protected Void doInBackground(String... strings) {
@@ -107,11 +114,18 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 setupOffers();
 
             } else if (table.equals("users")) {
-                setupProfile();
+                if (profile != null) {
+                    setupProfile();
+                } else {
+                    textView.setText(user.getPreferredContactDetails());
+                }
             }
         }
     }
 
+    /**
+     * Setup the profile page w.r.t. the database data.
+     */
     private void setupProfile() {
         ((TextView) profile.findViewById(R.id.profile_name)).setText(
                 user.getName()
@@ -127,6 +141,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         );
     }
 
+    /**
+     * Setup the offers collected from database to MainActivity.
+     */
     private void setupOffers() {
         RecyclerView offer_container = activity.findViewById(R.id.offer_container);
         offer_container.setHasFixedSize(true);
