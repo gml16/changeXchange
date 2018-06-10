@@ -32,7 +32,7 @@ android {
 
 dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
-    compile 'com.google.android.gms:play-services-location:12.0.1'
+    compile 'com.google.android.gms:play-services-location:15.0.1'
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
