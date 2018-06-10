@@ -9,7 +9,7 @@ public class sendText extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_text2);
+        setContentView(R.layout.activity_send_text);
 
         // Set the correct contact detail.
         this.<TextView>findViewById(R.id.selected_contact)
