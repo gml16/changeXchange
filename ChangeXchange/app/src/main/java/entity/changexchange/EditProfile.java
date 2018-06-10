@@ -12,6 +12,7 @@ import entity.changexchange.utils.User;
 
 public class EditProfile extends AppCompatActivity {
 
+    private static final char[] ESCAPES = {'\r', '\t', '\n'};
     private User user;
 
     @Override
@@ -21,22 +22,30 @@ public class EditProfile extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
 
-
-
-
         this.<Button>findViewById(R.id.edit_profile_confirm).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String newNickname = ((EditText)findViewById(R.id.change_nickname_edittext)).getText().toString();
                         if(!newNickname.isEmpty()) {
-                            user.changeNickname(newNickname);
+                            user.changeNickname(filter(newNickname));
                         }
-                        Intent profileIntent = new Intent(EditProfile.this, Profile.class);
-                        profileIntent.putExtra("user", user);
-                        startActivity(profileIntent);
+                        startActivity(
+                                new Intent(EditProfile.this, Profile.class)
+                                        .putExtra("user", user)
+                        );
                     }
                 }
         );
+    }
+
+    /**
+     * Removes illegal characters from user input before parsing.
+     */
+    private String filter(String userInput) {
+        for (char c : ESCAPES) {
+            userInput = userInput.replace(c, ' ');
+        }
+        return userInput;
     }
 }

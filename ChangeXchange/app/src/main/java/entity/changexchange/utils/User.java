@@ -2,7 +2,7 @@ package entity.changexchange.utils;
 
 import java.io.Serializable;
 
-public class User implements Serializable{
+public class User implements Serializable {
 
     private String name;
     private String nickname;
