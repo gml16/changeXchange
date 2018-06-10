@@ -1,9 +1,11 @@
 package entity.changexchange.utils;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,22 +15,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.changexchange.MainActivity;
+import entity.changexchange.Profile;
 import entity.changexchange.R;
 
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
-    private Exception exception;
-    private List<Offer> offers;
-    private MainActivity activity;
+    private String table;
     private String instruction;
+    private Exception exception;
+
+    // For populating offers.
+    private MainActivity activity;
+    private List<Offer> offers;
+
+    // For populating the profile.
+    private Profile profile;
+    private User user;
 
     public RequestDatabase() {
-
         this.offers = new ArrayList<>();
     }
 
     public RequestDatabase(List<Offer> offers) {
         this.offers = offers;
+    }
+
+    public RequestDatabase(Profile profile) {
+        this.profile = profile;
     }
 
     public RequestDatabase(MainActivity activity) {
@@ -40,8 +53,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         Connection c = null;
         Statement stmt = null;
         instruction = strings[0].split(" ")[0];
-        Log.d("test", strings[0]);
-        Log.d("test", "["+instruction+"]");
+        table = strings[0].split(" ")[3];
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -51,24 +63,31 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             if (instruction.equals("SELECT")) {
-                Log.d("guy", "selecting: " + strings[0]);
                 ResultSet rs = stmt.executeQuery(strings[0]);
                 while (rs.next()) {
 
-                    offers.add(new Offer(
-                            rs.getString("nickname"),
-                            Currency.valueOf(rs.getString("buying")),
-                            Currency.valueOf(rs.getString("selling")),
-                            Float.valueOf(rs.getString("amount")),
-                            Airport.valueOf(rs.getString("location")),
-                            rs.getString("note")
-                    ));
+                    if (table.equals("offers")) {
+                        offers.add(new Offer(
+                                rs.getString("nickname"),
+                                Currency.valueOf(rs.getString("buying")),
+                                Currency.valueOf(rs.getString("selling")),
+                                Float.valueOf(rs.getString("amount")),
+                                Airport.valueOf(rs.getString("location")),
+                                rs.getString("note")
+                        ));
+                    } else if (table.equals("users")) {
+                        user = new User(
+                                rs.getString("name"),
+                                rs.getString("nickname"),
+                                Currency.valueOf(rs.getString("currency")),
+                                rs.getString("contact")
+                        );
+                    }
 
                 }
                 rs.close();
                 stmt.close();
-            } else if(instruction.equals("INSERT")){
-                Log.d("guy", "inserting: " + strings[0]);
+            } else if(instruction.equals("INSERT") || instruction.equals("UPDATE")){
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
                 c.commit();
@@ -83,12 +102,29 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     }
 
     protected void onPostExecute(Void unused) {
-        // Setup container for offers.
         if (instruction.equals("SELECT")) {
-            RecyclerView offer_container = activity.findViewById(R.id.offer_container);
-            offer_container.setHasFixedSize(true);
-            offer_container.setLayoutManager(new LinearLayoutManager(activity));
-            offer_container.setAdapter(new OfferAdapter(activity, offers));
+            if (table.equals("offers")) {
+                // Setup container for offers.
+                RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+                offer_container.setHasFixedSize(true);
+                offer_container.setLayoutManager(new LinearLayoutManager(activity));
+                offer_container.setAdapter(new OfferAdapter(activity, offers));
+
+            } else if (table.equals("users")) {
+                // Setup profile TextViews
+                ((TextView) profile.findViewById(R.id.profile_name)).setText(
+                        user.getName()
+                );
+                ((TextView) profile.findViewById(R.id.profile_nickname)).setText(
+                        user.getNickname()
+                );
+                ((TextView) profile.findViewById(R.id.profile_fav_currency)).setText(
+                        user.getPreferredCurrency().toString()
+                );
+                ((TextView) profile.findViewById(R.id.profile_contact)).setText(
+                        user.getPreferredContactDetails()
+                );
+            }
         }
     }
 

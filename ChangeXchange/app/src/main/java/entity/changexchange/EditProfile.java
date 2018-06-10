@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 public class EditProfile extends AppCompatActivity {
@@ -26,14 +27,22 @@ public class EditProfile extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String newNickname = ((EditText)findViewById(R.id.change_nickname_edittext)).getText().toString();
+                        String newNickname = filter(
+                                ((EditText)findViewById(R.id.change_nickname_edittext)).getText().toString()
+                        );
                         if(!newNickname.isEmpty()) {
-                            user.changeNickname(filter(newNickname));
+                            user.changeNickname(newNickname);
                         }
                         startActivity(
                                 new Intent(EditProfile.this, Profile.class)
                                         .putExtra("user", user)
                         );
+                        // TODO: Update current interaction so that update is propagated to the
+                        // TODO: database, rather than through an intent.
+//                        new RequestDatabase().execute(
+//                                "UPDATE users SET nickname=" + newNickname
+//                                + " WHERE nickname=" + user.getNickname()
+//                        );
                     }
                 }
         );
