@@ -104,28 +104,34 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     protected void onPostExecute(Void unused) {
         if (instruction.equals("SELECT")) {
             if (table.equals("offers")) {
-                // Setup container for offers.
-                RecyclerView offer_container = activity.findViewById(R.id.offer_container);
-                offer_container.setHasFixedSize(true);
-                offer_container.setLayoutManager(new LinearLayoutManager(activity));
-                offer_container.setAdapter(new OfferAdapter(activity, offers));
+                setupOffers();
 
             } else if (table.equals("users")) {
-                // Setup profile TextViews
-                ((TextView) profile.findViewById(R.id.profile_name)).setText(
-                        user.getName()
-                );
-                ((TextView) profile.findViewById(R.id.profile_nickname)).setText(
-                        user.getNickname()
-                );
-                ((TextView) profile.findViewById(R.id.profile_fav_currency)).setText(
-                        user.getPreferredCurrency().toString()
-                );
-                ((TextView) profile.findViewById(R.id.profile_contact)).setText(
-                        user.getPreferredContactDetails()
-                );
+                setupProfile();
             }
         }
+    }
+
+    private void setupProfile() {
+        ((TextView) profile.findViewById(R.id.profile_name)).setText(
+                user.getName()
+        );
+        ((TextView) profile.findViewById(R.id.profile_nickname)).setText(
+                user.getNickname()
+        );
+        ((TextView) profile.findViewById(R.id.profile_fav_currency)).setText(
+                user.getPreferredCurrency().toString()
+        );
+        ((TextView) profile.findViewById(R.id.profile_contact)).setText(
+                user.getPreferredContactDetails()
+        );
+    }
+
+    private void setupOffers() {
+        RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+        offer_container.setHasFixedSize(true);
+        offer_container.setLayoutManager(new LinearLayoutManager(activity));
+        offer_container.setAdapter(new OfferAdapter(activity, offers));
     }
 
 }
