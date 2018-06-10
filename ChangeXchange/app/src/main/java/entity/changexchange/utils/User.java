@@ -6,15 +6,15 @@ public class User implements Serializable{
 
     private String name;
     private String nickname;
-    private Currency preferedCurrency;
-    private String preferedContactDetails;
+    private Currency preferredCurrency;
+    private String preferredContactDetails;
 
 
-    public User(String name, String nickname, Currency preferedCurrency, String preferedContactDetails) {
+    public User(String name, String nickname, Currency preferredCurrency, String preferredContactDetails) {
         this.name = name;
         this.nickname = nickname;
-        this.preferedCurrency = preferedCurrency;
-        this.preferedContactDetails = preferedContactDetails;
+        this.preferredCurrency = preferredCurrency;
+        this.preferredContactDetails = preferredContactDetails;
     }
 
     public void changeNickname(String nickname) {
@@ -29,12 +29,12 @@ public class User implements Serializable{
         return nickname;
     }
 
-    public Currency getPreferedCurrency() {
-        return preferedCurrency;
+    public Currency getPreferredCurrency() {
+        return preferredCurrency;
     }
 
-    public String getPreferedContactDetails() {
-        return preferedContactDetails;
+    public String getPreferredContactDetails() {
+        return preferredContactDetails;
     }
 
 }
