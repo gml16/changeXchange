@@ -96,7 +96,10 @@ public class MakeAnOffer extends AppCompatActivity {
                                 + note + "');"
                 );
 
-                startActivity(new Intent(MakeAnOffer.this, MainActivity.class));
+                startActivity(new Intent(MakeAnOffer.this, MainActivity.class)
+                                .putExtra("from", from)
+                                .putExtra("to", to)
+                                .putExtra("at", location));
             }
         });
     }
