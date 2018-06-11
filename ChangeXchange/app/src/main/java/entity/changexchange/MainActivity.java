@@ -120,6 +120,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         at.setAdapter(adapter1);
         at.setOnItemSelectedListener(reloader);
 
+        // If coming from MakeAnOffer, reset Spinner to previous values
+        String fromPrev = getIntent().getStringExtra("from");
+        if (fromPrev != null) {
+            from.setSelection(Currency.valueOf(fromPrev).ordinal());
+        }
+        String toPrev = getIntent().getStringExtra("to");
+        if (toPrev != null) {
+            to.setSelection(Currency.valueOf(toPrev).ordinal());
+        }
+        String atPrev = getIntent().getStringExtra("at");
+        if (atPrev != null) {
+            at.setSelection(Airport.valueOf(atPrev).ordinal());
+        }
+
+
         // Check if user has given location permission and set default Airport.
         if (locationPermitted())
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
