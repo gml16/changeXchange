@@ -84,6 +84,9 @@ public class EditProfile extends AppCompatActivity {
         );
     }
 
+    /**
+     * Checks input data for null and sets to already existing values if it is the case.
+     */
     private void updateUser(String newNickname, String newContact, Currency newCurrency) {
         user.changeNickname(
                 newNickname.isEmpty() ? user.getNickname() : newNickname
