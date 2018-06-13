@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Spinner from = findViewById(R.id.offers_from);
         from.setAdapter(adapter);
         from.setOnItemSelectedListener(reloader);
+        from.setSelection(user.getCurrency().ordinal());
 
         Spinner to = findViewById(R.id.offers_to);
         to.setAdapter(adapter);
