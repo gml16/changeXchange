@@ -73,14 +73,14 @@ public class Profile extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "My Offers" , "Messages", "Settings"};
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
         drawerList.setAdapter(drawerAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position) {
+                switch (position) {
                     case 0:
                         startActivity(new Intent(Profile.this, MainActivity.class));
                         break;

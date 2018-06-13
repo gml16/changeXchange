@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "My Offers" , "Messages", "Settings"};
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, tabs
         );

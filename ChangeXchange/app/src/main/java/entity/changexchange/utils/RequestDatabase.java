@@ -87,7 +87,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 }
                 rs.close();
                 stmt.close();
-            } else if(instruction.equals("INSERT") || instruction.equals("UPDATE")){
+            } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")) {
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
                 c.commit();

@@ -36,8 +36,8 @@ public class EditProfile extends AppCompatActivity {
 
         this.<Spinner>findViewById(R.id.edit_currency).setAdapter(
                 new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
-        ));
+                        this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
+                ));
 
         user = (User) getIntent().getSerializableExtra("user");
 
@@ -105,7 +105,7 @@ public class EditProfile extends AppCompatActivity {
     private boolean isInvalid(String contact) {
         return contact.equals("In app")
                 || !rfc2822.matcher(contact).matches();
-                // TODO: Check for valid phone number.
+        // TODO: Check for valid phone number.
     }
 
     /**
