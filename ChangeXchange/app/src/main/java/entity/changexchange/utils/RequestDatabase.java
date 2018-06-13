@@ -1,6 +1,7 @@
 package entity.changexchange.utils;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.changexchange.MainActivity;
+import entity.changexchange.MyOffers;
 import entity.changexchange.R;
 
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
@@ -62,6 +65,15 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             if (instruction.equals("SELECT")) {
+                if (activity instanceof MyOffers || activity instanceof MainActivity) {
+                    // We want to filter outdated offers first, hence UPDATE will launch the
+                    // PostgreSQL adequate trigger.
+                    stmt.executeUpdate(
+                            "UPDATE offers SET nickname='dummy' WHERE nickname='dummy'"
+                    );
+                    stmt.close();
+                    stmt = c.createStatement();
+                }
                 ResultSet rs = stmt.executeQuery(strings[0]);
                 while (rs.next()) {
 
