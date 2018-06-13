@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
@@ -15,7 +18,14 @@ import entity.changexchange.utils.User;
 
 public class EditProfile extends AppCompatActivity {
 
-    private static final char[] ESCAPES = {'\r', '\t', '\n'};
+    // Illegal characters for nicknames.
+    private static final char[] ILLEGALS = {'\r', '\t', '\n'};
+
+    // Pattern for verifying syntax email.
+    private static final Pattern rfc2822 = Pattern.compile(
+            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+    );
+
     private User user;
 
     @Override
@@ -44,6 +54,15 @@ public class EditProfile extends AppCompatActivity {
                         Currency newCurrency = Currency.valueOf(
                                 ((Spinner) findViewById(R.id.edit_currency)).getSelectedItem().toString()
                         );
+
+                        if (isInvalid(newContact)) {
+                            Toast.makeText(
+                                    EditProfile.this,
+                                    "Please enter a valid contact method.",
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            return;
+                        }
 
                         updateUser(newNickname, newContact, newCurrency);
 
@@ -78,10 +97,19 @@ public class EditProfile extends AppCompatActivity {
     }
 
     /**
+     * Checks that the given contact is a valid email address / phone number / or AppMessaging.
+     */
+    private boolean isInvalid(String contact) {
+        return contact.equals("In app")
+                || !rfc2822.matcher(contact).matches();
+                // TODO: Check for valid phone number.
+    }
+
+    /**
      * Removes illegal characters from user input before parsing.
      */
     private String filter(String userInput) {
-        for (char c : ESCAPES) {
+        for (char c : ILLEGALS) {
             userInput = userInput.replace(c, ' ');
         }
         return userInput;
