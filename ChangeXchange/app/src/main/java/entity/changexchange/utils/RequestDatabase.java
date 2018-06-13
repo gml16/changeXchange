@@ -1,10 +1,9 @@
 package entity.changexchange.utils;
 
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.sql.Connection;
@@ -14,8 +13,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.changexchange.MainActivity;
-import entity.changexchange.Profile;
 import entity.changexchange.R;
 
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
@@ -25,11 +22,10 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     private Exception exception;
 
     // For populating offers.
-    private MainActivity activity;
+    private Activity activity;
     private List<Offer> offers;
 
     // For populating the profile.
-    private Profile profile;
     private User user;
 
     // For showing correcut contact detail.
@@ -43,11 +39,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         this.offers = offers;
     }
 
-    public RequestDatabase(Profile profile) {
-        this.profile = profile;
-    }
-
-    public RequestDatabase(MainActivity activity) {
+    public RequestDatabase(Activity activity) {
         this.activity = activity;
         offers = new ArrayList<>();
     }
@@ -87,7 +79,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 rs.getString("name"),
                                 rs.getString("nickname"),
                                 Currency.valueOf(rs.getString("currency")),
-                                rs.getString("contact")
+                                rs.getString("contact"),
+                                Double.valueOf(rs.getString("rating"))
                         );
                     }
 
@@ -114,10 +107,10 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 setupOffers();
 
             } else if (table.equals("users")) {
-                if (profile != null) {
+                if (activity != null) {
                     setupProfile();
                 } else {
-                    textView.setText(user.getPreferredContactDetails());
+                    textView.setText(user.getContact());
                 }
             }
         }
@@ -127,17 +120,17 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
      * Setup the profile page w.r.t. the database data.
      */
     private void setupProfile() {
-        ((TextView) profile.findViewById(R.id.profile_name)).setText(
+        ((TextView) activity.findViewById(R.id.profile_name)).setText(
                 user.getName()
         );
-        ((TextView) profile.findViewById(R.id.profile_nickname)).setText(
+        ((TextView) activity.findViewById(R.id.profile_nickname)).setText(
                 user.getNickname()
         );
-        ((TextView) profile.findViewById(R.id.profile_fav_currency)).setText(
-                user.getPreferredCurrency().toString()
+        ((TextView) activity.findViewById(R.id.profile_fav_currency)).setText(
+                user.getCurrency().toString()
         );
-        ((TextView) profile.findViewById(R.id.profile_contact)).setText(
-                user.getPreferredContactDetails()
+        ((TextView) activity.findViewById(R.id.profile_contact)).setText(
+                user.getContact()
         );
     }
 
@@ -146,6 +139,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
      */
     private void setupOffers() {
         RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+        if (offer_container == null) {
+            offer_container = activity.findViewById(R.id.my_offer_container);
+        }
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(activity));
         offer_container.setAdapter(new OfferAdapter(activity, offers));

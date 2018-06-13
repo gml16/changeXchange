@@ -3,6 +3,7 @@ package entity.changexchange;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 public class MyOffers extends AppCompatActivity {
@@ -32,10 +34,31 @@ public class MyOffers extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_offers);
 
-        user = new User("Valery", "Val92", Currency.CHF, "07711572835");
+        user = (User) getIntent().getSerializableExtra("user");
 
         // Menu setup.
         setupMenu();
+
+        final SwipeRefreshLayout layout = findViewById(R.id.my_offers_swiper);
+
+        // Pulling offers down will refresh them.
+        layout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        updateMyOffers();
+                        layout.setRefreshing(!layout.isRefreshing());
+                    }
+                }
+        );
+    }
+
+    private void updateMyOffers() {
+        // Show offers
+        new RequestDatabase(this).execute(
+                "SELECT * FROM offers WHERE nickname=" + user.getNickname()
+                        + " ORDER BY amount;"
+        );
     }
 
     /**

@@ -16,4 +16,9 @@
     <string name="selected_contact">Contact them now!</string>
     <string name="offer_note_hint"><b>Add a note:</b> Let\'s meet in Terminal 3 I\'ll be the guy in the hawaiian shirt!</string>
     <string name="offer_max_amt">Desired amount</string>
+    <string name="change_nickname">Change nickname</string>
+    <string name="change_contact">Change contact</string>
+    <string name="new_contact">new contact</string>
+    <string name="new_nickname">new nickname</string>
+    <string name="change_currency">Change currency</string>
 </resources>

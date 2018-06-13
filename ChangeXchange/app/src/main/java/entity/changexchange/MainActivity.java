@@ -16,10 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = new User("Valerie", "Val92", Currency.CHF, "07460373769");
+        user = new User("Valerie", "Val92", Currency.CHF, "07460373769", 5.0);
 
         // Menu setup.
         setupMenu();
@@ -161,9 +159,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     @Override
                     public void onRefresh() {
                         updateDisplay();
-                        if (layout.isRefreshing()) {
-                            layout.setRefreshing(false);
-                        }
+                        layout.setRefreshing(!layout.isRefreshing());
                     }
                 }
         );
@@ -338,10 +334,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                                 .putExtra("user", user));
                         break;
                     case 2:
-                        startActivity(new Intent(MainActivity.this, MyOffers.class));
+                        startActivity(new Intent(MainActivity.this, MyOffers.class)
+                                .putExtra("user", user));
                         break;
                     case 3:
-//                        startActivity(new Intent(MainActivity.this, Messages.class));
+//                        startActivity(new Intent(MainActivity.this, Messages.class)
+//                                .putExtra("user", user));
                         Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:

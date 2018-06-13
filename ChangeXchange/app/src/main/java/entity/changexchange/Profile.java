@@ -17,8 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import entity.changexchange.utils.ExchangeRateTracker;
-import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 public class Profile extends AppCompatActivity {
@@ -43,15 +41,11 @@ public class Profile extends AppCompatActivity {
 
         user = (User) getIntent().getSerializableExtra("user");
 
-        //TODO: Fetch userdata from database and integrate correctly.
-//        new RequestDatabase(this).execute(
-//                "SELECT * FROM users WHERE id='" + getUserId() + "';"
-//        );
         //TODO: this.<ImageView>findViewById(R.id.profile_picture).setImageIcon();
         this.<TextView>findViewById(R.id.profile_name).setText(user.getName());
         this.<TextView>findViewById(R.id.profile_nickname).setText(user.getNickname());
-        this.<TextView>findViewById(R.id.profile_fav_currency).setText(user.getPreferredCurrency().toString());
-        this.<TextView>findViewById(R.id.profile_contact).setText(user.getPreferredContactDetails());
+        this.<TextView>findViewById(R.id.profile_fav_currency).setText(user.getCurrency().toString());
+        this.<TextView>findViewById(R.id.profile_contact).setText(user.getContact());
 
         // Clicking on edit brings up profile edit activity.
         this.<FloatingActionButton>findViewById(R.id.profile_edit).setOnClickListener(new View.OnClickListener() {
