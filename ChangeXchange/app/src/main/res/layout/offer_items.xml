@@ -55,6 +55,18 @@
             android:hint="@string/offer_note_hint"
             android:text="@string/test" />
 
+        <TextView
+            android:id="@+id/offer_poster_hidden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/offer_title"
+            android:layout_marginEnd="102dp"
+            android:visibility="gone"
+            android:text="@string/test"
+            android:layout_marginRight="102dp"
+            android:layout_alignParentRight="true" />
+
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

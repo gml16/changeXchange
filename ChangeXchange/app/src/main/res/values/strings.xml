@@ -35,4 +35,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="you_all_set">You\'re all set!</string>
 </resources>

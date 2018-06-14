@@ -33,6 +33,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     // For showing correcut contact detail.
     private TextView textView;
+    private String amount;
 
     public RequestDatabase() {
         this.offers = new ArrayList<>();
@@ -55,6 +56,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         Connection c = null;
         Statement stmt = null;
         instruction = strings[0].split(" ")[0];
+        amount = strings[0].split(" ")[1];
         table = strings[0].split(" ")[3];
 
         try {

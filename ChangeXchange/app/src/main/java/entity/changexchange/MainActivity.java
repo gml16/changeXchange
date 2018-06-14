@@ -194,7 +194,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void selectOffer(View view) {
         startActivity(new Intent(MainActivity.this, sendText.class)
-                .putExtra("contact", R.id.offer_title));
+                .putExtra(
+                        "nickname",
+                        ((TextView)view.findViewById(R.id.offer_poster_hidden)).getText().toString()
+                )
+        );
     }
 
     /**

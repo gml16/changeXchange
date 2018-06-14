@@ -56,6 +56,9 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
         // Get note.
         holder.note.setText(offer.getNote());
+
+        // Set hidden nickname of poster.
+        holder.poster.setText(offer.getPoster_nickname());
     }
 
     @Override
@@ -68,6 +71,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         TextView title;
         TextView exchangeValue;
         TextView note;
+        TextView poster;
 
         OfferViewHolder(View itemView) {
             super(itemView);
@@ -75,6 +79,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             title = itemView.findViewById(R.id.offer_title);
             exchangeValue = itemView.findViewById(R.id.offer_rate);
             note = itemView.findViewById(R.id.offer_note);
+            poster = itemView.findViewById(R.id.offer_poster_hidden);
         }
     }
 }
