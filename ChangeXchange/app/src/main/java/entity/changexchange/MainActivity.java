@@ -16,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         user = new User("Valerie", "Val92", Currency.CHF, "07460373769", 5.0);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Menu setup.
         setupMenu();
@@ -179,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     }
                 });
     }
+
 
     /**
      * UTIL RELATED METHODS
