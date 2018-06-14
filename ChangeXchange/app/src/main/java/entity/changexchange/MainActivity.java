@@ -17,9 +17,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = new User("Valerie", "Val92", Currency.CHF, "07460373769", 5.0);
+        user = new User("Valerie", "Val92", Currency.EUR, "07460373769", 5.0);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         // Menu setup.
@@ -116,6 +118,26 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Spinner at = findViewById(R.id.offers_at);
         at.setAdapter(adapter1);
         at.setOnItemSelectedListener(reloader);
+
+        // When adding amount, refreshes offers.
+        this.<EditText>findViewById(R.id.offers_max_amt).setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == EditorInfo.IME_ACTION_DONE ||
+                                event != null &&
+                                        event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            if (event == null || !event.isShiftPressed()) {
+                                updateDisplay();
+                                return true; // consume.
+                            }
+                        }
+                        return false; // pass on to other listeners.
+                    }
+                }
+        );
 
         // If coming from MakeAnOffer, reset Spinner to previous values
         String fromPrev = getIntent().getStringExtra("from");

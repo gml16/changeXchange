@@ -23,7 +23,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.MyOfferV
     private List<Offer> offers;
 
     public MyOfferAdapter(Context activity, List<Offer> offers) {
-        this.context = context;
+        this.context = activity;
         this.offers = offers;
     }
 
@@ -83,7 +83,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.MyOfferV
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        
+
                     }
                 }
         );
