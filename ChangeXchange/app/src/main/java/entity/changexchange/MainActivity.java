@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             at.setSelection(Airport.valueOf(atPrev).ordinal());
         }
 
-
         // Check if user has given location permission and set default Airport.
         if (locationPermitted())
             this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
@@ -196,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         startActivity(new Intent(MainActivity.this, sendText.class)
                 .putExtra(
                         "nickname",
-                        ((TextView)view.findViewById(R.id.offer_poster_hidden)).getText().toString()
+                        ((TextView) view.findViewById(R.id.offer_poster_hidden)).getText().toString()
                 )
         );
     }

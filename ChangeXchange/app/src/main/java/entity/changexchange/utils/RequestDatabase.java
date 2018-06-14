@@ -155,10 +155,12 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         RecyclerView offer_container = activity.findViewById(R.id.offer_container);
         if (offer_container == null) {
             offer_container = activity.findViewById(R.id.my_offer_container);
+            offer_container.setAdapter(new OfferAdapter(activity, offers));
+        } else {
+            offer_container.setAdapter(new MyOfferAdapter(activity, offers));
         }
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(activity));
-        offer_container.setAdapter(new OfferAdapter(activity, offers));
     }
 
 }
