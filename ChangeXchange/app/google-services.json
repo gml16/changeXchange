@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "275576063002",
+    "firebase_url": "https://changexchange-5deb4.firebaseio.com",
+    "project_id": "changexchange-5deb4",
+    "storage_bucket": "changexchange-5deb4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275576063002:android:44e4bb5f5e27f780",
+        "android_client_info": {
+          "package_name": "entity.changexchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275576063002-bfuj084hn8ui7ijr0mk6qsdegu7lnrt0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "entity.changexchange",
+            "certificate_hash": "648e23249ebb0010774946cfe8530eea52c0fbc8"
+          }
+        },
+        {
+          "client_id": "275576063002-4q8r1r63r1bfbd3m0ttvhhs34l33e8a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJuVuFHNlkKDlR02933UQtAMuxH8tf-No"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275576063002-4q8r1r63r1bfbd3m0ttvhhs34l33e8a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
