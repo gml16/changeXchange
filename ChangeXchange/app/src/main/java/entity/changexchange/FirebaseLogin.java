@@ -28,12 +28,25 @@ public class FirebaseLogin extends AppCompatActivity {
         setContentView(R.layout.activity_firebase_login);
         mAuth = FirebaseAuth.getInstance();
 
-        final Button button = findViewById(R.id.SignUp);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button signUp = findViewById(R.id.SignUp);
+        signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String email = ((EditText) findViewById(R.id.Email)).getText().toString();
                 String pwd = ((EditText) findViewById(R.id.Pwd)).getText().toString();
-                createAccount(email, pwd);
+                if(!email.isEmpty() && !pwd.isEmpty()) {
+                    createAccount(email, pwd);
+                }
+            }
+        });
+
+        final Button signIn = findViewById(R.id.SignIn);
+        signIn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String email = ((EditText) findViewById(R.id.Email)).getText().toString();
+                String pwd = ((EditText) findViewById(R.id.Pwd)).getText().toString();
+                if(!email.isEmpty() && !pwd.isEmpty()) {
+                    signInUser(email, pwd);
+                }
             }
         });
 
@@ -45,11 +58,7 @@ public class FirebaseLogin extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            //mAuth.signOut();
-            Log.d("debugGuy", "user is already connected");
             startActivity(new Intent(FirebaseLogin.this, MainActivity.class));
-        } else {
-            Log.d("debugGuy", "user is NOT connected");
         }
         updateUI(currentUser);
     }
@@ -59,8 +68,6 @@ public class FirebaseLogin extends AppCompatActivity {
     }
 
     private void createAccount(String email, String password){
-        Log.d("debugGuy", "email: " + email + " and pwd:" + password);
-        Log.d("debugGuy", "create account method called");
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
@@ -80,8 +87,29 @@ public class FirebaseLogin extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
+                    }
+                });
+    }
 
-                        // ...
+    private void signInUser(String email, String password){
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d("debugGuy", "Signing in");
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("debugGuy", "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class));
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("debugGuy", "signInWithEmail:failure", task.getException());
+                            Toast.makeText(FirebaseLogin.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
                     }
                 });
     }

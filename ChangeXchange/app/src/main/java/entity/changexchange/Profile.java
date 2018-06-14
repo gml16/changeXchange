@@ -13,9 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import entity.changexchange.utils.User;
 
@@ -54,6 +57,14 @@ public class Profile extends AppCompatActivity {
                 Intent editIntent = new Intent(Profile.this, EditProfile.class);
                 editIntent.putExtra("user", user);
                 startActivity(editIntent);
+            }
+        });
+
+        this.<Button>findViewById(R.id.signOutButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(Profile.this, FirebaseLogin.class));
             }
         });
     }
