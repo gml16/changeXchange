@@ -43,7 +43,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                         + " is looking to buy "
                         + offer.getAmount() + " "
                         + offer.getBuying().toString()
-//                        + " for " + offer.getSelling().toString()
                         + " at "
                         + offer.getLocation().toString()
                         + "!"

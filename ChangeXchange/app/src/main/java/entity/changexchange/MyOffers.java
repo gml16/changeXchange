@@ -1,10 +1,9 @@
 package entity.changexchange;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,12 +13,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
-public class Profile extends AppCompatActivity {
+public class MyOffers extends AppCompatActivity {
 
     // Menu related fields.
     private ListView drawerList;
@@ -27,35 +27,38 @@ public class Profile extends AppCompatActivity {
     private ArrayAdapter<String> drawerAdapter;
     private ActionBarDrawerToggle drawerToggle;
     private String title;
-
     private User user;
 
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_my_offers);
+
+        user = (User) getIntent().getSerializableExtra("user");
 
         // Menu setup.
         setupMenu();
 
-        user = (User) getIntent().getSerializableExtra("user");
+        final SwipeRefreshLayout layout = findViewById(R.id.my_offers_swiper);
 
-        //TODO: this.<ImageView>findViewById(R.id.profile_picture).setImageIcon();
-        this.<TextView>findViewById(R.id.profile_name).setText(user.getName());
-        this.<TextView>findViewById(R.id.profile_nickname).setText(user.getNickname());
-        this.<TextView>findViewById(R.id.profile_fav_currency).setText(user.getCurrency().toString());
-        this.<TextView>findViewById(R.id.profile_contact).setText(user.getContact());
+        // Pulling offers down will refresh them.
+        layout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        updateMyOffers();
+                        layout.setRefreshing(!layout.isRefreshing());
+                    }
+                }
+        );
+    }
 
-        // Clicking on edit brings up profile edit activity.
-        this.<FloatingActionButton>findViewById(R.id.profile_edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent editIntent = new Intent(Profile.this, EditProfile.class);
-                editIntent.putExtra("user", user);
-                startActivity(editIntent);
-            }
-        });
+    private void updateMyOffers() {
+        // Show offers
+        new RequestDatabase(this).execute(
+                "SELECT * FROM offers WHERE nickname=" + user.getNickname()
+                        + " ORDER BY amount;"
+        );
     }
 
     /**
@@ -63,6 +66,7 @@ public class Profile extends AppCompatActivity {
      */
 
     private void setupMenu() {
+        // Menu setup.
         drawerList = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawer_layout);
         title = getTitle().toString();
@@ -74,7 +78,9 @@ public class Profile extends AppCompatActivity {
 
     private void addDrawerItems() {
         String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
-        drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
+        drawerAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, tabs
+        );
         drawerList.setAdapter(drawerAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,22 +88,23 @@ public class Profile extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(Profile.this, MainActivity.class));
+                        startActivity(new Intent(MyOffers.this, MainActivity.class));
                         break;
                     case 1:
-                        // Do nothing
-                        Toast.makeText(Profile.this, "Already in Profile!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MyOffers.this, Profile.class)
+                                .putExtra("user", user));
                         break;
                     case 2:
-                        startActivity(new Intent(Profile.this, MyOffers.class));
+                        // Do nothing.
+                        Toast.makeText(MyOffers.this, "Already in My Offers!", Toast.LENGTH_SHORT).show();
                         break;
                     case 3:
 //                        startActivity(new Intent(MainActivity.this, Messages.class));
-                        Toast.makeText(Profile.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyOffers.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
-                        Toast.makeText(Profile.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyOffers.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

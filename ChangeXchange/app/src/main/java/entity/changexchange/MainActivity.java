@@ -16,10 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,16 +62,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = new User("Valerie", "Val92", Currency.CHF, "07460373769");
+        user = new User("Valerie", "Val92", Currency.CHF, "07460373769", 5.0);
 
         // Menu setup.
-        drawerList = findViewById(R.id.navList);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        title = getTitle().toString();
-        addDrawerItems();
-        setupDrawer();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        setupMenu();
 
         // Authorise and setup location.
         googleApiClient = new GoogleApiClient.Builder(
@@ -107,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Spinner from = findViewById(R.id.offers_from);
         from.setAdapter(adapter);
         from.setOnItemSelectedListener(reloader);
+        from.setSelection(user.getCurrency().ordinal());
 
         Spinner to = findViewById(R.id.offers_to);
         to.setAdapter(adapter);
@@ -167,9 +160,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     @Override
                     public void onRefresh() {
                         updateDisplay();
-                        if (layout.isRefreshing()) {
-                            layout.setRefreshing(false);
-                        }
+                        layout.setRefreshing(!layout.isRefreshing());
                     }
                 }
         );
@@ -314,9 +305,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * MENU RELATED METHODS
      */
 
+    private void setupMenu() {
+        drawerList = findViewById(R.id.navList);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        title = getTitle().toString();
+        addDrawerItems();
+        setupDrawer();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "Messages", "Settings"};
-        drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
+        drawerAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, tabs
+        );
         drawerList.setAdapter(drawerAdapter);
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -328,15 +331,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         Toast.makeText(MainActivity.this, "Already in Offers!", Toast.LENGTH_SHORT).show();
                         break;
                     case 1:
-                        Intent profileIntent = new Intent(MainActivity.this, Profile.class);
-                        profileIntent.putExtra("user", user);
-                        startActivity(profileIntent);
+                        startActivity(new Intent(MainActivity.this, Profile.class)
+                                .putExtra("user", user));
                         break;
                     case 2:
-//                        startActivity(new Intent(MainActivity.this, Messages.class));
-                        Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity.this, MyOffers.class)
+                                .putExtra("user", user));
                         break;
                     case 3:
+//                        startActivity(new Intent(MainActivity.this, Messages.class)
+//                                .putExtra("user", user));
+                        Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
                         Toast.makeText(MainActivity.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;

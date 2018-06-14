@@ -31,9 +31,13 @@ public enum Airport {
         return getShortcode();
     }
 
-    public String getShortcode() {return shortcode;}
+    public String getShortcode() {
+        return shortcode;
+    }
 
-    public String getFullName() {return fullName;}
+    public String getFullName() {
+        return fullName;
+    }
 
     public Location getLocation() {
         Location location = new Location(fullName);
