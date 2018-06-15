@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/offer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="selectOffer"
         android:padding="8dp"

@@ -17,6 +17,7 @@ import java.util.List;
 
 import entity.changexchange.MainActivity;
 import entity.changexchange.MyOffers;
+import entity.changexchange.Profile;
 import entity.changexchange.R;
 
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
@@ -79,6 +80,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 rs.getString("note")
                         ));
                     } else if (table.equals("users")) {
+                        Log.d("test", strings[0]);
                         user = new User(
                                 rs.getString("name"),
                                 rs.getString("nickname"),
@@ -110,7 +112,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             if (table.equals("offers")) {
                 setupOffers();
             } else if (table.equals("users")) {
-                if (activity != null) {
+                if (activity instanceof Profile) {
                     setupProfile();
                 } else {
                     // TODO: set rating

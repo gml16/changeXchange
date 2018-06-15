@@ -16,8 +16,8 @@ public class sendText extends AppCompatActivity {
         // Fetch the poster's preferred contact detail of the poster.
         new RequestDatabase(this.<TextView>findViewById(R.id.selected_contact))
                 .execute(
-                        "SELECT * FROM users WHERE nickname="
-                                + getIntent().getStringExtra("nickname") + ";"
+                        "SELECT * FROM users WHERE nickname='"
+                                + getIntent().getStringExtra("nickname") + "';"
                 );
     }
 
