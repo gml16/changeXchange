@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 

@@ -1,6 +1,8 @@
 package entity.changexchange.utils;
 
-public class Offer {
+import java.io.Serializable;
+
+public class Offer implements Serializable {
 
     private final String poster_nickname;
     private final Currency buying;

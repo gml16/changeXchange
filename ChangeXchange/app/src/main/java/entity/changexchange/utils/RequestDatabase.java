@@ -63,7 +63,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
-                    .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u",
+                    .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
                             "g1727132_u", "4ihe2mwvgy");
             c.setAutoCommit(false);
             stmt = c.createStatement();

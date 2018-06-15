@@ -98,7 +98,8 @@ public class MakeAnOffer extends AppCompatActivity {
                 // TODO: Add note to database.
 
                 new RequestDatabase().execute(
-                        "INSERT INTO offers VALUES (" + name + ", '"
+                        "INSERT INTO offers VALUES ('"
+                                + name + "', '"
                                 + from + "', '"
                                 + to + "', '"
                                 + amount + "', '"

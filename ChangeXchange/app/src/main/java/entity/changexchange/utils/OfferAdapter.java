@@ -1,7 +1,6 @@
 package entity.changexchange.utils;
 
 import android.annotation.SuppressLint;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -66,18 +65,18 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.poster.setText(offer.getPoster_nickname());
 
         // Set user rating.
-        holder.rating.setText("4.76");
+        holder.rating.setText("4.76/5");
 //        new RequestDatabase(holder.rating).execute(
 //                "SELECT * FROM users WHERE nickname=" + offer.getPoster_nickname() + "; "
 //        );
 
         // Set buttons.
-        // Set buttons.
         holder.accept.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        delete_offer(offer);
+                        deleteOffer(offer);
+
                     }
                 }
         );
@@ -85,15 +84,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        delete_offer(offer);
-                    }
-                }
-        );
-        holder.edit.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
+                        deleteOffer(offer);
                     }
                 }
         );
@@ -114,7 +105,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         return offers.size();
     }
 
-    private void delete_offer(Offer offer) {
+    private void deleteOffer(Offer offer) {
         new RequestDatabase().execute(
                 "DELETE * FROM offers WHERE "
                         + "nickname=" + offer.getPoster_nickname() + " and "
@@ -125,6 +116,9 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         );
     }
 
+    public void editOffer (View view) {
+
+    }
 
     class OfferViewHolder extends RecyclerView.ViewHolder {
 

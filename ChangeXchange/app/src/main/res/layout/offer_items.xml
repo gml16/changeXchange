@@ -105,6 +105,7 @@
             android:layout_alignStart="@+id/offer_poster_rating"
             android:layout_below="@+id/offer_title"
             android:clickable="true"
+            android:onClick="editOffer"
             app:srcCompat="@mipmap/baseline_edit_black_48" />
 
     </RelativeLayout>

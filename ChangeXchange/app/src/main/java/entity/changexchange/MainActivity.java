@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,8 +34,6 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
@@ -195,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(MainActivity.this, MakeAnOffer.class);
-                        intent.putExtra("buying", getCurTo());
-                        intent.putExtra("selling", getCurFrom());
+                        intent.putExtra("buying", getCurFrom());
+                        intent.putExtra("selling", getCurTo());
                         intent.putExtra("airport", getLocation());
                         intent.putExtra("amount", getAmount());
                         intent.putExtra("user", user);
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      * Clicking on an offer brings up contact details for it.
      */
     public void selectOffer(View view) {
-        startActivity(new Intent(MainActivity.this, sendText.class)
+        startActivity(new Intent(MainActivity.this, ContactDetails.class)
                 .putExtra(
                         "nickname",
                         ((TextView) view.findViewById(R.id.offer_poster_hidden)).getText().toString()
