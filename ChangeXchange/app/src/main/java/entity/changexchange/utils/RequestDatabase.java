@@ -57,6 +57,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         Statement stmt = null;
         instruction = strings[0].split(" ")[0];
         table = strings[0].split(" ")[3];
+        Log.d("test", strings[0]);
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -112,6 +113,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 if (activity != null) {
                     setupProfile();
                 } else {
+                    // TODO: set rating
                     textView.setText(user.getContact());
                 }
             }
@@ -140,18 +142,16 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
      * Setup the offers collected from database to MainActivity.
      */
     private void setupOffers() {
-        if (activity instanceof MainActivity) {
-            RecyclerView offer_container = activity.findViewById(R.id.offer_container);
-            offer_container.setHasFixedSize(true);
-            offer_container.setLayoutManager(new LinearLayoutManager(activity));
-            offer_container.setAdapter(new OfferAdapter(activity, offers));
-        } else if (activity instanceof MyOffers) {
-            RecyclerView offer_container = activity.findViewById(R.id.my_offer_container);
-            offer_container.setHasFixedSize(true);
-            offer_container.setLayoutManager(new LinearLayoutManager(activity));
-            offer_container.setAdapter(new MyOfferAdapter(activity, offers));
-
+        Log.d("test", instruction);
+        Log.d("test", table);
+        Log.d("test", String.valueOf(offers.size()));
+        RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+        if (offer_container == null) {
+            offer_container = activity.findViewById(R.id.my_offer_container);
         }
+        offer_container.setHasFixedSize(true);
+        offer_container.setLayoutManager(new LinearLayoutManager(activity));
+        offer_container.setAdapter(new OfferAdapter(activity, offers));
     }
 
 }

@@ -39,6 +39,9 @@ public class MyOffers extends AppCompatActivity {
         // Menu setup.
         setupMenu();
 
+        // Setup offers.
+        updateMyOffers();
+
         final SwipeRefreshLayout layout = findViewById(R.id.my_offers_swiper);
 
         // Pulling offers down will refresh them.
@@ -56,8 +59,8 @@ public class MyOffers extends AppCompatActivity {
     private void updateMyOffers() {
         // Show offers
         new RequestDatabase(this).execute(
-                "SELECT * FROM offers WHERE nickname=" + user.getNickname()
-                        + " ORDER BY amount;"
+                "SELECT * FROM offers WHERE nickname='" + user.getNickname()
+                        + "' ORDER BY amount;"
         );
     }
 
@@ -88,7 +91,8 @@ public class MyOffers extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(MyOffers.this, MainActivity.class));
+                        startActivity(new Intent(MyOffers.this, MainActivity.class)
+                                .putExtra("user", user));
                         break;
                     case 1:
                         startActivity(new Intent(MyOffers.this, Profile.class)

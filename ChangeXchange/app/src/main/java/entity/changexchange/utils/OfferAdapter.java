@@ -1,8 +1,10 @@
 package entity.changexchange.utils;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +13,19 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import entity.changexchange.MyOffers;
 import entity.changexchange.R;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHolder> {
 
     private Context context;
     private List<Offer> offers;
+    private boolean inMyOffers;
 
     OfferAdapter(Context context, List<Offer> offers) {
         this.context = context;
         this.offers = offers;
+        this.inMyOffers = context instanceof MyOffers;
     }
 
     @NonNull
@@ -35,7 +40,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final OfferViewHolder holder, int position) {
-        Offer offer = offers.get(position);
+        final Offer offer = offers.get(position);
 
         // Get offer announcement.
         holder.title.setText(
@@ -59,6 +64,49 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
         // Set hidden nickname of poster.
         holder.poster.setText(offer.getPoster_nickname());
+
+        // Set user rating.
+        holder.rating.setText("4.76");
+//        new RequestDatabase(holder.rating).execute(
+//                "SELECT * FROM users WHERE nickname=" + offer.getPoster_nickname() + "; "
+//        );
+
+        // Set buttons.
+        // Set buttons.
+        holder.accept.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        delete_offer(offer);
+                    }
+                }
+        );
+        holder.delete.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        delete_offer(offer);
+                    }
+                }
+        );
+        holder.edit.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }
+        );
+
+        // Set visibility of different elements.
+        if (inMyOffers) {
+            holder.rating.setVisibility(View.GONE);
+
+        } else {
+            holder.accept.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+            holder.edit.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -66,12 +114,28 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         return offers.size();
     }
 
+    private void delete_offer(Offer offer) {
+        new RequestDatabase().execute(
+                "DELETE * FROM offers WHERE "
+                        + "nickname=" + offer.getPoster_nickname() + " and "
+                        + "buying=" + offer.getBuying() + " and "
+                        + "selling=" + offer.getSelling() + " and "
+                        + "amount=" + offer.getAmount() + " and "
+                        + "location=" + offer.getLocation() + ";"
+        );
+    }
+
+
     class OfferViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         TextView exchangeValue;
         TextView note;
         TextView poster;
+        TextView rating;
+        FloatingActionButton accept;
+        FloatingActionButton delete;
+        FloatingActionButton edit;
 
         OfferViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +144,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             exchangeValue = itemView.findViewById(R.id.offer_rate);
             note = itemView.findViewById(R.id.offer_note);
             poster = itemView.findViewById(R.id.offer_poster_hidden);
+            rating = itemView.findViewById(R.id.offer_poster_rating);
+            accept = itemView.findViewById(R.id.offer_accept);
+            delete = itemView.findViewById(R.id.offer_delete);
+            edit = itemView.findViewById(R.id.offer_edit);
         }
     }
 }
