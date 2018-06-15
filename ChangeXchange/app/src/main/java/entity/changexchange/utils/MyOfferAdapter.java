@@ -34,7 +34,7 @@ public class MyOfferAdapter extends RecyclerView.Adapter<MyOfferAdapter.MyOfferV
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.my_offer_items, null);
 
-        return new MyOfferAdapter.MyOfferViewHolder(view);
+        return new MyOfferViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")

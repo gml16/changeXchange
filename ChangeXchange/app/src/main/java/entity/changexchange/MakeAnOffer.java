@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
+import entity.changexchange.utils.User;
 
 
 public class MakeAnOffer extends AppCompatActivity {
@@ -22,7 +23,9 @@ public class MakeAnOffer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_an_offer);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
+
+        final User user = (User) intent.getSerializableExtra("user");
 
         // Create adapter for list of currencies and link to dropdown objects.
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
@@ -68,7 +71,7 @@ public class MakeAnOffer extends AppCompatActivity {
                 //Erroneous amount entered. Deny clicking effect.
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) return;
 
-                String name = "John"; // TODO: Get poster name from login.
+                String name = user.getNickname();
 
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
@@ -88,7 +91,7 @@ public class MakeAnOffer extends AppCompatActivity {
                 // TODO: Add note to database.
 
                 new RequestDatabase().execute(
-                        "INSERT INTO offers VALUES ('John', '"
+                        "INSERT INTO offers VALUES (" + name + ", '"
                                 + from + "', '"
                                 + to + "', '"
                                 + amount + "', '"
