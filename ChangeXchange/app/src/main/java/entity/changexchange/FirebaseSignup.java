@@ -17,33 +17,37 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
-public class FirebaseLogin extends AppCompatActivity {
+
+public class FirebaseSignup extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_firebase_login);
+        setContentView(R.layout.activity_firebase_signup);
         mAuth = FirebaseAuth.getInstance();
 
         final Button signUp = findViewById(R.id.SignUp);
         signUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(FirebaseLogin.this, FirebaseSignup.class));
+                String email = ((EditText) findViewById(R.id.EmailEditText)).getText().toString();
+                String pwd = ((EditText) findViewById(R.id.PwdEditText)).getText().toString();
+                String nickname = ((EditText) findViewById(R.id.NicknameEditText)).getText().toString();
+                String contact = ((EditText) findViewById(R.id.ContactEditText)).getText().toString();
+                if(!email.isEmpty() && !pwd.isEmpty()) {
+                    createAccount(email, pwd, nickname, contact);
+                }
             }
         });
 
         final Button signIn = findViewById(R.id.SignIn);
         signIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String email = ((EditText) findViewById(R.id.EmailEditText)).getText().toString();
-                String pwd = ((EditText) findViewById(R.id.PwdEditText)).getText().toString();
-                if(!email.isEmpty() && !pwd.isEmpty()) {
-                    signInUser(email, pwd);
-                }
+                startActivity(new Intent(FirebaseSignup.this, FirebaseLogin.class));
             }
         });
 
@@ -55,7 +59,7 @@ public class FirebaseLogin extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            startActivity(new Intent(FirebaseLogin.this, MainActivity.class));
+            startActivity(new Intent(FirebaseSignup.this, MainActivity.class));
         }
         updateUI(currentUser);
     }
@@ -64,27 +68,29 @@ public class FirebaseLogin extends AppCompatActivity {
         //TODO
     }
 
-
-    private void signInUser(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
+    private void createAccount(String email, String password, final String nickname, final String contact){
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("debugGuy", "signInWithEmail:success");
+                            Log.d("debugGuy", "createUserWithEmail:success");
+                            new RequestDatabase().execute("INSERT INTO users VALUES (name=" + nickname + ", nickname=" + nickname + ", currency='GBP', contact=" + contact + ");");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            User ourUser = new User("Guy", "gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
-                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
+                            User ourUser = new User(nickname, nickname, Currency.GBP, contact, 5);
+                            startActivity(new Intent(FirebaseSignup.this, MainActivity.class).putExtra("user", ourUser));
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("debugGuy", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(FirebaseLogin.this, "Authentication failed.",
+                            Log.w("debugGuy", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(FirebaseSignup.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
                     }
                 });
     }
+
 }

@@ -31,10 +31,8 @@
         <activity android:name=".EditProfile" />
         <activity android:name=".sendText" />
         <activity android:name=".MyOffers" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".FirebaseSignup" />
     </application>
 
 </manifest>

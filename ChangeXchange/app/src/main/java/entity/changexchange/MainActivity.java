@@ -67,8 +67,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = new User("Valerie", "Val92", Currency.EUR, "07460373769", 5.0);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        user = (User) getIntent().getSerializableExtra("user");
 
         // Menu setup.
         setupMenu();
