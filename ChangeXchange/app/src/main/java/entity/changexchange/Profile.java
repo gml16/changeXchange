@@ -93,7 +93,7 @@ public class Profile extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(Profile.this, MainActivity.class));
+                        startActivity(new Intent(Profile.this, MainActivity.class).putExtra("user", user));
                         break;
                     case 1:
                         // Do nothing
