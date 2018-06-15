@@ -199,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         intent.putExtra("selling", getCurFrom());
                         intent.putExtra("airport", getLocation());
                         intent.putExtra("amount", getAmount());
+                        intent.putExtra("user", user);
                         startActivity(intent);
                     }
                 });

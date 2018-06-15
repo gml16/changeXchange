@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.sql.Connection;
@@ -65,18 +66,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             c.setAutoCommit(false);
             stmt = c.createStatement();
             if (instruction.equals("SELECT")) {
-                if (activity instanceof MyOffers || activity instanceof MainActivity) {
-                    // We want to filter outdated offers first, hence UPDATE will launch the
-                    // PostgreSQL adequate trigger.
-                    stmt.executeUpdate(
-                            "UPDATE offers SET nickname='dummy' WHERE nickname='dummy'"
-                    );
-                    stmt.close();
-                    stmt = c.createStatement();
-                }
                 ResultSet rs = stmt.executeQuery(strings[0]);
                 while (rs.next()) {
-
                     if (table.equals("offers")) {
                         offers.add(new Offer(
                                 rs.getString("nickname"),
@@ -117,7 +108,6 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         if (instruction.equals("SELECT")) {
             if (table.equals("offers")) {
                 setupOffers();
-
             } else if (table.equals("users")) {
                 if (activity != null) {
                     setupProfile();
@@ -150,15 +140,18 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
      * Setup the offers collected from database to MainActivity.
      */
     private void setupOffers() {
-        RecyclerView offer_container = activity.findViewById(R.id.offer_container);
-        if (offer_container == null) {
-            offer_container = activity.findViewById(R.id.my_offer_container);
+        if (activity instanceof MainActivity) {
+            RecyclerView offer_container = activity.findViewById(R.id.offer_container);
+            offer_container.setHasFixedSize(true);
+            offer_container.setLayoutManager(new LinearLayoutManager(activity));
             offer_container.setAdapter(new OfferAdapter(activity, offers));
-        } else {
+        } else if (activity instanceof MyOffers) {
+            RecyclerView offer_container = activity.findViewById(R.id.my_offer_container);
+            offer_container.setHasFixedSize(true);
+            offer_container.setLayoutManager(new LinearLayoutManager(activity));
             offer_container.setAdapter(new MyOfferAdapter(activity, offers));
+
         }
-        offer_container.setHasFixedSize(true);
-        offer_container.setLayoutManager(new LinearLayoutManager(activity));
     }
 
 }
