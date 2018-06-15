@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
@@ -68,9 +69,6 @@ public class MakeAnOffer extends AppCompatActivity {
 
                 String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
 
-                //Erroneous amount entered. Deny clicking effect.
-                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) return;
-
                 String name = user.getNickname();
 
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
@@ -85,8 +83,17 @@ public class MakeAnOffer extends AppCompatActivity {
                 // If note hasn't been filled, replace with default value.
                 if (note.isEmpty()) note = name + " did not add a note.";
 
-                // Erroneous amount entered. Deny clicking effect.
-                if (from.isEmpty() || to.isEmpty() || location.isEmpty()) return;
+                //Erroneous amount entered. Deny clicking effect.
+                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
+                    Toast.makeText(MakeAnOffer.this, "Error: Invalid amount.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (from.equals(to)) {
+                    Toast.makeText(MakeAnOffer.this, "Error: Invalid currencies.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // TODO: Add note to database.
 

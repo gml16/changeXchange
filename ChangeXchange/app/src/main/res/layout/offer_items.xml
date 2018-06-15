@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/offer"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="selectOffer"
         android:padding="8dp"
@@ -68,6 +68,44 @@
             android:layout_marginRight="102dp"
             android:text="@string/test"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/offer_poster_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/offer_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:text="TextView" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/offer_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/my_offer_title"
+            android:layout_marginEnd="62dp"
+            android:clickable="true"
+            app:srcCompat="@mipmap/baseline_done_black_48" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/offer_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/my_offer_title"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            app:srcCompat="@mipmap/baseline_delete_black_48" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/offer_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/offer_poster_rating"
+            android:layout_below="@+id/offer_title"
+            android:clickable="true"
+            app:srcCompat="@mipmap/baseline_edit_black_48" />
 
     </RelativeLayout>
 

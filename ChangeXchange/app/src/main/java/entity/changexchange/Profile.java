@@ -93,14 +93,17 @@ public class Profile extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(Profile.this, MainActivity.class).putExtra("user", user));
+
+                        startActivity(new Intent(Profile.this, MainActivity.class)
+                                .putExtra("user", user));
                         break;
                     case 1:
                         // Do nothing
                         Toast.makeText(Profile.this, "Already in Profile!", Toast.LENGTH_SHORT).show();
                         break;
                     case 2:
-                        startActivity(new Intent(Profile.this, MyOffers.class));
+                        startActivity(new Intent(Profile.this, MyOffers.class)
+                                .putExtra("user", user));
                         break;
                     case 3:
 //                        startActivity(new Intent(MainActivity.this, Messages.class));
