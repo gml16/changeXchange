@@ -191,13 +191,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, MakeAnOffer.class);
-                        intent.putExtra("buying", getCurFrom());
-                        intent.putExtra("selling", getCurTo());
-                        intent.putExtra("airport", getLocation());
-                        intent.putExtra("amount", getAmount());
-                        intent.putExtra("user", user);
-                        startActivity(intent);
+                        startActivity(
+                                new Intent(MainActivity.this, MakeAnOffer.class)
+                                        .putExtra("buying", getCurFrom())
+                                        .putExtra("selling", getCurTo())
+                                        .putExtra("airport", getLocation())
+                                        .putExtra("amount", getAmount())
+                                        .putExtra("user", user)
+                        );
                     }
                 });
     }
@@ -212,10 +213,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void selectOffer(View view) {
         startActivity(new Intent(MainActivity.this, ContactDetails.class)
-                .putExtra(
-                        "nickname",
-                        ((TextView) view.findViewById(R.id.offer_poster_hidden)).getText().toString()
-                )
+                        .putExtra("buying", getCurTo())
+                        .putExtra("selling", getCurFrom())
+                        .putExtra("airport", getLocation())
+                        .putExtra("nickname",
+                        ((TextView) view.findViewById(R.id.offer_poster_hidden)).getText().toString())
+                        .putExtra("user", user)
         );
     }
 
