@@ -102,7 +102,9 @@ public class MakeAnOffer extends AppCompatActivity {
                 startActivity(new Intent(MakeAnOffer.this, MainActivity.class)
                         .putExtra("from", from)
                         .putExtra("to", to)
-                        .putExtra("at", location));
+                        .putExtra("at", location)
+                        .putExtra("user", user)
+                );
             }
         });
     }

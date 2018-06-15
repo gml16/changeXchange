@@ -33,7 +33,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPassword"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/NicknameEditText" />
@@ -48,7 +48,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPassword"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,10 +69,12 @@
         android:id="@+id/PwTextView"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="40dp"
         android:text="Password:"
-        app:layout_constraintTop_toBottomOf="@+id/EmailTextView"
-        tools:layout_editor_absoluteX="53dp" />
+        app:layout_constraintEnd_toStartOf="@+id/PwdEditText"
+        app:layout_constraintTop_toBottomOf="@+id/EmailTextView" />
 
     <Button
         android:id="@+id/SignIn"
@@ -99,11 +101,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Create account"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ContactEditText" />
 
     <View
         android:id="@+id/view"
@@ -120,29 +124,38 @@
         android:id="@+id/PreferedContact"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="36dp"
         android:text="Prefered Contact:"
-        app:layout_constraintTop_toBottomOf="@+id/nicknameView"
-        tools:layout_editor_absoluteX="7dp" />
+        app:layout_constraintEnd_toStartOf="@+id/ContactEditText"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameView" />
 
     <TextView
         android:id="@+id/nicknameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="40dp"
         android:text="Nickname:"
-        app:layout_constraintTop_toBottomOf="@+id/PwTextView"
-        tools:layout_editor_absoluteX="45dp" />
+        app:layout_constraintEnd_toStartOf="@+id/NicknameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/PwTextView" />
 
     <EditText
         android:id="@+id/PwdEditText"
         android:layout_width="139dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/EmailEditText"
-        tools:layout_editor_absoluteX="122dp" />
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EmailEditText" />
 
 
 </android.support.constraint.ConstraintLayout>

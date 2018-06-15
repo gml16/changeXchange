@@ -88,7 +88,8 @@ public class MyOffers extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(MyOffers.this, MainActivity.class));
+                        startActivity(new Intent(MyOffers.this, MainActivity.class)
+                                    .putExtra("user", user));
                         break;
                     case 1:
                         startActivity(new Intent(MyOffers.this, Profile.class)
