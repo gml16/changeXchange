@@ -54,8 +54,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     }
 
     protected Void doInBackground(String... strings) {
-        Connection c = null;
-        Statement stmt = null;
+        Connection c;
+        Statement stmt;
         instruction = strings[0].split(" ")[0];
         table = strings[0].split(" ")[3];
         Log.d("test", strings[0]);
@@ -93,7 +93,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 }
                 rs.close();
                 stmt.close();
-            } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")) {
+            } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")
+                    || instruction.equals("DELETE")) {
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
             }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -92,7 +93,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         // Set visibility of different elements.
         if (inMyOffers) {
             holder.rating.setVisibility(View.GONE);
-
+            holder.star.setVisibility(View.GONE);
         } else {
             holder.accept.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
@@ -108,7 +109,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     private void deleteOffer(Offer offer) {
         new RequestDatabase().execute(
                 "DELETE * FROM offers WHERE "
-                        + "nickname=" + offer.getPoster_nickname() + " and "
+                        + "nickname='" + offer.getPoster_nickname() + "' and "
                         + "buying=" + offer.getBuying() + " and "
                         + "selling=" + offer.getSelling() + " and "
                         + "amount=" + offer.getAmount() + " and "
@@ -130,18 +131,20 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         FloatingActionButton accept;
         FloatingActionButton delete;
         FloatingActionButton edit;
+        ImageView star;
 
         OfferViewHolder(View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.offer_title);
-            exchangeValue = itemView.findViewById(R.id.offer_rate);
+            exchangeValue = itemView.findViewById(R.id.offer_amount_recieve);
             note = itemView.findViewById(R.id.offer_note);
             poster = itemView.findViewById(R.id.offer_poster_hidden);
             rating = itemView.findViewById(R.id.offer_poster_rating);
             accept = itemView.findViewById(R.id.offer_accept);
             delete = itemView.findViewById(R.id.offer_delete);
             edit = itemView.findViewById(R.id.offer_edit);
+            star = itemView.findViewById(R.id.offer_star);
         }
     }
 }

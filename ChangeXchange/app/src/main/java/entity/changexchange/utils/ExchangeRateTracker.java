@@ -2,10 +2,7 @@ package entity.changexchange.utils;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.TextView;
-
-import org.xml.sax.XMLReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,8 +10,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-
-import javax.xml.parsers.*;
 
 import entity.changexchange.R;
 
@@ -73,7 +68,7 @@ public class ExchangeRateTracker extends AsyncTask<String, Void, Double> {
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     protected void onPostExecute(Double result) {
         textToBeUpdated.setText(
-                textToBeUpdated.getId() == R.id.offer_rate ?
+                textToBeUpdated.getId() == R.id.offer_amount_recieve ?
                         // Inside an offer.
                         String.format("%.2f", selling * result) + " " + buying :
                         // Showing the global exchange rate.
