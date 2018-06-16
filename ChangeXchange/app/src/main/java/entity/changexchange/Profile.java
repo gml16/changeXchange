@@ -45,7 +45,6 @@ public class Profile extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra("user");
 
         //TODO: this.<ImageView>findViewById(R.id.profile_picture).setImageIcon();
-        this.<TextView>findViewById(R.id.profile_name).setText(user.getName());
         this.<TextView>findViewById(R.id.profile_nickname).setText(user.getNickname());
         this.<TextView>findViewById(R.id.profile_fav_currency).setText(user.getCurrency().toString());
         this.<TextView>findViewById(R.id.profile_contact).setText(user.getContact());
@@ -54,9 +53,9 @@ public class Profile extends AppCompatActivity {
         this.<FloatingActionButton>findViewById(R.id.profile_edit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent editIntent = new Intent(Profile.this, EditProfile.class);
-                editIntent.putExtra("user", user);
-                startActivity(editIntent);
+                startActivity(
+                        new Intent(Profile.this, EditProfile.class).putExtra("user", user)
+                );
             }
         });
 

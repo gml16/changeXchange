@@ -15,10 +15,12 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.filter;
+
 
 public class MakeAnOffer extends AppCompatActivity {
 
-    private static final float NEG_THRESHOLD = (float) 0.001;
+    static final float NEG_THRESHOLD = (float) 0.001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +79,8 @@ public class MakeAnOffer extends AppCompatActivity {
                         .getSelectedItem().toString();
                 String location = ((Spinner) findViewById(R.id.new_offer_location))
                         .getSelectedItem().toString();
-                String note = ((EditText) findViewById(R.id.new_offer_note))
-                        .getText().toString();
+                String note = filter(((EditText) findViewById(R.id.new_offer_note))
+                        .getText().toString());
 
                 // If note hasn't been filled, replace with default value.
                 if (note.isEmpty()) note = name + " did not add a note.";

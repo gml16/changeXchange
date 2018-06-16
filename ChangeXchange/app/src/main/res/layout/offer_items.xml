@@ -105,7 +105,6 @@
             android:layout_below="@+id/offer_delete"
             android:layout_toLeftOf="@+id/offer_delete"
             android:clickable="true"
-            android:onClick="editOffer"
             app:srcCompat="@mipmap/baseline_edit_black_48" />
 
         <ImageView

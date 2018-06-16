@@ -1,7 +1,6 @@
 package entity.changexchange.utils;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,9 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.changexchange.MainActivity;
-import entity.changexchange.MyOffers;
-import entity.changexchange.Profile;
 import entity.changexchange.R;
 
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
@@ -30,18 +26,15 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     private Activity activity;
     private List<Offer> offers;
 
-    // For populating the profile.
-    private User user;
+    // For fetching users from database.
+    private List<User> users;
 
-    // For showing correcut contact detail.
+    // For showing correct contact detail.
     private TextView textView;
 
     public RequestDatabase() {
         this.offers = new ArrayList<>();
-    }
-
-    public RequestDatabase(List<Offer> offers) {
-        this.offers = offers;
+        this.users = new ArrayList<>();
     }
 
     public RequestDatabase(Activity activity) {
@@ -53,12 +46,15 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         this.textView = textView;
     }
 
+    public RequestDatabase(List<User> users) {
+        this.users = users;
+    }
+
     protected Void doInBackground(String... strings) {
         Connection c;
         Statement stmt;
         instruction = strings[0].split(" ")[0];
         table = strings[0].split(" ")[3];
-        Log.d("test", strings[0]);
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -80,13 +76,12 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 rs.getString("note")
                         ));
                     } else if (table.equals("users")) {
-                        Log.d("test", strings[0]);
-                        user = new User(
+                        users.add(new User(
                                 rs.getString("nickname"),
                                 Currency.valueOf(rs.getString("currency")),
                                 rs.getString("contact"),
                                 Double.valueOf(rs.getString("rating"))
-                        );
+                        ));
                     }
 
                 }
@@ -111,42 +106,16 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         if (instruction.equals("SELECT")) {
             if (table.equals("offers")) {
                 setupOffers();
-            } else if (table.equals("users")) {
-                if (activity instanceof Profile) {
-                    setupProfile();
-                } else {
-                    // TODO: set rating
-                    textView.setText(user.getContact());
-                }
+            } else if (table.equals("users") && textView != null) {
+                textView.setText(users.get(0).getContact());
             }
         }
-    }
-
-    /**
-     * Setup the profile page w.r.t. the database data.
-     */
-    private void setupProfile() {
-        ((TextView) activity.findViewById(R.id.profile_name)).setText(
-                user.getName()
-        );
-        ((TextView) activity.findViewById(R.id.profile_nickname)).setText(
-                user.getNickname()
-        );
-        ((TextView) activity.findViewById(R.id.profile_fav_currency)).setText(
-                user.getCurrency().toString()
-        );
-        ((TextView) activity.findViewById(R.id.profile_contact)).setText(
-                user.getContact()
-        );
     }
 
     /**
      * Setup the offers collected from database to MainActivity.
      */
     private void setupOffers() {
-        Log.d("test", instruction);
-        Log.d("test", table);
-        Log.d("test", String.valueOf(offers.size()));
         RecyclerView offer_container = activity.findViewById(R.id.offer_container);
         if (offer_container == null) {
             offer_container = activity.findViewById(R.id.my_offer_container);

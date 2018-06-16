@@ -31,31 +31,17 @@
             app:srcCompat="@mipmap/baseline_edit_black_48" />
 
         <TextView
-            android:id="@+id/profile_name"
-            android:layout_width="0dp"
-            android:layout_height="28dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/test"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.488"
-            app:layout_constraintStart_toEndOf="@+id/name_tag"
-            app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
-
-        <TextView
             android:id="@+id/profile_nickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="64dp"
             android:text="@string/test"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/nickname_tag"
-            app:layout_constraintTop_toBottomOf="@+id/profile_name" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
 
         <TextView
             android:id="@+id/profile_contact"
@@ -132,18 +118,6 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/profile_contact"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/name_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:text="Name:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@+id/profile_name"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button

@@ -16,15 +16,10 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.filter;
+import static entity.changexchange.utils.Util.isInvalid;
+
 public class EditProfile extends AppCompatActivity {
-
-    // Illegal characters for nicknames.
-    private static final char[] ILLEGALS = {'\r', '\t', '\n'};
-
-    // Pattern for verifying syntax email.
-    private static final Pattern rfc2822 = Pattern.compile(
-            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-    );
 
     private User user;
 
@@ -97,24 +92,5 @@ public class EditProfile extends AppCompatActivity {
         user.changeCurrency(
                 newCurrency == null ? user.getCurrency() : newCurrency
         );
-    }
-
-    /**
-     * Checks that the given contact is a valid email address / phone number / or AppMessaging.
-     */
-    private boolean isInvalid(String contact) {
-        return contact.equals("In app")
-                || !rfc2822.matcher(contact).matches();
-        // TODO: Check for valid phone number.
-    }
-
-    /**
-     * Removes illegal characters from user input before parsing.
-     */
-    private String filter(String userInput) {
-        for (char c : ILLEGALS) {
-            userInput = userInput.replace(c, ' ');
-        }
-        return userInput;
     }
 }
