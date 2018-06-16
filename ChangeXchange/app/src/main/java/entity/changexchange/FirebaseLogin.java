@@ -55,7 +55,7 @@ public class FirebaseLogin extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
-            User ourUser = new User("Guy", "gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
+            User ourUser = new User("gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
             startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
         }
         updateUI(currentUser);
@@ -76,7 +76,7 @@ public class FirebaseLogin extends AppCompatActivity {
                             Log.d("debugGuy", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            User ourUser = new User("Guy", "gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
+                            User ourUser = new User("Guy", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
                             startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
                         } else {
                             // If sign in fails, display a message to the user.

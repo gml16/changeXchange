@@ -82,7 +82,6 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                     } else if (table.equals("users")) {
                         Log.d("test", strings[0]);
                         user = new User(
-                                rs.getString("name"),
                                 rs.getString("nickname"),
                                 Currency.valueOf(rs.getString("currency")),
                                 rs.getString("contact"),

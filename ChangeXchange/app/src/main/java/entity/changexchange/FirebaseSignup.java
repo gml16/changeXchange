@@ -80,7 +80,7 @@ public class FirebaseSignup extends AppCompatActivity {
                             new RequestDatabase().execute("INSERT INTO users VALUES (name=" + nickname + ", nickname=" + nickname + ", currency='GBP', contact=" + contact + ");");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
-                            User ourUser = new User(nickname, nickname, Currency.GBP, contact, 5);
+                            User ourUser = new User(nickname, Currency.GBP, contact, 5);
                             startActivity(new Intent(FirebaseSignup.this, MainActivity.class).putExtra("user", ourUser));
                         } else {
                             // If sign in fails, display a message to the user.
