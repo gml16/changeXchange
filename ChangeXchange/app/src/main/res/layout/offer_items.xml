@@ -34,7 +34,8 @@
             android:layout_below="@id/offer_title"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:text="@string/offer_current_rate" />
+            android:text="@string/offer_current_rate"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/offer_amount_recieve"
@@ -44,7 +45,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/offer_youwillget"
-            android:text="@string/load_value" />
+            android:text="@string/load_value"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/offer_youwillget" />
 
         <TextView
             android:id="@+id/offer_note"
@@ -56,7 +59,8 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:hint="@string/offer_note_hint"
-            android:text="@string/test" />
+            android:text="@string/test"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/offer_poster_hidden"
@@ -76,7 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/offer_note"
             android:layout_alignTop="@+id/offer_youwillget"
-            android:text="@string/test" />
+            android:text="@string/test"
+            android:layout_alignRight="@+id/offer_note" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/offer_accept"
@@ -85,8 +90,11 @@
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/offer_amount_recieve"
             android:layout_marginEnd="62dp"
+            android:layout_marginRight="62dp"
             android:clickable="true"
-            app:srcCompat="@mipmap/baseline_done_black_48" />
+            app:srcCompat="@mipmap/baseline_done_black_48"
+            android:layout_alignParentRight="true"
+            android:focusable="true" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/offer_delete"
@@ -94,18 +102,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignTop="@+id/offer_youwillget"
+            android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:clickable="true"
-            app:srcCompat="@mipmap/baseline_delete_black_48" />
+            app:srcCompat="@mipmap/baseline_delete_black_48"
+            android:layout_alignParentRight="true"
+            android:focusable="true" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/offer_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/offer_delete"
-            android:layout_toLeftOf="@+id/offer_delete"
-            android:clickable="true"
-            app:srcCompat="@mipmap/baseline_edit_black_48" />
+        <!--Commented out in order to favor clicking on the offer instead.-->
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/offer_edit"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/offer_delete"-->
+            <!--android:layout_alignTop="@+id/offer_star"-->
+            <!--android:layout_alignEnd="@+id/offer_accept"-->
+            <!--android:clickable="true"-->
+            <!--app:srcCompat="@mipmap/baseline_edit_black_48"-->
+            <!--android:focusable="true"-->
+            <!--android:layout_alignRight="@+id/offer_delete" />-->
 
         <ImageView
             android:id="@+id/offer_star"
@@ -113,7 +128,9 @@
             android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/offer_note"
             android:layout_alignTop="@+id/offer_note"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            android:layout_below="@+id/offer_poster_rating"
+            app:srcCompat="@android:drawable/btn_star_big_on"
+            android:layout_alignRight="@+id/offer_note" />
 
     </RelativeLayout>
 

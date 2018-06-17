@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
@@ -12,6 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MyOffers">
+
+        <View
+            android:id="@+id/horizontal_bar"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginBottom="356dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/PwdEditText" />
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/my_offers_swiper"
@@ -35,6 +52,19 @@
                 android:layout_marginStart="16dp"
                 tools:layout_editor_absoluteY="155dp" />
         </android.support.v4.widget.SwipeRefreshLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/ic_launcher_background"
+            app:layout_constraintBottom_toTopOf="@+id/my_offers_swiper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher" />
 
     </android.support.constraint.ConstraintLayout>
 

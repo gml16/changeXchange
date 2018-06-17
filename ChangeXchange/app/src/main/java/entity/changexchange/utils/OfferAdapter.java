@@ -94,16 +94,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                     }
                 }
         );
-        holder.edit.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Context ctx = v.getContext();
-                        ctx.startActivity(new Intent(ctx, EditOffer.class)
-                                .putExtra("offer", offer));
-                    }
-                }
-        );
 
         // Set visibility of different elements.
         if (inMyOffers) {
@@ -112,13 +102,14 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             holder.offer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // do nothing
+                    Context ctx = v.getContext();
+                    ctx.startActivity(new Intent(ctx, EditOffer.class)
+                            .putExtra("offer", offer));
                 }
             });
         } else {
             holder.accept.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
-            holder.edit.setVisibility(View.GONE);
         }
     }
 
@@ -148,7 +139,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         TextView rating;
         FloatingActionButton accept;
         FloatingActionButton delete;
-        FloatingActionButton edit;
         ImageView star;
 
         OfferViewHolder(View itemView) {
@@ -161,7 +151,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             rating = itemView.findViewById(R.id.offer_poster_rating);
             accept = itemView.findViewById(R.id.offer_accept);
             delete = itemView.findViewById(R.id.offer_delete);
-            edit = itemView.findViewById(R.id.offer_edit);
             star = itemView.findViewById(R.id.offer_star);
             offer = itemView.findViewById(R.id.offer);
         }
