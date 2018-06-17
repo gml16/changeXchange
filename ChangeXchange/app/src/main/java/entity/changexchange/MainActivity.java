@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Find friends", "Settings"};
         drawerAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_list_item_1, tabs
         );
@@ -374,6 +374,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                         Toast.makeText(MainActivity.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
+                        startActivity(new Intent(MainActivity.this, OtherProfile.class)
+                                .putExtra("user", user));
+                        break;
+                    case 5:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
                         Toast.makeText(MainActivity.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;

@@ -20,6 +20,7 @@ public class Util {
      * Removes illegal characters from user input before parsing.
      */
     public static String filter(String string) {
+
         for (char c : ILLEGALS) {
             string = string.replace(c, ' ');
         }

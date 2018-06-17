@@ -48,9 +48,11 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     public void onBindViewHolder(@NonNull final OfferViewHolder holder, int position) {
         final Offer offer = offers.get(position);
 
+        String nickname = offer.getPoster_nickname();
+
         // Get offer announcement.
         holder.title.setText(
-                offer.getPoster_nickname()
+                nickname
                         + " is looking to buy "
                         + offer.getAmount() + " "
                         + offer.getBuying().toString()
@@ -69,11 +71,11 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.note.setText(offer.getNote());
 
         // Set hidden nickname of poster.
-        holder.poster.setText(offer.getPoster_nickname());
+        holder.poster.setText(nickname);
 
         // Set user rating.
         new RequestDatabase(holder.rating, RATING).execute(
-                "SELECT * FROM users WHERE nickname='" + offer.getPoster_nickname() + "'; "
+                "SELECT * FROM users WHERE nickname='" + nickname + "'; "
         );
 
         // Set buttons.

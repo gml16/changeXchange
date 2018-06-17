@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RatingUser">
+
+    <TextView
+        android:id="@+id/rating_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="128dp"
+        android:text="Leave your rating here!"
+        android:textSize="26sp" />
+
+    <EditText
+        android:id="@+id/rating_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="256dp"
+        android:ems="5"
+        android:inputType="number" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/rating_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="256dp"
+        app:srcCompat="@mipmap/baseline_done_black_48"/>
+
+    <TextView
+        android:id="@+id/rating_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="325dp"
+        android:text="@string/test"
+        android:textSize="13sp"
+        android:textStyle="italic" />
+
+</FrameLayout>

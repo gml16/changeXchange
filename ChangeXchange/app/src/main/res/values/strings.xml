@@ -37,4 +37,9 @@
     </string>
     <string name="you_all_set">You\'re all set!</string>
     <string name="title_edit_offer">Edit your offer</string>
+    <string name="rate_this_user">Rate this user</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_their_nickname_here">Enter their nickname here...</string>
 </resources>

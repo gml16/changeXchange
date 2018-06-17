@@ -1,6 +1,5 @@
 package entity.changexchange;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.design.widget.FloatingActionButton;
@@ -8,21 +7,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import java.util.ArrayList;
 
+import entity.changexchange.utils.Offer;
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
-public class Profile extends AppCompatActivity {
+import static entity.changexchange.utils.Util.filter;
+
+public class OtherProfile extends AppCompatActivity {
+
+    private ArrayList<User> users;
+    private User user;
 
     // Menu related fields.
     private ListView drawerList;
@@ -31,41 +42,75 @@ public class Profile extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private String title;
 
-    private User user;
-
-    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_other_profile);
 
-        // Menu setup.
+        // Setup menu
         setupMenu();
 
         user = (User) getIntent().getSerializableExtra("user");
 
-        //TODO: this.<ImageView>findViewById(R.id.profile_picture).setImageIcon();
-        this.<TextView>findViewById(R.id.profile_nickname).setText(user.getNickname());
-        this.<TextView>findViewById(R.id.profile_fav_currency).setText(user.getCurrency().toString());
-        this.<TextView>findViewById(R.id.profile_contact).setText(user.getContact());
+        // Set action to searching.
+        this.<FloatingActionButton>findViewById(R.id.other_search_submit).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText txt = v.findViewById(R.id.other_search);
+                        updateWithSearch(
+                                txt == null ? "" : filter(txt.getText().toString())
+                        );
+                    }
+                }
+        );
+    }
 
-        // Clicking on edit brings up profile edit activity.
-        this.<FloatingActionButton>findViewById(R.id.profile_edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(
-                        new Intent(Profile.this, EditProfile.class).putExtra("user", user)
-                );
-            }
-        });
+    /**
+     * Set's up the activity w.r.t. the input string.
+     */
+    private void updateWithSearch(String input) {
+        // Populate a list of users - essentially just to grab the unique user with the nickname.
+        users = new ArrayList<>();
+        new RequestDatabase(users).execute(
+                "SELECT * FROM users WHERE nickname='" + input + "';"
+        );
 
-        this.<Button>findViewById(R.id.signOutButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Profile.this, FirebaseLogin.class));
-            }
-        });
+        // Safety check for result.
+        if (users.isEmpty()) {
+            Toast.makeText(OtherProfile.this,
+                    input.isEmpty() ? "No input detected." : "User " + input + " not found...",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        this.<TextView>findViewById(R.id.other_nickname_tag).setVisibility(View.VISIBLE);
+        this.<TextView>findViewById(R.id.other_contact_tag).setVisibility(View.VISIBLE);
+        this.<TextView>findViewById(R.id.other_preferred_curr_tag).setVisibility(View.VISIBLE);
+
+        // Populate and set visible profile fields for this user.
+        Button submit = findViewById(R.id.other_profile_add_rating);
+        //TODO: TextView img = findViewById(R.id.other_profile_picture);
+        TextView nickname = findViewById(R.id.other_profile_nickname);
+        TextView currency = findViewById(R.id.other_profile_fav_currency);
+        TextView contact = findViewById(R.id.other_profile_contact);
+
+        submit.setVisibility(View.VISIBLE);
+        nickname.setVisibility(View.VISIBLE);
+        currency.setVisibility(View.VISIBLE);
+        contact.setVisibility(View.VISIBLE);
+
+        submit.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RatingUser.newInstance(users.get(0));
+                    }
+                }
+        );
+        nickname.setText(users.get(0).getNickname());
+        currency.setText(users.get(0).getCurrency().toString());
+        contact.setText(users.get(0).getContact());
     }
 
     /**
@@ -93,28 +138,28 @@ public class Profile extends AppCompatActivity {
                 switch (position) {
                     case 0:
 
-                        startActivity(new Intent(Profile.this, MainActivity.class)
+                        startActivity(new Intent(OtherProfile.this, MainActivity.class)
                                 .putExtra("user", user));
                         break;
                     case 1:
-                        // Do nothing
-                        Toast.makeText(Profile.this, "Already in Profile!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(OtherProfile.this, Profile.class)
+                                .putExtra("user", user));
                         break;
                     case 2:
-                        startActivity(new Intent(Profile.this, MyOffers.class)
+                        startActivity(new Intent(OtherProfile.this, MyOffers.class)
                                 .putExtra("user", user));
                         break;
                     case 3:
 //                        startActivity(new Intent(MainActivity.this, Messages.class));
-                        Toast.makeText(Profile.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OtherProfile.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
-                        startActivity(new Intent(Profile.this, OtherProfile.class)
-                                .putExtra("user", user));
+                        // Do nothing
+                        Toast.makeText(OtherProfile.this, "Already looking for friends!", Toast.LENGTH_SHORT).show();
                         break;
                     case 5:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
-                        Toast.makeText(Profile.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OtherProfile.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

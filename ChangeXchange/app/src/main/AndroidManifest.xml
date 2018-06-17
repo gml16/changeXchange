@@ -33,7 +33,8 @@
         <activity android:name=".MyOffers" />
         <activity android:name=".MainActivity" />
         <activity android:name=".FirebaseSignup" />
-        <activity android:name=".EditOffer"></activity>
+        <activity android:name=".EditOffer" />
+        <activity android:name=".OtherProfile"></activity>
     </application>
 
 </manifest>
