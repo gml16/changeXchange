@@ -120,10 +120,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
     private void deleteOffer(Offer offer) {
         new RequestDatabase().execute(
-                "DELETE * FROM offers WHERE "
+                "DELETE FROM offers WHERE "
                         + "nickname='" + offer.getPoster_nickname() + "' and "
-                        + "buying=" + offer.getBuying() + " and "
-                        + "selling=" + offer.getSelling() + " and "
+                        + "buying='" + offer.getBuying() + "' and "
+                        + "selling='" + offer.getSelling() + "' and "
                         + "amount=" + offer.getAmount() + " and "
                         + "location=" + offer.getLocation() + ";"
         );

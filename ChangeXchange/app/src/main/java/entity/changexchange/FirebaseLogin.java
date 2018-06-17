@@ -41,7 +41,7 @@ public class FirebaseLogin extends AppCompatActivity {
             public void onClick(View v) {
                 String email = ((EditText) findViewById(R.id.EmailEditText)).getText().toString();
                 String pwd = ((EditText) findViewById(R.id.PwdEditText)).getText().toString();
-                if(!email.isEmpty() && !pwd.isEmpty()) {
+                if (!email.isEmpty() && !pwd.isEmpty()) {
                     signInUser(email, pwd);
                 }
             }
@@ -54,19 +54,19 @@ public class FirebaseLogin extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             User ourUser = new User("gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
             startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
         }
         updateUI(currentUser);
     }
 
-    private void updateUI(FirebaseUser user){
+    private void updateUI(FirebaseUser user) {
         //TODO
     }
 
 
-    private void signInUser(String email, String password){
+    private void signInUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

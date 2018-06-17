@@ -69,21 +69,19 @@ public class MakeAnOffer extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
-
-                String name = user.getNickname();
-
+                String nickname = user.getNickname();
                 String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
                 String to = ((Spinner) findViewById(R.id.new_offer_currency_to))
                         .getSelectedItem().toString();
+                String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
                 String location = ((Spinner) findViewById(R.id.new_offer_location))
                         .getSelectedItem().toString();
                 String note = filter(((EditText) findViewById(R.id.new_offer_note))
                         .getText().toString());
 
                 // If note hasn't been filled, replace with default value.
-                if (note.isEmpty()) note = name + " did not add a note.";
+                if (note.isEmpty()) note = nickname + " did not add a note.";
 
                 //Erroneous amount entered. Deny clicking effect.
                 if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
@@ -97,11 +95,9 @@ public class MakeAnOffer extends AppCompatActivity {
                     return;
                 }
 
-                // TODO: Add note to database.
-
                 new RequestDatabase().execute(
                         "INSERT INTO offers VALUES ('"
-                                + name + "', '"
+                                + nickname + "', '"
                                 + from + "', '"
                                 + to + "', '"
                                 + amount + "', '"

@@ -63,10 +63,10 @@ public class EditProfile extends AppCompatActivity {
 
                         // Update the database.
                         new RequestDatabase().execute(
-                                "UPDATE users SET nickname=" + newNickname
-                                        + " contact=" + newContact
-                                        + " currency=" + newCurrency
-                                        + " WHERE nickname=" + user.getNickname()
+                                "UPDATE users SET nickname='" + newNickname + "' and "
+                                        + "contact='" + newContact + "' and "
+                                        + "currency='" + newCurrency + "' and "
+                                        + "WHERE nickname='" + user.getNickname() + "';"
                         );
 
                         // Pass de modified object back to profile.

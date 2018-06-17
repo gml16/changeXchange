@@ -46,7 +46,7 @@ public class User implements Serializable {
     }
 
     public void addRating(double new_rating) {
-        rating = ((rating * num_ratings) + new_rating) / (num_ratings+1);
+        rating = ((rating * num_ratings) + new_rating) / (num_ratings + 1);
         num_ratings++;
     }
 }

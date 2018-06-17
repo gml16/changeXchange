@@ -93,7 +93,7 @@ public class MyOffers extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         startActivity(new Intent(MyOffers.this, MainActivity.class)
-                                    .putExtra("user", user));
+                                .putExtra("user", user));
 
                         break;
                     case 1:

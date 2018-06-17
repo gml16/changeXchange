@@ -38,7 +38,7 @@ public class FirebaseSignup extends AppCompatActivity {
                 String pwd = ((EditText) findViewById(R.id.PwdEditText)).getText().toString();
                 String nickname = ((EditText) findViewById(R.id.NicknameEditText)).getText().toString();
                 String contact = ((EditText) findViewById(R.id.ContactEditText)).getText().toString();
-                if(!email.isEmpty() && !pwd.isEmpty() && !nickname.isEmpty() && !contact.isEmpty() ) {
+                if (!email.isEmpty() && !pwd.isEmpty() && !nickname.isEmpty() && !contact.isEmpty()) {
                     createAccount(email, pwd, nickname, contact);
                 }
             }
@@ -58,17 +58,17 @@ public class FirebaseSignup extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             startActivity(new Intent(FirebaseSignup.this, MainActivity.class));
         }
         updateUI(currentUser);
     }
 
-    private void updateUI(FirebaseUser user){
+    private void updateUI(FirebaseUser user) {
         //TODO
     }
 
-    private void createAccount(String email, String password, final String nickname, final String contact){
+    private void createAccount(String email, String password, final String nickname, final String contact) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 

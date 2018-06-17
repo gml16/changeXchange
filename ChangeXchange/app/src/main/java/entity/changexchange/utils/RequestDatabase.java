@@ -88,7 +88,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                     }
 
                 }
-                Log.d("test", "Found "+ String.valueOf(users.size()));
+                Log.d("test", "Found " + String.valueOf(users.size()));
                 rs.close();
                 stmt.close();
             } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")
