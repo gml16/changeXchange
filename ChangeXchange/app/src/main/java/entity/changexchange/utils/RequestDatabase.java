@@ -27,23 +27,20 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     // For populating offers.
     private Activity activity;
-    private List<Offer> offers;
+    private List<Offer> offers = new ArrayList<>();
 
     // For fetching users from database.
-    private List<User> users;
+    private List<User> users = new ArrayList<>();
 
     // For showing correct user details.
     private int type;
     private TextView textView;
 
     public RequestDatabase() {
-        this.offers = new ArrayList<>();
-        this.users = new ArrayList<>();
     }
 
     public RequestDatabase(Activity activity) {
         this.activity = activity;
-        offers = new ArrayList<>();
     }
 
     public RequestDatabase(TextView textView, int type) {
@@ -60,6 +57,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         Statement stmt;
         instruction = strings[0].split(" ")[0];
         table = strings[0].split(" ")[3];
+        Log.d("test", strings[0]);
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -90,6 +88,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                     }
 
                 }
+                Log.d("test", "Found "+ String.valueOf(users.size()));
                 rs.close();
                 stmt.close();
             } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")
@@ -102,6 +101,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             c.close();
         } catch (Exception e) {
             Log.d("Database", "Database error in RequestDatabase");
+            Log.d("Database", e.getMessage());
         }
         return null;
     }
