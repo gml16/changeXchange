@@ -1,6 +1,7 @@
 package entity.changexchange.utils;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import entity.changexchange.MainActivity;
 import entity.changexchange.R;
 
 import static entity.changexchange.utils.Util.CONTACT;
@@ -46,6 +48,10 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     public RequestDatabase(TextView textView, int type) {
         this.textView = textView;
         this.type = type;
+    }
+
+    public RequestDatabase(ArrayList<Offer> offers) {
+        this.offers = offers;
     }
 
     public RequestDatabase(List<User> users) {
@@ -108,7 +114,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     protected void onPostExecute(Void unused) {
         if (instruction.equals("SELECT")) {
-            if (table.equals("offers")) {
+            if (table.equals("offers") && activity != null) {
                 setupOffers();
             } else if (table.equals("users") && textView != null) {
                 setupTextView();

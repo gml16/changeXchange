@@ -75,9 +75,13 @@ public class OtherProfile extends AppCompatActivity {
         new RequestDatabase(users).execute(
                 "SELECT * FROM users WHERE nickname='" + input + "';"
         );
+        ArrayList<Offer> offers = new ArrayList<>();
+        new RequestDatabase(offers).execute(
+                "SELECT * FROM offers WHERE nickname='" + input + "';"
+        );
 
         // Safety check for result.
-        if (users.isEmpty()) {
+        if (users.isEmpty() || offers.isEmpty()) {
             Toast.makeText(OtherProfile.this,
                     input.isEmpty() ? "No input detected." : "User " + input + " not found...",
                     Toast.LENGTH_SHORT).show();
