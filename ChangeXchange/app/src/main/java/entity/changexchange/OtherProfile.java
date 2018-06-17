@@ -83,12 +83,13 @@ public class OtherProfile extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        final User user = users.get(0);
 
+        // Set all fields to now visible, and according to their user.
         this.<TextView>findViewById(R.id.other_nickname_tag).setVisibility(View.VISIBLE);
         this.<TextView>findViewById(R.id.other_contact_tag).setVisibility(View.VISIBLE);
         this.<TextView>findViewById(R.id.other_preferred_curr_tag).setVisibility(View.VISIBLE);
 
-        // Populate and set visible profile fields for this user.
         Button submit = findViewById(R.id.other_profile_add_rating);
         //TODO: TextView img = findViewById(R.id.other_profile_picture);
         TextView nickname = findViewById(R.id.other_profile_nickname);
@@ -104,13 +105,13 @@ public class OtherProfile extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        RatingUser.newInstance(users.get(0));
+                        RatingUser.newInstance(user);
                     }
                 }
         );
-        nickname.setText(users.get(0).getNickname());
-        currency.setText(users.get(0).getCurrency().toString());
-        contact.setText(users.get(0).getContact());
+        nickname.setText(user.getNickname());
+        currency.setText(user.getCurrency().toString());
+        contact.setText(user.getContact());
     }
 
     /**
