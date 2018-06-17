@@ -38,7 +38,7 @@ public class FirebaseSignup extends AppCompatActivity {
                 String pwd = ((EditText) findViewById(R.id.PwdEditText)).getText().toString();
                 String nickname = ((EditText) findViewById(R.id.NicknameEditText)).getText().toString();
                 String contact = ((EditText) findViewById(R.id.ContactEditText)).getText().toString();
-                if(!email.isEmpty() && !pwd.isEmpty()) {
+                if(!email.isEmpty() && !pwd.isEmpty() && !nickname.isEmpty() && !contact.isEmpty() ) {
                     createAccount(email, pwd, nickname, contact);
                 }
             }

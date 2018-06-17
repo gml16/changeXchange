@@ -96,8 +96,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
             c.close();
         } catch (Exception e) {
-            //System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-            //System.exit(0);
+            Log.d("Database", "Database error in RequestDatabase");
         }
         return null;
     }
