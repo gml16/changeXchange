@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import entity.changexchange.utils.RequestDatabase;
 
+import static entity.changexchange.utils.Util.CONTACT;
+
 public class ContactDetails extends AppCompatActivity {
 
     @Override
@@ -17,7 +19,7 @@ public class ContactDetails extends AppCompatActivity {
         setContentView(R.layout.activity_contact_details);
 
         // Fetch the poster's preferred contact detail of the poster.
-        new RequestDatabase(this.<TextView>findViewById(R.id.selected_contact))
+        new RequestDatabase(this.<TextView>findViewById(R.id.selected_contact), CONTACT)
                 .execute(
                         "SELECT * FROM users WHERE nickname='"
                                 + getIntent().getStringExtra("nickname") + "';"

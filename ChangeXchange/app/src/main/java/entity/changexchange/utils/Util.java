@@ -4,6 +4,10 @@ import java.util.regex.Pattern;
 
 public class Util {
 
+    // Flags so that the database knows what kind of user data we want.
+    public static final int CONTACT = 0;
+    public static final int RATING = 1;
+
     // Illegal characters for nicknames.
     private static final char[] ILLEGALS = {'\r', '\t', '\n'};
 

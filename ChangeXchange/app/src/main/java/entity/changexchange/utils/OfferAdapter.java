@@ -1,11 +1,9 @@
 package entity.changexchange.utils;
 
 import android.annotation.SuppressLint;
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,17 +13,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
 import entity.changexchange.EditOffer;
-import entity.changexchange.MainActivity;
 import entity.changexchange.MyOffers;
 import entity.changexchange.R;
 
-import static android.support.v4.content.ContextCompat.startActivity;
+import static entity.changexchange.utils.Util.RATING;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHolder> {
 
@@ -77,10 +72,9 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.poster.setText(offer.getPoster_nickname());
 
         // Set user rating.
-        holder.rating.setText("4.76/5");
-//        new RequestDatabase(holder.rating).execute(
-//                "SELECT * FROM users WHERE nickname=" + offer.getPoster_nickname() + "; "
-//        );
+        new RequestDatabase(holder.rating, RATING).execute(
+                "SELECT * FROM users WHERE nickname='" + offer.getPoster_nickname() + "'; "
+        );
 
         // Set buttons.
         holder.accept.setOnClickListener(

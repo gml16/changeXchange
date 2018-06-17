@@ -16,6 +16,9 @@ import java.util.List;
 
 import entity.changexchange.R;
 
+import static entity.changexchange.utils.Util.CONTACT;
+import static entity.changexchange.utils.Util.RATING;
+
 public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     private String table;
@@ -29,7 +32,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     // For fetching users from database.
     private List<User> users;
 
-    // For showing correct contact detail.
+    // For showing correct user details.
+    private int type;
     private TextView textView;
 
     public RequestDatabase() {
@@ -42,8 +46,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         offers = new ArrayList<>();
     }
 
-    public RequestDatabase(TextView textView) {
+    public RequestDatabase(TextView textView, int type) {
         this.textView = textView;
+        this.type = type;
     }
 
     public RequestDatabase(List<User> users) {
@@ -106,8 +111,22 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
             if (table.equals("offers")) {
                 setupOffers();
             } else if (table.equals("users") && textView != null) {
-                textView.setText(users.get(0).getContact());
+                setupTextView();
             }
+        }
+    }
+
+    /**
+     * Sets the given TextView to the correct user data w.r.t. to the type flag.
+     */
+    private void setupTextView() {
+        switch (type) {
+            case CONTACT:
+                textView.setText(users.get(0).getContact());
+                break;
+            case RATING:
+                textView.setText(String.valueOf(users.get(0).getRating()));
+                break;
         }
     }
 
