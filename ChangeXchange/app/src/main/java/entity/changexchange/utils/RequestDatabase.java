@@ -27,6 +27,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     private String instruction;
     private Exception exception;
 
+    private User user;
+
     // For populating offers.
     private Activity activity;
     private List<Offer> offers = new ArrayList<>();
@@ -41,7 +43,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     public RequestDatabase() {
     }
 
-    public RequestDatabase(Activity activity) {
+    public RequestDatabase(Activity activity, User user) {
+        this.user = user;
         this.activity = activity;
     }
 
@@ -146,7 +149,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
         }
         offer_container.setHasFixedSize(true);
         offer_container.setLayoutManager(new LinearLayoutManager(activity));
-        offer_container.setAdapter(new OfferAdapter(activity, offers));
+        offer_container.setAdapter(new OfferAdapter(activity, offers, user));
     }
 
 }

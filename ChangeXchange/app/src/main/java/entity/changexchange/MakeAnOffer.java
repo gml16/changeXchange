@@ -15,12 +15,13 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.MAX_AMOUNT;
+import static entity.changexchange.utils.Util.NEG_THRESHOLD;
 import static entity.changexchange.utils.Util.filter;
+import static entity.changexchange.utils.Util.gbpEquivalenceAmount;
 
 
 public class MakeAnOffer extends AppCompatActivity {
-
-    static final float NEG_THRESHOLD = (float) 0.001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,8 @@ public class MakeAnOffer extends AppCompatActivity {
                 if (note.isEmpty()) note = nickname + " did not add a note.";
 
                 //Erroneous amount entered. Deny clicking effect.
-                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
+                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD
+                        || gbpEquivalenceAmount(Float.parseFloat(amount), to, v) > MAX_AMOUNT) {
                     Toast.makeText(MakeAnOffer.this, "Error: Invalid amount.",
                             Toast.LENGTH_SHORT).show();
                     return;

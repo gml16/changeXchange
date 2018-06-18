@@ -21,13 +21,13 @@ import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
-import static entity.changexchange.MakeAnOffer.NEG_THRESHOLD;
+import static entity.changexchange.utils.Util.NEG_THRESHOLD;
 import static entity.changexchange.utils.Util.filter;
 
 public class EditOffer extends AppCompatActivity {
 
     private Offer offer;
-    private List<User> users;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +35,7 @@ public class EditOffer extends AppCompatActivity {
         setContentView(R.layout.activity_edit_offer);
 
         offer = (Offer) getIntent().getSerializableExtra("offer");
-        // Populate a list of users - essentially just to grab the unique user with the nickname.
-        users = new ArrayList<>();
-        new RequestDatabase(users).execute(
-                "SELECT * FROM users WHERE nickname='" + offer.getPoster_nickname() + "';"
-        );
+        user = (User) getIntent().getSerializableExtra("user");
 
         // Setup currencies to current values of the offer.
         ArrayAdapter<Currency> currencyAdapter = new ArrayAdapter<>(
@@ -136,6 +132,6 @@ public class EditOffer extends AppCompatActivity {
 
         // Return to MyOffers.
         startActivity(new Intent(EditOffer.this, MyOffers.class)
-                .putExtra("user", users.get(0)));
+                .putExtra("user", user));
     }
 }

@@ -33,7 +33,9 @@ public enum Currency {
 //    ZWD("ZWD");
 
     GBP("GBP"), EUR("EUR"), USD("USD"), CHF("CHF"), CAD("CAD"), JPY("JPY"),
-    AUD("AUD");
+    AUD("AUD"), PEN("PEN"), MXN("MXN"), BRL("BRL"), ARS("ARS"), CLP("CLP"),
+    COP("COP"), SEK("SEK"), NOK("NOK"), CKK("CKK"), ZAR("ZAR"), HKD("HKD"),
+    IDR("IDR"), KRW("KRW"), SGD("SGD");
 
     private String currency;
 

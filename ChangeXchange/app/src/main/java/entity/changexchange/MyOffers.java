@@ -59,7 +59,7 @@ public class MyOffers extends AppCompatActivity {
 
     private void updateMyOffers() {
         // Show offers
-        new RequestDatabase(this).execute(
+        new RequestDatabase(this, user).execute(
                 "SELECT * FROM offers WHERE nickname='" + user.getNickname()
                         + "' ORDER BY amount;"
         );

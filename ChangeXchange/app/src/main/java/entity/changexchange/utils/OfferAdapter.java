@@ -6,6 +6,11 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,19 +23,22 @@ import java.util.List;
 
 import entity.changexchange.EditOffer;
 import entity.changexchange.MyOffers;
+import entity.changexchange.OtherProfile;
 import entity.changexchange.R;
 
 import static entity.changexchange.utils.Util.RATING;
 
 public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHolder> {
 
+    private User user;
     private Context context;
     private List<Offer> offers;
     private boolean inMyOffers;
 
-    OfferAdapter(Context context, List<Offer> offers) {
+    OfferAdapter(Context context, List<Offer> offers, User user) {
         this.context = context;
         this.offers = offers;
+        this.user = user;
         this.inMyOffers = context instanceof MyOffers;
     }
 
@@ -51,15 +59,29 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         String nickname = offer.getPoster_nickname();
 
         // Get offer announcement.
-        holder.title.setText(
-                nickname
-                        + " is looking to buy "
-                        + offer.getAmount() + " "
-                        + offer.getBuying().toString()
-                        + " at "
-                        + offer.getLocation().toString()
-                        + "!"
-        );
+        String title = nickname + " is looking to buy " + offer.getAmount() + " "
+                + offer.getBuying().toString() + " at " + offer.getLocation().toString() + "!";
+        holder.title.setText(title);
+
+        // If in MainActivity, make nickname clickable.
+        if (!inMyOffers) {
+            SpannableString click_title = new SpannableString(title);
+            click_title.setSpan(
+                    new ClickableSpan() {
+                        @Override
+                        public void onClick(View v) {
+                            Context ctx = v.getContext();
+                            ctx.startActivity(new Intent(ctx, OtherProfile.class)
+                                    .putExtra("user", user)
+                                    .putExtra("nickname", offer.getPoster_nickname())
+                                    .putExtra("hide_contact", true));
+                        }
+                    },
+                    0, nickname.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+            holder.title.setText(click_title);
+            holder.title.setMovementMethod(LinkMovementMethod.getInstance());
+        }
 
         // Get exchange rate.
         new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getSelling()).execute(
@@ -106,7 +128,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                 public void onClick(View v) {
                     Context ctx = v.getContext();
                     ctx.startActivity(new Intent(ctx, EditOffer.class)
-                            .putExtra("offer", offer));
+                            .putExtra("offer", offer)
+                            .putExtra("user", user));
                 }
             });
         } else {

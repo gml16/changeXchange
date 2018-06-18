@@ -23,7 +23,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="64dp"
             android:text="@string/test"
-            android:visibility="gone"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/other_nickname_tag"
@@ -37,7 +36,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/test"
-            android:visibility="gone"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/other_contact_tag"
@@ -51,7 +49,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:text="@string/test"
-            android:visibility="gone"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/other_preferred_curr_tag"
@@ -69,7 +66,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
             app:srcCompat="@mipmap/baseline_account_circle_black_48" />
 
         <TextView
@@ -79,7 +75,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:text="Nickname:"
-            android:visibility="gone"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/other_profile_nickname"
@@ -92,7 +87,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:text="Default currency:"
-            android:visibility="gone"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/other_profile_fav_currency"
@@ -105,7 +99,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:text="Preferred contact:"
-            android:visibility="gone"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/other_profile_contact"
@@ -122,36 +115,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/rate_this_user"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/other_profile_contact" />
-
-        <EditText
-            android:id="@+id/other_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/enter_their_nickname_here"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/other_search_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/other_search"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@mipmap/baseline_explore_black_48" />
 
     </android.support.constraint.ConstraintLayout>
 

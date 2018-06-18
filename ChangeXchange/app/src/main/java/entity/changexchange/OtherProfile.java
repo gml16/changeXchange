@@ -32,6 +32,7 @@ public class OtherProfile extends AppCompatActivity {
 
     private ArrayList<User> users;
     private User user;
+    private boolean hide_contact;
 
     // Menu related fields.
     private ListView drawerList;
@@ -48,63 +49,44 @@ public class OtherProfile extends AppCompatActivity {
         // Setup menu
         setupMenu();
 
+        // Get logged in user.
         user = (User) getIntent().getSerializableExtra("user");
+        hide_contact = getIntent().getBooleanExtra("hide_contact", false);
 
-        // Set action to searching.
-        this.<FloatingActionButton>findViewById(R.id.other_search_submit).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        EditText txt = findViewById(R.id.other_search);
-                        updateWithSearch(
-                                txt == null ? "" : filter(txt.getText().toString())
-                        );
-                    }
-                }
-        );
-    }
-
-    /**
-     * Set's up the activity w.r.t. the input string.
-     */
-    private void updateWithSearch(String input) {
-        // Populate a list of users - essentially just to grab the unique user with the nickname.
+        // Get the profile of the selected user
+        String nickname = getIntent().getStringExtra("nickname");
         users = new ArrayList<>();
         new RequestDatabase(users).execute(
-                "SELECT * FROM users WHERE nickname='" + input + "';"
+                "SELECT * FROM users WHERE nickname='" + nickname + "';"
         );
-        ArrayList<Offer> offers = new ArrayList<>();
-        new RequestDatabase(offers).execute(
-                "SELECT * FROM offers WHERE nickname='" + input + "';"
-        );
+        databaseWait();
+        updateView(users.get(0));
+    }
 
-        // Wait for database request to end.
+    private void databaseWait() {
         try {
             Thread.sleep(DATABASE_REQUEST_DELAY);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-        // Safety check for result.
-        if (users.isEmpty() || offers.isEmpty()) {
-            Toast.makeText(OtherProfile.this,
-                    input.isEmpty() ? "No input detected." : "User " + input + " not found...",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-        final User user = users.get(0);
-
-        // Set all fields to now visible, and according to their user.
+    /**
+     * Set's up the activity w.r.t. the user.
+     */
+    private void updateView(final User user) {
+        // Set all fields according to their user.
 
         Button submit = findViewById(R.id.other_profile_add_rating);
-        ImageView img = findViewById(R.id.other_profile_picture);
         TextView nickname = findViewById(R.id.other_profile_nickname);
         TextView currency = findViewById(R.id.other_profile_fav_currency);
         TextView contact = findViewById(R.id.other_profile_contact);
 
         nickname.setText(user.getNickname());
         currency.setText(user.getCurrency().toString());
-        contact.setText(user.getContact());
+        contact.setText(
+                hide_contact ? "Private" : user.getContact()
+        );
         submit.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -114,15 +96,6 @@ public class OtherProfile extends AppCompatActivity {
                     }
                 }
         );
-
-        img.setVisibility(View.VISIBLE);
-        submit.setVisibility(View.VISIBLE);
-        nickname.setVisibility(View.VISIBLE);
-        currency.setVisibility(View.VISIBLE);
-        contact.setVisibility(View.VISIBLE);
-        this.<TextView>findViewById(R.id.other_nickname_tag).setVisibility(View.VISIBLE);
-        this.<TextView>findViewById(R.id.other_contact_tag).setVisibility(View.VISIBLE);
-        this.<TextView>findViewById(R.id.other_preferred_curr_tag).setVisibility(View.VISIBLE);
     }
 
     /**
@@ -140,7 +113,7 @@ public class OtherProfile extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Find friends", "Settings"};
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
         drawerList.setAdapter(drawerAdapter);
 
@@ -166,10 +139,6 @@ public class OtherProfile extends AppCompatActivity {
                         Toast.makeText(OtherProfile.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
-                        // Do nothing
-                        Toast.makeText(OtherProfile.this, "Already looking for friends!", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 5:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
                         Toast.makeText(OtherProfile.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;

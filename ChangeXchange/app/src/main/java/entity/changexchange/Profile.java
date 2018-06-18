@@ -83,7 +83,7 @@ public class Profile extends AppCompatActivity {
     }
 
     private void addDrawerItems() {
-        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Find friends", "Settings"};
+        String[] tabs = {"Offers", "Profile", "My Offers", "Messages", "Settings"};
         drawerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tabs);
         drawerList.setAdapter(drawerAdapter);
 
@@ -109,10 +109,6 @@ public class Profile extends AppCompatActivity {
                         Toast.makeText(Profile.this, "Messages coming soon!", Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
-                        startActivity(new Intent(Profile.this, OtherProfile.class)
-                                .putExtra("user", user));
-                        break;
-                    case 5:
 //                        startActivity(new Intent(MainActivity.this, Settings.class));
                         Toast.makeText(Profile.this, "Settings coming soon!", Toast.LENGTH_SHORT).show();
                         break;

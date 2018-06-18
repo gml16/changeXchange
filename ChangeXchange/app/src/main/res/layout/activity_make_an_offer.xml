@@ -94,4 +94,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_offer_location" />
 
+    <TextView
+        android:id="@+id/hidden_val"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>

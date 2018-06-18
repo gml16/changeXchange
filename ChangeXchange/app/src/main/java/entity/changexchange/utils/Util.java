@@ -1,8 +1,20 @@
 package entity.changexchange.utils;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.TextView;
+
 import java.util.regex.Pattern;
 
+import entity.changexchange.R;
+
+import static entity.changexchange.utils.Currency.GBP;
+
 public class Util {
+
+    // Limits for currency entries.
+    public static float NEG_THRESHOLD = (float) 0.001;
+    public static float MAX_AMOUNT = (float) 50;
 
     // Approximate time a database query takes.
     public static final int DATABASE_REQUEST_DELAY = 200;
@@ -37,5 +49,16 @@ public class Util {
         return contact.equals("In app")
                 || !rfc2822.matcher(contact).matches();
         // TODO: Check for valid phone number.
+    }
+
+    /**
+     * Gets the GBP value of the given currency.
+     */
+    public static float gbpEquivalenceAmount (float amount, String buying, View view) {
+        TextView rate = view.findViewById(R.id.hidden_val);
+        new ExchangeRateTracker(rate).execute(
+                buying, GBP.toString()
+        );
+        return amount * Float.valueOf(rate.getText().toString());
     }
 }
