@@ -7,18 +7,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +25,7 @@ import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.DATABASE_REQUEST_DELAY;
 import static entity.changexchange.utils.Util.filter;
 
 public class OtherProfile extends AppCompatActivity {
@@ -57,7 +55,7 @@ public class OtherProfile extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText txt = v.findViewById(R.id.other_search);
+                        EditText txt = findViewById(R.id.other_search);
                         updateWithSearch(
                                 txt == null ? "" : filter(txt.getText().toString())
                         );
@@ -80,6 +78,13 @@ public class OtherProfile extends AppCompatActivity {
                 "SELECT * FROM offers WHERE nickname='" + input + "';"
         );
 
+        // Wait for database request to end.
+        try {
+            Thread.sleep(DATABASE_REQUEST_DELAY);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         // Safety check for result.
         if (users.isEmpty() || offers.isEmpty()) {
             Toast.makeText(OtherProfile.this,
@@ -90,32 +95,34 @@ public class OtherProfile extends AppCompatActivity {
         final User user = users.get(0);
 
         // Set all fields to now visible, and according to their user.
-        this.<TextView>findViewById(R.id.other_nickname_tag).setVisibility(View.VISIBLE);
-        this.<TextView>findViewById(R.id.other_contact_tag).setVisibility(View.VISIBLE);
-        this.<TextView>findViewById(R.id.other_preferred_curr_tag).setVisibility(View.VISIBLE);
 
         Button submit = findViewById(R.id.other_profile_add_rating);
-        //TODO: TextView img = findViewById(R.id.other_profile_picture);
+        ImageView img = findViewById(R.id.other_profile_picture);
         TextView nickname = findViewById(R.id.other_profile_nickname);
         TextView currency = findViewById(R.id.other_profile_fav_currency);
         TextView contact = findViewById(R.id.other_profile_contact);
 
-        submit.setVisibility(View.VISIBLE);
-        nickname.setVisibility(View.VISIBLE);
-        currency.setVisibility(View.VISIBLE);
-        contact.setVisibility(View.VISIBLE);
-
+        nickname.setText(user.getNickname());
+        currency.setText(user.getCurrency().toString());
+        contact.setText(user.getContact());
         submit.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //TODO: get ratings to work
                         RatingUser.newInstance(user);
                     }
                 }
         );
-        nickname.setText(user.getNickname());
-        currency.setText(user.getCurrency().toString());
-        contact.setText(user.getContact());
+
+        img.setVisibility(View.VISIBLE);
+        submit.setVisibility(View.VISIBLE);
+        nickname.setVisibility(View.VISIBLE);
+        currency.setVisibility(View.VISIBLE);
+        contact.setVisibility(View.VISIBLE);
+        this.<TextView>findViewById(R.id.other_nickname_tag).setVisibility(View.VISIBLE);
+        this.<TextView>findViewById(R.id.other_contact_tag).setVisibility(View.VISIBLE);
+        this.<TextView>findViewById(R.id.other_preferred_curr_tag).setVisibility(View.VISIBLE);
     }
 
     /**

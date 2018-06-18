@@ -4,6 +4,9 @@ import java.util.regex.Pattern;
 
 public class Util {
 
+    // Approximate time a database query takes.
+    public static final int DATABASE_REQUEST_DELAY = 200;
+
     // Flags so that the database knows what kind of user data we want.
     public static final int CONTACT = 0;
     public static final int RATING = 1;
