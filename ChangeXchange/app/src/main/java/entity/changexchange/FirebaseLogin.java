@@ -16,7 +16,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entity.changexchange.utils.Currency;
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 public class FirebaseLogin extends AppCompatActivity {
@@ -55,35 +59,43 @@ public class FirebaseLogin extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            User ourUser = new User("gml16", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
-            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
+            Log.d("test", "use not null");
+            Log.d("test", currentUser.getEmail());
+            String userEmail = currentUser.getEmail();
+            List<User> listOfUsers = new ArrayList<>();
+            new RequestDatabase(listOfUsers).execute("SELECT * FROM users WHERE login='" + userEmail + "';");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            User user = listOfUsers.get(0);
+            Log.d("test", user.getNickname());
+            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
         }
-        updateUI(currentUser);
-    }
-
-    private void updateUI(FirebaseUser user) {
-        //TODO
     }
 
 
-    private void signInUser(String email, String password) {
+    private void signInUser(final String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("debugGuy", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                            User ourUser = new User("Guy", Currency.GBP, "guy.leroy99@gmail.com", 4.8);
-                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", ourUser));
+                            Log.d("test", "succesful");
+                            List<User> listOfUsers = new ArrayList<>();
+                            new RequestDatabase(listOfUsers).execute("SELECT * FROM users WHERE login='" + email + "';");
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            User user = listOfUsers.get(0);
+                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("debugGuy", "signInWithEmail:failure", task.getException());
+                            Log.d("test", "unsuccessful");
                             Toast.makeText(FirebaseLogin.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
                         }
                     }
                 });

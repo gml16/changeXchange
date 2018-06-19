@@ -92,7 +92,9 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 rs.getString("nickname"),
                                 Currency.valueOf(rs.getString("currency")),
                                 rs.getString("contact"),
-                                Double.valueOf(rs.getString("rating"))
+                                Double.valueOf(rs.getString("rating")),
+                                Integer.valueOf(rs.getString("num_ratings")),
+                                rs.getString("login")
                         ));
                     }
 
@@ -100,8 +102,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 Log.d("test", "Found " + String.valueOf(users.size()));
                 rs.close();
                 stmt.close();
-            } else if (instruction.equals("INSERT") || instruction.equals("UPDATE")
-                    || instruction.equals("DELETE")) {
+            } else if (instruction.equals("INSERT")) {
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
             }

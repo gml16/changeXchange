@@ -61,33 +61,21 @@ public class FirebaseSignup extends AppCompatActivity {
         if (currentUser != null) {
             startActivity(new Intent(FirebaseSignup.this, MainActivity.class));
         }
-        updateUI(currentUser);
     }
 
-    private void updateUI(FirebaseUser user) {
-        //TODO
-    }
-
-    private void createAccount(String email, String password, final String nickname, final String contact) {
+    private void createAccount(final String email, String password, final String nickname, final String contact) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("debugGuy", "createUserWithEmail:success");
-                            new RequestDatabase().execute("INSERT INTO users VALUES (name=" + nickname + ", nickname=" + nickname + ", currency='GBP', contact=" + contact + ");");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                            User ourUser = new User(nickname, Currency.GBP, contact, 5);
+                            new RequestDatabase().execute("INSERT INTO users VALUES ('" + nickname + "', 'GBP', '" + contact + "', 5, 1, '" + email +  "');");
+                            User ourUser = new User(nickname, Currency.GBP, contact, 5, 1, email);
                             startActivity(new Intent(FirebaseSignup.this, MainActivity.class).putExtra("user", ourUser));
                         } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("debugGuy", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(FirebaseSignup.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            updateUI(null);
                         }
                     }
                 });
