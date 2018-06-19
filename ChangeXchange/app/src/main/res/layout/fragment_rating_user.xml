@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".RatingUser">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="128dp"
         android:text="Leave your rating here!"
-        android:textSize="26sp" />
+        android:textSize="28sp" />
 
     <EditText
         android:id="@+id/rating_value"
@@ -22,7 +23,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="256dp"
         android:ems="5"
-        android:inputType="number" />
+        android:inputType="numberDecimal" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/rating_confirm"
@@ -40,7 +41,7 @@
         android:layout_gravity="top|center"
         android:layout_marginTop="325dp"
         android:text="@string/test"
-        android:textSize="13sp"
+        android:textSize="20sp"
         android:textStyle="italic" />
 
 </FrameLayout>
