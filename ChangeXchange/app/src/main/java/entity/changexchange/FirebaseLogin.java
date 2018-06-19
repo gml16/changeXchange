@@ -75,46 +75,7 @@ public class FirebaseLogin extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             final String userEmail = currentUser.getEmail();
-            //TODO: name this class and stop creating it twice
-            new AsyncTask<String, Void, Void>() {
-                protected Void doInBackground(String... strings) {
-                    Connection c;
-                    Statement stmt;
-                    User user = null;
-                    try {
-
-                        Class.forName("org.postgresql.Driver");
-                        c = DriverManager
-                                .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
-                                        "g1727132_u", "4ihe2mwvgy");
-                        c.setAutoCommit(false);
-                        stmt = c.createStatement();
-                        ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE login='" + userEmail + "';");
-                        while (rs.next() && user == null) {
-                            user = new User(
-                                    rs.getString("nickname"),
-                                    Currency.valueOf(rs.getString("currency")),
-                                    rs.getString("contact"),
-                                    Double.valueOf(rs.getString("rating")),
-                                    Integer.valueOf(rs.getString("num_ratings")),
-                                    rs.getString("login")
-                            );
-
-
-                        }
-                        rs.close();
-                        stmt.close();
-                        c.commit();
-                        c.close();
-                        startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
-                    } catch (Exception e) {
-                        Log.d("test", "Error Connecting");
-                        Log.d("test", e.getMessage());
-                    }
-                    return null;
-                }
-
-            }.execute();
+            actualLogin(userEmail);
         }
     }
 
@@ -126,46 +87,7 @@ public class FirebaseLogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("test", "succesful");
-                            List<User> listOfUsers = new ArrayList<>();
-                            new AsyncTask<String, Void, Void>() {
-                                protected Void doInBackground(String... strings) {
-                                    Connection c;
-                                    Statement stmt;
-                                    User user = null;
-                                    try {
-
-                                        Class.forName("org.postgresql.Driver");
-                                        c = DriverManager
-                                                .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
-                                                        "g1727132_u", "4ihe2mwvgy");
-                                        c.setAutoCommit(false);
-                                        stmt = c.createStatement();
-                                        ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE login='" + userEmail + "';");
-                                        while (rs.next() && user == null) {
-                                            user = new User(
-                                                    rs.getString("nickname"),
-                                                    Currency.valueOf(rs.getString("currency")),
-                                                    rs.getString("contact"),
-                                                    Double.valueOf(rs.getString("rating")),
-                                                    Integer.valueOf(rs.getString("num_ratings")),
-                                                    rs.getString("login")
-                                            );
-
-
-                                        }
-                                        rs.close();
-                                        stmt.close();
-                                        c.commit();
-                                        c.close();
-                                        startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
-                                    } catch (Exception e) {
-                                        Log.d("test", "Error Connecting");
-                                        Log.d("test", e.getMessage());
-                                    }
-                                    return null;
-                                }
-
-                            }.execute();
+                            actualLogin(userEmail);
                         } else {
                             Log.d("test", "unsuccessful");
                             Toast.makeText(FirebaseLogin.this, "Authentication failed.",
@@ -173,6 +95,47 @@ public class FirebaseLogin extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void actualLogin(final String userEmail){
+        new AsyncTask<String, Void, Void>() {
+            protected Void doInBackground(String... strings) {
+                Connection c;
+                Statement stmt;
+                User user = null;
+                try {
+                    Class.forName("org.postgresql.Driver");
+                    c = DriverManager
+                            .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
+                                    "g1727132_u", "4ihe2mwvgy");
+                    c.setAutoCommit(false);
+                    stmt = c.createStatement();
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE login='" + userEmail + "';");
+                    while (rs.next() && user == null) {
+                        user = new User(
+                                rs.getString("nickname"),
+                                Currency.valueOf(rs.getString("currency")),
+                                rs.getString("contact"),
+                                Double.valueOf(rs.getString("rating")),
+                                Integer.valueOf(rs.getString("num_ratings")),
+                                rs.getString("login"),
+                                rs.getString("token")
+                        );
+                    }
+                    //TODO: verify whether token has changed and if so update it on the database
+                    rs.close();
+                    stmt.close();
+                    c.commit();
+                    c.close();
+                    startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
+                } catch (Exception e) {
+                    Log.d("test", "Error Connecting");
+                    Log.d("test", e.getMessage());
+                }
+                return null;
+            }
+
+        }.execute();
     }
 
     private void createNotificationChannel() {

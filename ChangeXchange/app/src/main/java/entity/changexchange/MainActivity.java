@@ -79,11 +79,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         user = (User) getIntent().getSerializableExtra("user");
 
-        new NotificationService().sendNotification("c6mZpeSjCaY:APA91bFKmEzz5PocsnjfmBVdoxfYkQKW6GUT_alp16w9e4tjAuRrpiNsqdZkVRRuFm4FDbhKb8VfrJKWLDZqmTDxH6koJ6NtVIJa1MKfSiKPzJBv8WZCrwB-YCNq1n2RpskKctieQw9d");
-
-        //TODO: when to ask for the token? (this line just prints the token)
-        new TokenNotification().onTokenRefresh();
-
         // Menu setup.
         setupMenu();
 

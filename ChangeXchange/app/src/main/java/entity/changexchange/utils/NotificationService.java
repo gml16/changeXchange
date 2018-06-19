@@ -20,6 +20,12 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import entity.changexchange.FirebaseLogin;
 import entity.changexchange.MainActivity;
 import entity.changexchange.R;
 import okhttp3.MediaType;
@@ -33,8 +39,42 @@ public class NotificationService extends FirebaseMessagingService {
 
     }
 
+    public void letUserKnowOfferIsInteresting(final String nickname, final String title, final String body){
+        Log.d("test", "letting user know");
+        new AsyncTask<String, Void, Void>() {
+            protected Void doInBackground(String... strings) {
+                Connection c;
+                Statement stmt;
+                String token = "";
+                try {
+                    Class.forName("org.postgresql.Driver");
+                    c = DriverManager
+                            .getConnection("jdbc:postgresql://db.doc.ic.ac.uk/g1727132_u?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
+                                    "g1727132_u", "4ihe2mwvgy");
+                    c.setAutoCommit(false);
+                    stmt = c.createStatement();
+                    //TODO: many users could have the same nickname
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM users WHERE nickname='" + nickname + "';");
+                    while (rs.next() && token == "") {
+                        token = rs.getString("token");
+                    }
+                    rs.close();
+                    stmt.close();
+                    c.commit();
+                    c.close();
+                    Log.d("test", "before sending notif");
+                    sendNotification(token, title, body);
+                } catch (Exception e) {
+                    Log.d("test", e.getMessage());
+                }
+                return null;
+            }
+
+        }.execute();
+    }
+
     //TODO:
-    public void sendNotification(final String regToken) {
+    private void sendNotification(final String regToken, final String title, final String body) {
         Log.d("test", "sending notif");
         new AsyncTask<Void,Void,Void>(){
             final MediaType JSON
@@ -46,8 +86,8 @@ public class NotificationService extends FirebaseMessagingService {
                     OkHttpClient client = new OkHttpClient();
                     JSONObject json=new JSONObject();
                     JSONObject dataJson=new JSONObject();
-                    dataJson.put("body","Hi this is sent from device to device");
-                    dataJson.put("title","dummy title");
+                    dataJson.put("body",body);
+                    dataJson.put("title",title);
                     json.put("notification",dataJson);
                     json.put("to",regToken);
                     RequestBody body = RequestBody.create(JSON, json.toString());
@@ -60,7 +100,7 @@ public class NotificationService extends FirebaseMessagingService {
                     String finalResponse = response.body().string();
                     Log.d("test", "notif sent" + finalResponse);
                 }catch (Exception e){
-                    //Log.d(TAG,e+"");
+                    Log.d("test",e+"");
                 }
                 return null;
             }
@@ -68,7 +108,6 @@ public class NotificationService extends FirebaseMessagingService {
     }
 
     private void displayNotification(RemoteMessage remoteMessage) {
-        Log.d("test", "displaying notification");
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -90,13 +129,7 @@ public class NotificationService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification notif = notificationBuilder.build();
-        if((notif == null)) {
-            Log.d("test", "notif is null" );
-        } else {
-            Log.d("test", "notif is NOT null" );
-        }
         notificationManager.notify(0, notif);
-        Log.d("test", "end of display of notification");
     }
 
 

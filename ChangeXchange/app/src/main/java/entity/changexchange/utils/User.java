@@ -10,14 +10,16 @@ public class User implements Serializable {
     private double rating;
     private int num_ratings;
     private String login;
+    private String token;
 
-    public User(String nickname, Currency currency, String contact, double rating, int num_ratings, String login) {
+    public User(String nickname, Currency currency, String contact, double rating, int num_ratings, String login, String token) {
         this.nickname = nickname;
         this.currency = currency;
         this.contact = contact;
         this.rating = rating;
         this.num_ratings = num_ratings;
         this.login = login;
+        this.token = token;
     }
 
     public String getNickname() {
@@ -40,8 +42,12 @@ public class User implements Serializable {
         return num_ratings;
     }
 
-    public String login() {
+    public String getLogin() {
         return login;
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public void changeNickname(String nickname) {

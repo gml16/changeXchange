@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/selected_contact"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="41dp"
         android:layout_marginTop="64dp"
         android:text="@string/test"
         android:textAllCaps="false"

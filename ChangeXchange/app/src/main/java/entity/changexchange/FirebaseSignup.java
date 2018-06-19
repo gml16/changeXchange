@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
@@ -70,8 +72,10 @@ public class FirebaseSignup extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            new RequestDatabase().execute("INSERT INTO users VALUES ('" + nickname + "', 'GBP', '" + contact + "', 5, 1, '" + email +  "');");
-                            User ourUser = new User(nickname, Currency.GBP, contact, 5, 1, email);
+                            String token = FirebaseInstanceId.getInstance().getToken();
+                            Log.d("test", "Creating an account, the token is " + token);
+                            new RequestDatabase().execute("INSERT INTO users VALUES ('" + nickname + "', 'GBP', '" + contact + "', 5, 1, '" + email +  "', '" + token +  "');");
+                            User ourUser = new User(nickname, Currency.GBP, contact, 5, 1, email, token);
                             startActivity(new Intent(FirebaseSignup.this, MainActivity.class).putExtra("user", ourUser));
                         } else {
                             Toast.makeText(FirebaseSignup.this, "Authentication failed.",
