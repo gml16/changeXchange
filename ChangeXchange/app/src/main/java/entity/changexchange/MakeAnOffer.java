@@ -66,53 +66,54 @@ public class MakeAnOffer extends AppCompatActivity {
         );
 
         // Submitting an offer triggers the migration of all the data to the database.
-        this.<Button>findViewById(R.id.new_offer_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        this.<Button>findViewById(R.id.new_offer_submit).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                String nickname = user.getNickname();
-                String selling = ((Spinner) findViewById(R.id.new_offer_currency_from))
-                        .getSelectedItem().toString();
-                String buying = ((Spinner) findViewById(R.id.new_offer_currency_to))
-                        .getSelectedItem().toString();
-                String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
-                String location = ((Spinner) findViewById(R.id.new_offer_location))
-                        .getSelectedItem().toString();
-                String note = filter(((EditText) findViewById(R.id.new_offer_note))
-                        .getText().toString());
+                        String nickname = user.getNickname();
+                        String selling = ((Spinner) findViewById(R.id.new_offer_currency_from))
+                                .getSelectedItem().toString();
+                        String buying = ((Spinner) findViewById(R.id.new_offer_currency_to))
+                                .getSelectedItem().toString();
+                        String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
+                        String location = ((Spinner) findViewById(R.id.new_offer_location))
+                                .getSelectedItem().toString();
+                        String note = filter(((EditText) findViewById(R.id.new_offer_note))
+                                .getText().toString());
 
-                // If note hasn't been filled, replace with default value.
-                if (note.isEmpty()) note = nickname + " did not add a note.";
+                        // If note hasn't been filled, replace with default value.
+                        if (note.isEmpty()) note = nickname + " did not add a note.";
 
-                //Erroneous amount entered. Deny clicking effect.
-                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
-                    Toast.makeText(MakeAnOffer.this, "Error: Invalid amount.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (selling.equals(buying)) {
-                    Toast.makeText(MakeAnOffer.this, "Error: Invalid currencies.",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                        //Erroneous amount entered. Deny clicking effect.
+                        if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
+                            Toast.makeText(MakeAnOffer.this, "Error: Invalid amount.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (selling.equals(buying)) {
+                            Toast.makeText(MakeAnOffer.this, "Error: Invalid currencies.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
-                new RequestDatabase().execute(
-                        "INSERT INTO offers VALUES ('"
-                                + nickname + "', '"
-                                + selling + "', '"
-                                + buying + "', '"
-                                + amount + "', '"
-                                + location + "', '"
-                                + note + "');"
-                );
+                        new RequestDatabase().execute(
+                                "INSERT INTO offers VALUES ('"
+                                        + nickname + "', '"
+                                        + selling + "', '"
+                                        + buying + "', '"
+                                        + amount + "', '"
+                                        + location + "', '"
+                                        + note + "');"
+                        );
 
-                startActivity(new Intent(MakeAnOffer.this, MainActivity.class)
-                        .putExtra("selling", selling)
-                        .putExtra("buying", buying)
-                        .putExtra("at", location)
-                        .putExtra("user", user)
-                );
-            }
-        });
+                        startActivity(new Intent(MakeAnOffer.this, MainActivity.class)
+                                .putExtra("selling", selling)
+                                .putExtra("buying", buying)
+                                .putExtra("at", location)
+                                .putExtra("user", user)
+                        );
+                    }
+                });
     }
 }
