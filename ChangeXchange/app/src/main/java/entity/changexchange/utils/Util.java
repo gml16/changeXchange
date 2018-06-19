@@ -47,7 +47,7 @@ public class Util {
      */
     public static boolean isInvalid(String contact) {
         return contact.equals("In app")
-                || !rfc2822.matcher(contact).matches();
+                || !rfc2822.matcher(contact).matches() || contact.isEmpty();
         // TODO: Check for valid phone number.
     }
 

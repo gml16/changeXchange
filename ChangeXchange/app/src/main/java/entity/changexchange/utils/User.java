@@ -8,13 +8,16 @@ public class User implements Serializable {
     private Currency currency;
     private String contact;
     private double rating;
-    private int num_ratings = 0;
+    private int num_ratings;
+    private String login;
 
-    public User(String nickname, Currency currency, String contact, double rating) {
+    public User(String nickname, Currency currency, String contact, double rating, int num_ratings, String login) {
         this.nickname = nickname;
         this.currency = currency;
         this.contact = contact;
         this.rating = rating;
+        this.num_ratings = num_ratings;
+        this.login = login;
     }
 
     public String getNickname() {
@@ -31,6 +34,14 @@ public class User implements Serializable {
 
     public double getRating() {
         return rating;
+    }
+
+    public int getNumRating() {
+        return num_ratings;
+    }
+
+    public String login() {
+        return login;
     }
 
     public void changeNickname(String nickname) {
