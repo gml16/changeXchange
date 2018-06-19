@@ -1,7 +1,10 @@
 package entity.changexchange;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import entity.changexchange.utils.Offer;
 import entity.changexchange.utils.RequestDatabase;
@@ -55,18 +59,18 @@ public class OtherProfile extends AppCompatActivity {
         // Get the profile of the selected user
         String nickname = getIntent().getStringExtra("nickname");
 
-        ArrayList<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         new RequestDatabase(users).execute(
                 "SELECT * FROM users WHERE nickname='" + nickname + "';"
         );
         databaseWait();
-        updateView(users.get(0));
+        updateView(users.get(0), user);
     }
 
     /**
      * Set's up the activity w.r.t. the user.
      */
-    private void updateView(final User user) {
+    private void updateView(final User user, final User superUser) {
         // Set all fields according to their user.
 
         Button submit = findViewById(R.id.other_profile_add_rating);
@@ -84,7 +88,12 @@ public class OtherProfile extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //TODO: get ratings to work
-                        RatingUser.newInstance(user);
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        RatingUser rater = new RatingUser();
+                        rater.setUser(user);
+                        rater.setSuperUser(superUser);
+                        transaction.replace(android.R.id.content, rater);
+                        transaction.commit();
                     }
                 }
         );

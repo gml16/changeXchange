@@ -142,7 +142,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 textView.setText(users.get(0).getContact());
                 break;
             case RATING:
-                textView.setText(String.valueOf(users.get(0).getRating()));
+                textView.setText(String.format("%.2f", users.get(0).getRating()));
                 int ratings = users.get(0).getNumRating();
                 textViewBis.setText(String.format(
                         "From %s review%s",

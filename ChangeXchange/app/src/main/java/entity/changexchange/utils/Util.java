@@ -19,9 +19,10 @@ public class Util {
     // Limits for currency entries.
     public static float NEG_THRESHOLD = (float) 0.001;
     public static float MAX_AMOUNT = (float) 50;
+    public static float MAX_STAR = (float) 5;
 
     // Approximate time a database query takes.
-    public static final int DATABASE_REQUEST_DELAY = 1500;
+    public static final int DATABASE_REQUEST_DELAY = 2000;
 
     // Flags so that the database knows what kind of user data we want.
     public static final int CONTACT = 0;
