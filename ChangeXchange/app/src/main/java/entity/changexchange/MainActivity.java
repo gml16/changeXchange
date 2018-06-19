@@ -39,6 +39,7 @@ import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
 import entity.changexchange.utils.RequestDatabase;
+import entity.changexchange.utils.TokenNotification;
 import entity.changexchange.utils.User;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -65,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         user = (User) getIntent().getSerializableExtra("user");
+
+        new TokenNotification().onTokenRefresh();
 
         // Menu setup.
         setupMenu();

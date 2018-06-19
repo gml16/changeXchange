@@ -35,7 +35,19 @@
         <activity android:name=".FirebaseSignup" />
         <activity android:name=".EditOffer" />
         <activity android:name=".OtherProfile" />
-        <activity android:name=".OfferInterests"></activity>
+        <activity android:name=".OfferInterests" />
+
+        <service android:name=".utils.TokenNotification">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".utils.NotificationService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
