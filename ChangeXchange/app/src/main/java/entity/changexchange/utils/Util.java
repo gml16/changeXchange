@@ -59,6 +59,7 @@ public class Util {
         new ExchangeRateTracker(rate).execute(
                 buying, GBP.toString()
         );
+        databaseWait();
         return amount * Float.valueOf(rate.getText().toString());
     }
 

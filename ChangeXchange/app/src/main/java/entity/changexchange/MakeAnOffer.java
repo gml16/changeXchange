@@ -85,8 +85,7 @@ public class MakeAnOffer extends AppCompatActivity {
                 if (note.isEmpty()) note = nickname + " did not add a note.";
 
                 //Erroneous amount entered. Deny clicking effect.
-                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD
-                        || gbpEquivalenceAmount(Float.parseFloat(amount), to, v) > MAX_AMOUNT) {
+                if (amount.isEmpty() || Float.parseFloat(amount) <= NEG_THRESHOLD) {
                     Toast.makeText(MakeAnOffer.this, "Error: Invalid amount.",
                             Toast.LENGTH_SHORT).show();
                     return;
