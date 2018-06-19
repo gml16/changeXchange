@@ -61,4 +61,15 @@ public class Util {
         );
         return amount * Float.valueOf(rate.getText().toString());
     }
+
+    /**
+     * Sleeps thread for some amount of time - Essentially to allow the database work to complete.
+     */
+    public static void databaseWait() {
+        try {
+            Thread.sleep(DATABASE_REQUEST_DELAY);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

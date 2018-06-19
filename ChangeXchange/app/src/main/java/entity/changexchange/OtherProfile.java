@@ -26,11 +26,11 @@ import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 import static entity.changexchange.utils.Util.DATABASE_REQUEST_DELAY;
+import static entity.changexchange.utils.Util.databaseWait;
 import static entity.changexchange.utils.Util.filter;
 
 public class OtherProfile extends AppCompatActivity {
 
-    private ArrayList<User> users;
     private User user;
     private boolean hide_contact;
 
@@ -52,23 +52,15 @@ public class OtherProfile extends AppCompatActivity {
         // Get logged in user.
         user = (User) getIntent().getSerializableExtra("user");
         hide_contact = getIntent().getBooleanExtra("hide_contact", false);
-
         // Get the profile of the selected user
         String nickname = getIntent().getStringExtra("nickname");
-        users = new ArrayList<>();
+
+        ArrayList<User> users = new ArrayList<>();
         new RequestDatabase(users).execute(
                 "SELECT * FROM users WHERE nickname='" + nickname + "';"
         );
         databaseWait();
         updateView(users.get(0));
-    }
-
-    private void databaseWait() {
-        try {
-            Thread.sleep(DATABASE_REQUEST_DELAY);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

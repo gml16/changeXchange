@@ -1,7 +1,6 @@
 package entity.changexchange.utils;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import entity.changexchange.MainActivity;
 import entity.changexchange.R;
 
 import static entity.changexchange.utils.Util.CONTACT;
@@ -85,8 +83,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 Currency.valueOf(rs.getString("selling")),
                                 Float.valueOf(rs.getString("amount")),
                                 Airport.valueOf(rs.getString("location")),
-                                rs.getString("note")
-                        ));
+                                rs.getString("note"),
+                                rs.getString("interested_users")));
                     } else if (table.equals("users")) {
                         users.add(new User(
                                 rs.getString("nickname"),

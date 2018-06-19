@@ -6,14 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".ContactDetails">
 
-    <TextView
+    <Button
+        android:id="@+id/selected_interest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/interested"
+        android:textAllCaps="false"
+        android:textSize="26sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selected_description1" />
+
+    <EditText
         android:id="@+id/selected_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="@string/test"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:textSize="26sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selected_contact" />
+        app:layout_constraintTop_toBottomOf="@+id/selected_interest" />
 
     <ImageView
         android:id="@+id/selected_img"

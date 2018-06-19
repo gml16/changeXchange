@@ -23,6 +23,7 @@ import java.util.List;
 
 import entity.changexchange.EditOffer;
 import entity.changexchange.MyOffers;
+import entity.changexchange.OfferInterests;
 import entity.changexchange.OtherProfile;
 import entity.changexchange.R;
 
@@ -58,30 +59,30 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
         String nickname = offer.getPoster_nickname();
 
-        // Get offer announcement.
-        String title = nickname + " is looking to buy " + offer.getAmount() + " "
-                + offer.getBuying().toString() + " at " + offer.getLocation().toString() + "!";
-        holder.title.setText(title);
+        // In MainActivity clicking the name shows their profile, otherwise the interests.
+        SpannableString click_title = new SpannableString(
+                nickname + " is looking to buy " + offer.getAmount() + " "
+                        + offer.getBuying().toString() + " at " + offer.getLocation().toString() + "!");
+        click_title.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View v) {
+                Context ctx = v.getContext();
+                if (inMyOffers) {
+                    ctx.startActivity(new Intent(ctx, OfferInterests.class)
+                            .putExtra("user", user)
+                            .putExtra("offer", offer)
+                    );
+                } else {
+                    ctx.startActivity(new Intent(ctx, OtherProfile.class)
+                            .putExtra("user", user)
+                            .putExtra("nickname", offer.getPoster_nickname())
+                            .putExtra("hide_contact", true));
+                }
 
-        // If in MainActivity, make nickname clickable.
-        if (!inMyOffers) {
-            SpannableString click_title = new SpannableString(title);
-            click_title.setSpan(
-                    new ClickableSpan() {
-                        @Override
-                        public void onClick(View v) {
-                            Context ctx = v.getContext();
-                            ctx.startActivity(new Intent(ctx, OtherProfile.class)
-                                    .putExtra("user", user)
-                                    .putExtra("nickname", offer.getPoster_nickname())
-                                    .putExtra("hide_contact", true));
-                        }
-                    },
-                    0, nickname.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            );
-            holder.title.setText(click_title);
-            holder.title.setMovementMethod(LinkMovementMethod.getInstance());
-        }
+            }
+        }, 0, nickname.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        holder.title.setText(click_title);
+        holder.title.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Get exchange rate.
         new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getSelling()).execute(
@@ -164,6 +165,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         TextView rating;
         FloatingActionButton accept;
         FloatingActionButton delete;
+
         ImageView star;
 
         OfferViewHolder(View itemView) {
