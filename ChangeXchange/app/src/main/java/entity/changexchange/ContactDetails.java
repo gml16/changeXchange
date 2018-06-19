@@ -22,7 +22,7 @@ public class ContactDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
 
-        final boolean fromInterests = getIntent().getStringExtra("interest").equals("true");
+        final boolean fromInterests = getIntent().getStringExtra("interest") != null;
 
         // set the requested boolean correctly.
         requested = getIntent().getBooleanExtra("requested", false);

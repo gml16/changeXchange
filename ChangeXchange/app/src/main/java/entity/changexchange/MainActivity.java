@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void updateDisplay() {
         // Fetch exchange rate
         new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate))
-                .execute(getCurBuying(), getCurSelling());
+                .execute(getCurSelling(), getCurBuying());
         // Show offers
         new RequestDatabase(this, user).execute(
                 "SELECT * FROM offers WHERE buying='"

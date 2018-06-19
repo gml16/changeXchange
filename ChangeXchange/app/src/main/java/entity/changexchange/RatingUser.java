@@ -2,105 +2,78 @@ package entity.changexchange;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.AppCompatTextView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.NEG_THRESHOLD;
+import static entity.changexchange.utils.Util.MAX_STAR;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RatingUser.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RatingUser#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class RatingUser extends Fragment {
-    private static final String ARG = "user";
+public class RatingUser extends android.app.Fragment {
 
     private User user;
+    private User superUser;
+    private ViewGroup container;
 
-    private OnFragmentInteractionListener mListener;
-
-    public RatingUser() {
-        // Required empty public constructor
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
-    public static RatingUser newInstance(User user) {
-        RatingUser fragment = new RatingUser();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG, user);
-        fragment.setArguments(args);
-        return fragment;
+    public void setSuperUser(User superUser) {
+        this.superUser = superUser;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            user = (User) getArguments().getSerializable("user");
-        }
+    public void onStart() {
+        super.onStart();
+        ((TextView) container.findViewById(R.id.rating_user)).setText(
+                "@" + user.getNickname()
+        );
+        container.findViewById(R.id.rating_confirm).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Context ctx = v.getContext();
+                        float mark = Float.parseFloat(
+                                ((EditText) container.findViewById(R.id.rating_value))
+                                        .getText().toString()
+                        );
+                        if (mark > MAX_STAR || mark < NEG_THRESHOLD) {
+                            Toast.makeText(ctx, "Error: Rating must be 0.0 ≤ n ≤ 5.0.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        user.addRating(mark);
+                        new RequestDatabase().execute(
+                                "UPDATE users SET rating='" + user.getRating() + "', "
+                                        + "num_ratings=num_ratings+1"
+                                        + " WHERE nickname='" + user.getNickname() + "';"
+                        );
+                        ctx.startActivity(new Intent(ctx, MainActivity.class)
+                                .putExtra("user", superUser));
+                    }
+                }
+        );
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((TextView)container.findViewById(R.id.rating_user)).setText(
-                "@" + user.getNickname()
-        );
+
+        this.container = container;
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_rating_user, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
