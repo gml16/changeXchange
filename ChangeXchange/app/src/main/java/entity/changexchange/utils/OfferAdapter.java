@@ -10,7 +10,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,8 +60,8 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
 
         // In MainActivity clicking the name shows their profile, otherwise the interests.
         SpannableString click_title = new SpannableString(
-                nickname + " is looking to buy " + offer.getAmount() + " "
-                        + offer.getBuying().toString() + " at " + offer.getLocation().toString() + "!");
+                nickname + " is selling " + offer.getAmount() + " "
+                        + offer.getSelling().toString() + " at " + offer.getLocation().toString() + "!");
         click_title.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View v) {
@@ -85,9 +84,9 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.title.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Get exchange rate.
-        new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getSelling()).execute(
-                offer.getBuying().toString(),
-                offer.getSelling().toString()
+        new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getBuying()).execute(
+                offer.getSelling().toString(),
+                offer.getBuying().toString()
         );
 
         // Get note.
@@ -97,25 +96,19 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         holder.poster.setText(nickname);
 
         // Set user rating.
-        new RequestDatabase(holder.rating, RATING).execute(
+        new RequestDatabase(holder.rating, holder.num_rating, RATING).execute(
                 "SELECT * FROM users WHERE nickname='" + nickname + "'; "
         );
 
         // Set buttons.
-        holder.accept.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        deleteOffer(offer);
-
-                    }
-                }
-        );
         holder.delete.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         deleteOffer(offer);
+                        Context ctx = v.getContext();
+                        ctx.startActivity(new Intent(ctx, MyOffers.class)
+                                .putExtra("user", user));
                     }
                 }
         );
@@ -123,6 +116,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         // Set visibility of different elements.
         if (inMyOffers) {
             holder.rating.setVisibility(View.GONE);
+            holder.num_rating.setVisibility(View.GONE);
             holder.star.setVisibility(View.GONE);
             holder.offer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +128,6 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                 }
             });
         } else {
-            holder.accept.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
     }
@@ -151,7 +144,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                         + "buying='" + offer.getBuying() + "' and "
                         + "selling='" + offer.getSelling() + "' and "
                         + "amount=" + offer.getAmount() + " and "
-                        + "location=" + offer.getLocation() + ";"
+                        + "location='" + offer.getLocation() + "';"
         );
     }
 
@@ -163,7 +156,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         TextView note;
         TextView poster;
         TextView rating;
-        FloatingActionButton accept;
+        TextView num_rating;
         FloatingActionButton delete;
 
         ImageView star;
@@ -176,10 +169,10 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             note = itemView.findViewById(R.id.offer_note);
             poster = itemView.findViewById(R.id.offer_poster_hidden);
             rating = itemView.findViewById(R.id.offer_poster_rating);
-            accept = itemView.findViewById(R.id.offer_accept);
             delete = itemView.findViewById(R.id.offer_delete);
             star = itemView.findViewById(R.id.offer_star);
             offer = itemView.findViewById(R.id.offer);
+            num_rating = itemView.findViewById(R.id.offer_num_rat);
         }
     }
 }

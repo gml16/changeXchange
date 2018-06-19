@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.sql.Connection;
@@ -37,6 +38,7 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
     // For showing correct user details.
     private int type;
     private TextView textView;
+    private TextView textViewBis;
 
     public RequestDatabase() {
     }
@@ -57,6 +59,12 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
 
     public RequestDatabase(List<User> users) {
         this.users = users;
+    }
+
+    public RequestDatabase(TextView rating, TextView num_rating, int type) {
+        this.textView = rating;
+        this.textViewBis = num_rating;
+        this.type = type;
     }
 
     protected Void doInBackground(String... strings) {
@@ -100,7 +108,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 Log.d("test", "Found " + String.valueOf(users.size()));
                 rs.close();
                 stmt.close();
-            } else if (instruction.equals("INSERT")) {
+            } else if (instruction.equals("INSERT") || instruction.equals("DELETE")
+                    || instruction.equals("UPDATE")) {
                 stmt.executeUpdate(strings[0]);
                 stmt.close();
             }
@@ -134,6 +143,11 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                 break;
             case RATING:
                 textView.setText(String.valueOf(users.get(0).getRating()));
+                int ratings = users.get(0).getNumRating();
+                textViewBis.setText(String.format(
+                        "From %s review%s",
+                        String.valueOf(ratings), ratings == 1 ? "" : "s")
+                );
                 break;
         }
     }

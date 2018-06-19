@@ -98,15 +98,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         ArrayAdapter<Currency> adapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_dropdown_item, Currency.values()
         );
-        Spinner from = findViewById(R.id.offers_from);
-        from.setAdapter(adapter);
-        from.setOnItemSelectedListener(reloader);
-        from.setSelection(user.getCurrency().ordinal());
+        Spinner selling = findViewById(R.id.offers_selling);
+        selling.setAdapter(adapter);
+        selling.setSelection(user.getCurrency().ordinal());
 
-        Spinner to = findViewById(R.id.offers_to);
-        to.setAdapter(adapter);
-        to.setOnItemSelectedListener(reloader);
-        to.setSelection(user.getCurrency().ordinal());
+        Spinner buying = findViewById(R.id.offers_buying);
+        buying.setAdapter(adapter);
+        buying.setSelection(user.getCurrency().ordinal());
 
         // Create adapter for selection of airport location.
         ArrayAdapter<Airport> adapter1 = new ArrayAdapter<>(
@@ -114,8 +112,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         );
         Spinner at = findViewById(R.id.offers_at);
         at.setAdapter(adapter1);
-        at.setOnItemSelectedListener(reloader);
 
+
+        // If coming from MakeAnOffer, reset Spinner to previous values
+        String sellingPrev = getIntent().getStringExtra("selling");
+        if (sellingPrev != null) {
+            selling.setSelection(Currency.valueOf(sellingPrev).ordinal());
+        }
+        String buyingPrev = getIntent().getStringExtra("buying");
+        if (buyingPrev != null) {
+            buying.setSelection(Currency.valueOf(buyingPrev).ordinal());
+        }
+        String atPrev = getIntent().getStringExtra("at");
+        if (atPrev != null) {
+            at.setSelection(Airport.valueOf(atPrev).ordinal());
+        }
+
+        // Check if user has given location permission and set default Airport.
+        if (locationPermitted()) {
+            this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
+        }
+
+        // Fetch exchange rate for selected currencies correct exchange rate and offers
+        updateDisplay();
+
+        // Setting adequat on clicks
+        selling.setOnItemSelectedListener(reloader);
+        buying.setOnItemSelectedListener(reloader);
+        at.setOnItemSelectedListener(reloader);
         // When adding amount, refreshes offers.
         this.<EditText>findViewById(R.id.offers_max_amt).setOnEditorActionListener(
                 new EditText.OnEditorActionListener() {
@@ -136,34 +160,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 }
         );
 
-        // If coming from MakeAnOffer, reset Spinner to previous values
-        String fromPrev = getIntent().getStringExtra("from");
-        if (fromPrev != null) {
-            from.setSelection(Currency.valueOf(fromPrev).ordinal());
-        }
-        String toPrev = getIntent().getStringExtra("to");
-        if (toPrev != null) {
-            to.setSelection(Currency.valueOf(toPrev).ordinal());
-        }
-        String atPrev = getIntent().getStringExtra("at");
-        if (atPrev != null) {
-            at.setSelection(Airport.valueOf(atPrev).ordinal());
-        }
-
-        // Check if user has given location permission and set default Airport.
-        if (locationPermitted())
-            this.<Spinner>findViewById(R.id.offers_at).setSelection(findNearestAirport().ordinal());
-
-        // Fetch exchange rate for selected currencies correct exchange rate and offers
-        updateDisplay();
-
         // Clicking swap button, swaps the content of the two spinners (currency from / to)
         this.<ImageButton>findViewById(R.id.offers_swap_curr).setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Spinner from = findViewById(R.id.offers_from);
-                        Spinner to = findViewById(R.id.offers_to);
+                        Spinner from = findViewById(R.id.offers_selling);
+                        Spinner to = findViewById(R.id.offers_buying);
                         int fromVal = from.getSelectedItemPosition();
 
                         from.setSelection(to.getSelectedItemPosition());
@@ -194,8 +197,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     public void onClick(View v) {
                         startActivity(
                                 new Intent(MainActivity.this, MakeAnOffer.class)
-                                        .putExtra("buying", getCurFrom())
-                                        .putExtra("selling", getCurTo())
+                                        .putExtra("buying", getCurSelling())
+                                        .putExtra("selling", getCurBuying())
                                         .putExtra("airport", getLocation())
                                         .putExtra("amount", getAmount())
                                         .putExtra("user", user)
@@ -214,8 +217,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
      */
     public void selectOffer(View view) {
         startActivity(new Intent(MainActivity.this, ContactDetails.class)
-                        .putExtra("buying", getCurTo())
-                        .putExtra("selling", getCurFrom())
+                        .putExtra("buying", getCurSelling())
+                        .putExtra("selling", getCurBuying())
                         .putExtra("airport", getLocation())
                         .putExtra("nickname",
                         ((TextView) view.findViewById(R.id.offer_poster_hidden)).getText().toString())
@@ -229,12 +232,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void updateDisplay() {
         // Fetch exchange rate
         new ExchangeRateTracker(this.<TextView>findViewById(R.id.offer_exchange_rate))
-                .execute(getCurFrom(), getCurTo());
+                .execute(getCurBuying(), getCurSelling());
         // Show offers
         new RequestDatabase(this, user).execute(
                 "SELECT * FROM offers WHERE buying='"
-                        + getCurFrom() + "' and selling='"
-                        + getCurTo() + "' and location='" + getLocation() + "' "
+                        + getCurSelling() + "' and selling='"
+                        + getCurBuying() + "' and location='" + getLocation() + "' "
                         + "ORDER BY ABS(amount-" + getAmount() + ");"
         );
     }
@@ -244,12 +247,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         updateDisplay();
     }
 
-    private String getCurFrom() {
-        return ((Spinner) findViewById(R.id.offers_from)).getSelectedItem().toString();
+    private String getCurSelling() {
+        return ((Spinner) findViewById(R.id.offers_selling)).getSelectedItem().toString();
     }
 
-    private String getCurTo() {
-        return ((Spinner) findViewById(R.id.offers_to)).getSelectedItem().toString();
+    private String getCurBuying() {
+        return ((Spinner) findViewById(R.id.offers_buying)).getSelectedItem().toString();
     }
 
     private String getLocation() {

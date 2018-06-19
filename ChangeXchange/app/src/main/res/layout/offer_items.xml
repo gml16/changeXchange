@@ -84,19 +84,6 @@
             android:layout_alignRight="@+id/offer_note" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/offer_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/offer_amount_recieve"
-            android:layout_marginEnd="62dp"
-            android:layout_marginRight="62dp"
-            android:clickable="true"
-            app:srcCompat="@mipmap/baseline_done_black_48"
-            android:layout_alignParentRight="true"
-            android:focusable="true" />
-
-        <android.support.design.widget.FloatingActionButton
             android:id="@+id/offer_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,11 +113,18 @@
             android:id="@+id/offer_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/offer_delete"
+            android:layout_toRightOf="@id/offer_note"
+            android:layout_below="@+id/offer_youwillget"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/offer_num_rat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignEnd="@+id/offer_note"
-            android:layout_alignTop="@+id/offer_note"
-            android:layout_below="@+id/offer_poster_rating"
-            app:srcCompat="@android:drawable/btn_star_big_on"
-            android:layout_alignRight="@+id/offer_note" />
+            android:layout_below="@+id/offer_star"
+            android:text="@string/test" />
 
     </RelativeLayout>
 

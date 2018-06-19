@@ -22,7 +22,7 @@ public class ContactDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
 
-        final boolean fromInterests = getIntent().getStringExtra("nickname") == null;
+        final boolean fromInterests = getIntent().getStringExtra("interest").equals("true");
 
         // set the requested boolean correctly.
         requested = getIntent().getBooleanExtra("requested", false);
@@ -41,15 +41,15 @@ public class ContactDetails extends AppCompatActivity {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new RequestDatabase().execute(
-                                    "UPDATE offers SET interested_users=interested_users+',"
-                                            + ((User) getIntent().getSerializableExtra("user")).getNickname() + "' "
-                                            + "WHERE nickname='" + getIntent().getStringExtra("nickname") + "' and "
-                                            + "buying='" + getIntent().getStringExtra("buying") + "' and "
-                                            + "selling='" + getIntent().getStringExtra("selling") + "';"
-
-                            );
                             if (!requested) {
+                                new RequestDatabase().execute(
+                                        "UPDATE offers SET interested_users=CONCAT(interested_users,',"
+                                                + ((User) getIntent().getSerializableExtra("user")).getNickname() + "') "
+                                                + "WHERE nickname='" + getIntent().getStringExtra("nickname") + "' and "
+                                                + "buying='" + getIntent().getStringExtra("buying") + "' and "
+                                                + "selling='" + getIntent().getStringExtra("selling") + "';"
+
+                                );
                                 // Set the click to being requested.
                                 ((Button) findViewById(R.id.selected_interest)).setText(
                                         R.string.requested
@@ -59,7 +59,7 @@ public class ContactDetails extends AppCompatActivity {
                         }
                     }
             );
-            this.<Button>findViewById(R.id.selected_contact).setVisibility(View.GONE);
+            this.<TextView>findViewById(R.id.selected_contact).setVisibility(View.GONE);
         }
 
         // Clicking on (x) returns to offers with pre-set fields.
@@ -75,8 +75,8 @@ public class ContactDetails extends AppCompatActivity {
                             );
                         } else {
                             startActivity(new Intent(ContactDetails.this, MainActivity.class)
-                                    .putExtra("from", intent.getStringExtra("selling"))
-                                    .putExtra("to", intent.getStringExtra("buying"))
+                                    .putExtra("buying", intent.getStringExtra("selling"))
+                                    .putExtra("selling", intent.getStringExtra("buying"))
                                     .putExtra("at", intent.getStringExtra("airport"))
                                     .putExtra("user", intent.getSerializableExtra("user"))
                                     .putExtra("requested", requested)

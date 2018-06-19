@@ -23,6 +23,8 @@ import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
+import static entity.changexchange.utils.Util.databaseWait;
+
 public class FirebaseLogin extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -60,15 +62,12 @@ public class FirebaseLogin extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
-            List<User> listOfUsers = new ArrayList<>();
-            new RequestDatabase(listOfUsers).execute("SELECT * FROM users WHERE login='" + userEmail + "';");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            User user = listOfUsers.get(0);
-            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
+            List<User> users = new ArrayList<>();
+            new RequestDatabase(users).execute("SELECT * FROM users WHERE login='" + userEmail + "';");
+            databaseWait();
+            startActivity(new Intent(FirebaseLogin.this, MainActivity.class)
+                    .putExtra("user", users.get(0))
+            );
         }
     }
 
@@ -80,15 +79,12 @@ public class FirebaseLogin extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("test", "succesful");
-                            List<User> listOfUsers = new ArrayList<>();
-                            new RequestDatabase(listOfUsers).execute("SELECT * FROM users WHERE login='" + email + "';");
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            User user = listOfUsers.get(0);
-                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class).putExtra("user", user));
+                            List<User> users = new ArrayList<>();
+                            new RequestDatabase(users).execute("SELECT * FROM users WHERE login='" + email + "';");
+                            databaseWait();
+                            startActivity(new Intent(FirebaseLogin.this, MainActivity.class)
+                                    .putExtra("user", users.get(0))
+                            );
                         } else {
                             Log.d("test", "unsuccessful");
                             Toast.makeText(FirebaseLogin.this, "Authentication failed.",

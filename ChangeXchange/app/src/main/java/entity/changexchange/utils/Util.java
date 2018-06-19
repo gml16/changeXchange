@@ -1,10 +1,14 @@
 package entity.changexchange.utils;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import entity.changexchange.R;
 
@@ -17,7 +21,7 @@ public class Util {
     public static float MAX_AMOUNT = (float) 50;
 
     // Approximate time a database query takes.
-    public static final int DATABASE_REQUEST_DELAY = 200;
+    public static final int DATABASE_REQUEST_DELAY = 1500;
 
     // Flags so that the database knows what kind of user data we want.
     public static final int CONTACT = 0;
@@ -43,11 +47,25 @@ public class Util {
     }
 
     /**
+     * Removes all duplicates and empty strings from an array.
+     */
+    @SuppressLint("NewApi")
+    public static List<String> filter(List<String> input) {
+        List<String> filtered = new ArrayList<>();
+        for (String s : input) {
+            if (!filtered.contains(s) && !s.isEmpty()) {
+                filtered.add(s);
+            }
+        }
+        return filtered;
+    }
+
+    /**
      * Checks that the given contact is a valid email address / phone number / or AppMessaging.
      */
     public static boolean isInvalid(String contact) {
-        return contact.equals("In app")
-                || !rfc2822.matcher(contact).matches() || contact.isEmpty();
+        return contact.isEmpty()
+                || !rfc2822.matcher(contact).matches();
         // TODO: Check for valid phone number.
     }
 

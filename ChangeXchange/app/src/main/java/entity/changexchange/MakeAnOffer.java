@@ -71,9 +71,9 @@ public class MakeAnOffer extends AppCompatActivity {
             public void onClick(View v) {
 
                 String nickname = user.getNickname();
-                String from = ((Spinner) findViewById(R.id.new_offer_currency_from))
+                String selling = ((Spinner) findViewById(R.id.new_offer_currency_from))
                         .getSelectedItem().toString();
-                String to = ((Spinner) findViewById(R.id.new_offer_currency_to))
+                String buying = ((Spinner) findViewById(R.id.new_offer_currency_to))
                         .getSelectedItem().toString();
                 String amount = ((EditText) findViewById(R.id.new_offer_amount)).getText().toString();
                 String location = ((Spinner) findViewById(R.id.new_offer_location))
@@ -90,7 +90,7 @@ public class MakeAnOffer extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (from.equals(to)) {
+                if (selling.equals(buying)) {
                     Toast.makeText(MakeAnOffer.this, "Error: Invalid currencies.",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -99,16 +99,16 @@ public class MakeAnOffer extends AppCompatActivity {
                 new RequestDatabase().execute(
                         "INSERT INTO offers VALUES ('"
                                 + nickname + "', '"
-                                + from + "', '"
-                                + to + "', '"
+                                + selling + "', '"
+                                + buying + "', '"
                                 + amount + "', '"
                                 + location + "', '"
                                 + note + "');"
                 );
 
                 startActivity(new Intent(MakeAnOffer.this, MainActivity.class)
-                        .putExtra("from", from)
-                        .putExtra("to", to)
+                        .putExtra("selling", selling)
+                        .putExtra("buying", buying)
                         .putExtra("at", location)
                         .putExtra("user", user)
                 );

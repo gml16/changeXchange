@@ -21,6 +21,7 @@ import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 import static entity.changexchange.utils.Util.databaseWait;
+import static entity.changexchange.utils.Util.filter;
 
 public class OfferInterests extends AppCompatActivity {
 
@@ -34,19 +35,36 @@ public class OfferInterests extends AppCompatActivity {
         setContentView(R.layout.activity_offer_interests);
 
         user = (User) getIntent().getSerializableExtra("user");
+
+        // Get the list of users from database.
         offer = (Offer) getIntent().getSerializableExtra("offer");
-        final List<String> interests = offer.getInterests();
+        ArrayList<Offer> offers = new ArrayList<>();
+        new RequestDatabase(offers).execute(
+                "SELECT * FROM offers WHERE "
+                        + "nickname='" + offer.getPoster_nickname() + "' and "
+                        + "buying='" + offer.getBuying() + "' and "
+                        + "selling='" + offer.getSelling() + "' and "
+                        + "amount='" + offer.getAmount() + "' and "
+                        + "location='" + offer.getLocation() + "' and "
+                        + "note='" + offer.getNote() + "';"
+        );
+        databaseWait();
+        final List<String> interests = filter(offers.get(0).getInterests());
 
         // Set text to reflect the number of people interested.
-        this.<TextView>findViewById(R.id.interests_description).setText(
-                interests.isEmpty() ? "We haven't registered any interest yet..."
-                        : interests.size() + " people are interested now!"
-        );
+        if (interests.isEmpty()) {
+            this.<TextView>findViewById(R.id.interests_description).setVisibility(View.GONE);
+        } else {
+            this.<TextView>findViewById(R.id.interests_none).setVisibility(View.GONE);
+            this.<TextView>findViewById(R.id.interests_description).setText(
+                    interests.size() + " people are interested now!"
+            );
+        }
 
         // Get the list of interested users for this offer.
         this.<GridView>findViewById(R.id.interests_grid).setAdapter(
                 new ArrayAdapter<>(
-                        this, R.layout.activity_offer_interests, interests
+                        this, android.R.layout.simple_list_item_1, interests
                 )
         );
         this.<GridView>findViewById(R.id.interests_grid).setOnItemClickListener(
@@ -57,6 +75,7 @@ public class OfferInterests extends AppCompatActivity {
                                 .putExtra("user", user)
                                 .putExtra("nickname", interests.get(position))
                                 .putExtra("offer", offer)
+                                .putExtra("interest", "true")
                         );
                     }
                 }

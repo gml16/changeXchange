@@ -7,9 +7,9 @@
     <string name="title_making_offer">Post an offer</string>
     <string name="offer_send">Submit</string>
     <string name="offer_amount">Amount</string>
-    <string name="test">Test</string>
+    <string name="test">Loading…</string>
     <string name="offer_cancel">Cancel</string>
-    <string name="offer_current_rate">You will get:</string>
+    <string name="offer_current_rate">This will cost you:</string>
     <string name="offer_reload">Update</string>
     <string name="load_value">Loading…</string>
     <string name="accept_offer">Accept!</string>
@@ -44,4 +44,6 @@
     <string name="enter_their_nickname_here">Enter their nickname here...</string>
     <string name="interested">Interested</string>
     <string name="requested">Requested!</string>
+    <string name="no_offer">You have no offers posted</string>
+    <string name="no_interest">No interests registered yet...</string>
 </resources>

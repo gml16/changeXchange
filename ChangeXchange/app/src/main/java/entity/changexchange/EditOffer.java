@@ -104,10 +104,10 @@ public class EditOffer extends AppCompatActivity {
         // Update the offer inside the database.
         new RequestDatabase().execute(
                 "UPDATE offers SET "
-                        + "buying='" + buying + "' and "
-                        + "selling='" + selling + "' and "
-                        + "amount='" + amount + "' and "
-                        + "location='" + location + "' and "
+                        + "buying='" + buying + "', "
+                        + "selling='" + selling + "', "
+                        + "amount='" + amount + "', "
+                        + "location='" + location + "', "
                         + "note='" + note + "' WHERE "
                         + "nickname='" + offer.getPoster_nickname() + "' and "
                         + "buying='" + offer.getBuying() + "' and "
@@ -116,19 +116,6 @@ public class EditOffer extends AppCompatActivity {
                         + "location='" + offer.getLocation() + "' and "
                         + "note='" + offer.getNote() + "';"
         );
-        Log.d("test", "UPDATE offers SET "
-                + "nickname='" + offer.getPoster_nickname() + "' and "
-                + "buying='" + buying + "' and "
-                + "selling='" + selling + "' and "
-                + "amount='" + amount + "' and "
-                + "location='" + location + "' and "
-                + "note='" + note + "' WHERE "
-                + "nickname='" + offer.getPoster_nickname() + "' and "
-                + "buying='" + offer.getBuying() + "' and "
-                + "selling='" + offer.getSelling() + "' and "
-                + "amount='" + offer.getAmount() + "' and "
-                + "location='" + offer.getLocation() + "' and "
-                + "note='" + offer.getNote() + "';");
 
         // Return to MyOffers.
         startActivity(new Intent(EditOffer.this, MyOffers.class)
