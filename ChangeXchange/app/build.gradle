@@ -38,6 +38,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:16.0.0'
 
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
     api group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
     api 'com.google.android.gms:play-services-location:15.0.1'
 

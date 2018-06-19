@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,12 +37,22 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONObject;
+
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
+import entity.changexchange.utils.NotificationService;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.TokenNotification;
 import entity.changexchange.utils.User;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static org.postgresql.core.Oid.JSON;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -67,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         user = (User) getIntent().getSerializableExtra("user");
 
+        new NotificationService().sendNotification("c6mZpeSjCaY:APA91bFKmEzz5PocsnjfmBVdoxfYkQKW6GUT_alp16w9e4tjAuRrpiNsqdZkVRRuFm4FDbhKb8VfrJKWLDZqmTDxH6koJ6NtVIJa1MKfSiKPzJBv8WZCrwB-YCNq1n2RpskKctieQw9d");
+
+        //TODO: when to ask for the token? (this line just prints the token)
         new TokenNotification().onTokenRefresh();
 
         // Menu setup.
