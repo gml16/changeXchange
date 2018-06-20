@@ -6,7 +6,7 @@ public enum Airport {
 
     STN("London-Stanstead", "STN", 51.8838888889, 0.2377777778),
     LTN("London-Luton", "LTN", 51.8769444444, -0.3705555556),
-    LHR("London-Heathrow", "LHR", 51.47138888, -0.45277777),
+    //LHR("London-Heathrow", "LHR", 51.47138888, -0.45277777),
     LGW("London-Gatwick", "LGW", 51.1522222222, -0.1825),
     //TODO: why doesnt it get the closest?
     //LCY("London-City", "LCY", 51.5052777778, 0.0552777778),
