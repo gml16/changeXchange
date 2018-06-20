@@ -43,6 +43,9 @@ public class ContactDetails extends AppCompatActivity {
                     );
             this.<Button>findViewById(R.id.selected_interest).setVisibility(View.GONE);
         } else {
+            this.<TextView>findViewById(R.id.selected_description1).setText(
+                    "Let them know you're interested!"
+            );
             // Clicking on (INTERESTED) registers the users' interest
             this.<Button>findViewById(R.id.selected_interest).setOnClickListener(
                     new View.OnClickListener() {
@@ -71,6 +74,7 @@ public class ContactDetails extends AppCompatActivity {
                         }
                     }
             );
+            this.<TextView>findViewById(R.id.selected_rating).setVisibility(View.GONE);
             this.<TextView>findViewById(R.id.selected_contact).setVisibility(View.GONE);
         }
 

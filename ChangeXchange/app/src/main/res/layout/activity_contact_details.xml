@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="128dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="128dp"
         android:text="@string/selected_contact"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
