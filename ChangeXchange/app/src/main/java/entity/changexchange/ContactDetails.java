@@ -13,6 +13,7 @@ import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
 import static entity.changexchange.utils.Util.CONTACT;
+import static entity.changexchange.utils.Util.RATING;
 
 public class ContactDetails extends AppCompatActivity {
 
@@ -31,6 +32,11 @@ public class ContactDetails extends AppCompatActivity {
         if (fromInterests) {
             // Fetch the poster's preferred contact detail of the poster.
             new RequestDatabase(this.<TextView>findViewById(R.id.selected_contact), CONTACT)
+                    .execute(
+                            "SELECT * FROM users WHERE nickname='"
+                                    + getIntent().getStringExtra("nickname") + "';"
+                    );
+            new RequestDatabase(this.<TextView>findViewById(R.id.selected_rating), RATING)
                     .execute(
                             "SELECT * FROM users WHERE nickname='"
                                     + getIntent().getStringExtra("nickname") + "';"
@@ -75,7 +81,7 @@ public class ContactDetails extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = getIntent();
                         if (fromInterests) {
-                            startActivity(new Intent(ContactDetails.this, OfferInterests.class)
+                            startActivity(new Intent(ContactDetails.this, MyOffers.class)
                                     .putExtra("user", intent.getSerializableExtra("user"))
                                     .putExtra("offer", intent.getSerializableExtra("offer"))
                             );

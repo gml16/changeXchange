@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import entity.changexchange.ContactDetails;
 import entity.changexchange.EditOffer;
 import entity.changexchange.MyOffers;
 import entity.changexchange.OfferInterests;
@@ -56,32 +59,30 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
     public void onBindViewHolder(@NonNull final OfferViewHolder holder, int position) {
         final Offer offer = offers.get(position);
 
-        String nickname = offer.getPoster_nickname();
+        final String nickname = offer.getPoster_nickname();
 
         // In MainActivity clicking the name shows their profile, otherwise the interests.
-        SpannableString click_title = new SpannableString(
+        String title =
                 nickname + " is selling " + offer.getAmount() + " "
-                        + offer.getSelling().toString() + " at " + offer.getLocation().toString() + "!");
-        click_title.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View v) {
-                Context ctx = v.getContext();
-                if (inMyOffers) {
-                    ctx.startActivity(new Intent(ctx, OfferInterests.class)
-                            .putExtra("user", user)
-                            .putExtra("offer", offer)
-                    );
-                } else {
+                        + offer.getSelling().toString() + " at " + offer.getLocation().toString() + "!";
+        if (!inMyOffers) {
+            SpannableString click_title = new SpannableString(title);
+            click_title.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
                     ctx.startActivity(new Intent(ctx, OtherProfile.class)
                             .putExtra("user", user)
                             .putExtra("nickname", offer.getPoster_nickname())
                             .putExtra("hide_contact", true));
-                }
 
-            }
-        }, 0, nickname.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        holder.title.setText(click_title);
-        holder.title.setMovementMethod(LinkMovementMethod.getInstance());
+                }
+            }, 0, nickname.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            holder.title.setText(click_title);
+            holder.title.setMovementMethod(LinkMovementMethod.getInstance());
+        } else {
+            holder.title.setText(title);
+        }
 
         // Get exchange rate.
         new ExchangeRateTracker(holder.exchangeValue, offer.getAmount(), offer.getBuying()).execute(
@@ -127,7 +128,34 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
                             .putExtra("user", user));
                 }
             });
+            ClickableSpan click = new ClickableSpan() {
+                @Override
+                public void onClick(View v) {
+                    Context ctx = v.getContext();
+                    ctx.startActivity(new Intent(ctx, ContactDetails.class)
+                            .putExtra("user", user)
+                            .putExtra("nickname", nickname)
+                            .putExtra("offer", offer)
+                            .putExtra("interest", "yes"));
+
+                }
+            };
+            SpannableStringBuilder interestss = new SpannableStringBuilder("Interests: ");
+            if (offer.getInterests().isEmpty()) {
+                holder.interests.setText("No interests registered yet!");
+            } else {
+                for (String s : offer.getInterests()) {
+                    int start = interestss.length();
+                    interestss.append(s);
+                    interestss.setSpan(click, start, start + s.length(), Spanned.SPAN_COMPOSING);
+                    interestss.append(" - ");
+                }
+                holder.interests.setText(interestss);
+                // TODO: Make each name clickable
+                holder.interests.setMovementMethod(LinkMovementMethod.getInstance());
+            }
         } else {
+            holder.interests.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
     }
@@ -157,6 +185,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
         TextView poster;
         TextView rating;
         TextView num_rating;
+        TextView interests;
         FloatingActionButton delete;
 
         ImageView star;
@@ -173,6 +202,7 @@ public class OfferAdapter extends RecyclerView.Adapter<OfferAdapter.OfferViewHol
             star = itemView.findViewById(R.id.offer_star);
             offer = itemView.findViewById(R.id.offer);
             num_rating = itemView.findViewById(R.id.offer_num_rat);
+            interests = itemView.findViewById(R.id.offer_interests);
         }
     }
 }

@@ -80,4 +80,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/baseline_clear_black_48" />
+
+    <TextView
+        android:id="@+id/selected_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/test"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/selected_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selected_contact" />
+
 </android.support.constraint.ConstraintLayout>

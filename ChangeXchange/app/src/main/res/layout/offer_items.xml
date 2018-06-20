@@ -83,6 +83,15 @@
             android:text="@string/test"
             android:layout_alignRight="@+id/offer_note" />
 
+        <TextView
+            android:id="@+id/offer_interests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@id/offer_note"
+            android:text="@string/test" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/offer_delete"
             android:layout_width="wrap_content"
