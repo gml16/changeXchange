@@ -100,7 +100,8 @@ public class RequestDatabase extends AsyncTask<String, Void, Void> {
                                 rs.getString("contact"),
                                 Double.valueOf(rs.getString("rating")),
                                 Integer.valueOf(rs.getString("num_ratings")),
-                                rs.getString("login")
+                                rs.getString("login"),
+                                rs.getString("token")
                         ));
                     }
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import entity.changexchange.utils.NotificationService;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.User;
 
@@ -61,6 +62,11 @@ public class ContactDetails extends AppCompatActivity {
                                         R.string.requested
                                 );
                                 requested = true;
+
+                                //TODO: add in the notif the prefered contact way
+                                new NotificationService().letUserKnowOfferIsInteresting(getIntent().getStringExtra("nickname"),
+                                        ((User) getIntent().getSerializableExtra("user")).getNickname() + " is interested in your offer",
+                                        "Contact them now :-)");
                             }
                         }
                     }

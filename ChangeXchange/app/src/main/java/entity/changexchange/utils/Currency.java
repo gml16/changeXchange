@@ -32,10 +32,27 @@ public enum Currency {
 //    EAO("EAO"), XPF("XPF"), CFP("CFP"), YER("YER"), ZAR("ZAR"), ZMW("ZMW"),
 //    ZWD("ZWD");
 
-    GBP("GBP"), EUR("EUR"), USD("USD"), CHF("CHF"), CAD("CAD"), JPY("JPY"),
-    AUD("AUD"), SEK("SEK"), MXN("MXN"), BRL("BRL"), ARS("ARS"), CLP("CLP"),
-    COP("COP"), PEN("PEN"), NOK("NOK"), CKK("CKK"), ZAR("ZAR"), HKD("HKD"),
-    IDR("IDR"), KRW("KRW"), SGD("SGD");
+    ARS("ARS"),
+    AUD("AUD"),
+    BRL("BRL"),
+    CAD("CAD"),
+    CHF("CHF"),
+    CKK("CKK"),
+    CLP("CLP"),
+    COP("COP"),
+    EUR("EUR"),
+    GBP("GBP"),
+    HKD("HKD"),
+    IDR("IDR"),
+    JPY("JPY"),
+    KRW("KRW"),
+    MXN("MXN"),
+    NOK("NOK"),
+    PEN("PEN"),
+    SEK("SEK"),
+    SGD("SGD"),
+    USD("USD"),
+    ZAR("ZAR");
 
     private String currency;
 

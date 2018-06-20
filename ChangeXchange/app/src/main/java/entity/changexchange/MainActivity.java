@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,12 +37,22 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONObject;
+
 import entity.changexchange.utils.Airport;
 import entity.changexchange.utils.Currency;
 import entity.changexchange.utils.ExchangeRateTracker;
+import entity.changexchange.utils.NotificationService;
 import entity.changexchange.utils.RequestDatabase;
 import entity.changexchange.utils.TokenNotification;
 import entity.changexchange.utils.User;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static org.postgresql.core.Oid.JSON;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -66,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         setContentView(R.layout.activity_main);
 
         user = (User) getIntent().getSerializableExtra("user");
-
-        new TokenNotification().onTokenRefresh();
 
         // Menu setup.
         setupMenu();
